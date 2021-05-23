@@ -36,6 +36,7 @@ public class HomeController implements ErrorController{
     @RequestMapping(value = { "/" })
     public ModelAndView homePage(ModelAndView model) {
         customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        System.out.println("");
         model.setViewName("index");
         model.addObject("name", customUserDetails.getUsername());
         model.addObject("roles", customUserDetails.getAuthorities());
