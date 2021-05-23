@@ -1,0 +1,119 @@
+<!DOCTYPE HTML>
+<html>
+<head> 
+    <title>Home Page</title> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <th:block th:insert="~{index :: libs}"></th:block>
+</head>
+<body>
+    <th:block th:insert="~{index :: menu-bar}"></th:block>
+    <div style="width: 70%;margin-left: auto;margin-right: auto;">
+        <h1 style="text-align: center;">Hóa Đơn</h1>
+        <div class="row">
+            <div class="col">
+                <p id="tenChuRe">Tên chú rể : </p>                
+            </div>
+            <div class="col">
+                <p id="tenChuRe">Tên cô dâu : </p>                
+            </div>
+            <div class="col">
+                <p id="tenChuRe">Ngày thanh toán : </p>                
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <p id="tenChuRe">Số lượng bàn : </p>                
+            </div>
+            <div class="col">
+                <p id="tenChuRe">Đơn giá bàn: </p>                
+            </div>
+            <div class="col">
+                <p id="tenChuRe">Tổng tiền bàn : </p>                
+            </div>
+        </div>
+    </div>
+
+    <div style="width: 100%;margin-left: auto;margin-right: auto;">
+          <div class="row">
+            <div class="col">
+                <table class="table table-bordered" style="width: 80%;margin-left: auto;margin-right: auto;">
+                    <caption style="caption-side: top; text-align: center;"><h1>Danh sách dịch vụ</h1></caption>
+                    <thead class="thead-dark">
+                      <tr>
+                        <th scope="col">STT</th>
+                        <th scope="col">Tên Dịch vụ</th>
+                        <th scope="col">Số lượng</th>
+                        <th scope="col">Đơn giá</th>
+                        <th scope="col">Thành tiền</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                        <td>Mark</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                        <td style="word-wrap: break-word;min-width: 160px;max-width: 160px;">Ottoadfasdfđsàasfasfsdfasfasfasdfasdfasdfasfadasfasdfsdf</td>
+                      </tr>
+                      
+                    </tbody>
+                    <caption><p id="tong-tien-dich-vu">Tổng tiền dịch vụ : </p></caption>
+                  </table>              
+            </div>
+            <div class="col">
+                <table class="table table-bordered" style="width: 80%;margin-left: auto;margin-right: auto;">
+                    <caption style="caption-side: top; text-align: center;"><h1>Danh sách món ăn</h1></caption>
+                    
+                    <thead class="thead-dark">
+                      <tr>
+                        <th scope="col">STT</th>
+                        <th scope="col">Tên Món ăn</th>
+                        <th scope="col">Đơn giá</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td style="word-wrap: break-word;min-width: 160px;max-width: 160px;">Ottoadfasdfđsàasfasfsdfasfasfasdfasdfasdfasfadasfasdfsdf</td>
+                      </tr>
+                      
+                    </tbody>
+                    <caption><p id="tong-tien-mon-an">Tổng tiền món ăn (trên 1 bàn): </p></caption>
+                  </table>              
+            </div>
+        </div>        
+    </div>
+    <div style="width: 50%;margin-left: auto;margin-right: auto;">
+        <div class="row">
+            <div class="col">
+                <p id="tenChuRe">Tổng tiền hóa đơn : </p>                
+            </div>
+            <div class="col">
+                <p id="tenChuRe">Tiền đặt cọc : </p>                
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <p>Còn lại : </p>
+            </div>
+        </div>
+    </div>
+
+     
+      
+</body>
+</html>

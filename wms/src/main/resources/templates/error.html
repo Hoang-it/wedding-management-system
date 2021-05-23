@@ -1,0 +1,14 @@
+<!DOCTYPE HTML>
+<html>
+<head> 
+    <title>Home Page</title> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <th:block th:insert="~{index :: libs}"></th:block>
+</head>
+<body>
+    Page not found!
+    <p th:text="${statusCode}"></p>
+    <a href="/">Go home</a>
+</body>
+</html>

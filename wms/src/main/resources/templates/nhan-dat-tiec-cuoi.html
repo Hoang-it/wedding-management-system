@@ -1,0 +1,307 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>Home Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <th:block th:insert="~{index :: libs}"></th:block>
+
+</head>
+
+<body>
+    <th:block th:insert="~{index :: menu-bar}"></th:block>
+
+    <form style="width: 75%;margin-left: auto;margin-right: auto;">
+        <div id="thong-tin-co-ban">
+            <h1>Đặt tiệc cưới</h1>
+            <div class="row">
+                <div class="col">
+                    <label for="tenChuRe">Tên chú rể</label>
+                    <input type="text" class="form-control" id="tenChuRe" name="tenChuRe" placeholder="Tên chú rể">
+                </div>
+                <div class="col">
+                    <label for="tenCoDau">Tên cô dâu</label>
+                    <input type="text" class="form-control" id="tenCoDau" name="tenCoDau" placeholder="Tên cô dâu">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label for="sdt">Số điện thoại</label>
+                    <input type="text" class="form-control" id="sdt" name="sdt" placeholder="Số điện thoại">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label for="ngayDaiTiec">Ngày Đãi tiệc</label>
+                    <input type="date" class="form-control" id="sdt" name="ngayDaiTiec">
+                </div>
+                <div class="col">
+                    <label for="dsCa">Ca</label>
+                    <select class="form-control" id="dsCa">
+                        <option>Sáng</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <label for="dsSanh">Sảnh</label>
+                    <select class="form-control" id="dsSanh">
+                        <option>Sáng</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row" style="margin-top: 1%;">
+                <div class="col">
+                    <label for="soLuongBan">Số lượng bàn</label>
+                </div>
+                <div class="col-4">
+                    <input type="number" class="form-control" id="soLuongBan" name="soLuongBan"
+                        placeholder="Số lượng bàn">
+                </div>
+                <div class="col">
+                    <label for="soLuongBanDuTru">Số lượng bàn dự trữ</label>
+                </div>
+                <div class="col-5">
+                    <input type="number" class="form-control" id="soLuongBanDuTru" name="soLuongBan"
+                        placeholder="Số lượng bàn dự trữ">
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label for="example-text-input">Tiền đặt cọc</label>
+                </div>
+                <div class="col-11">
+                    <input class="form-control" type="text" id="tienDatCoc" placeholder="Tiền đặt cọc">
+                </div>
+            </div>
+        </div>
+
+        <div id="chon-mon-an" style="display: none; visibility: hidden;">
+            <table class="table table-bordered">
+                <caption style="caption-side: top; text-align: center;">
+                    <h1>Danh sách món ăn</h1>
+                </caption>
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">STT</th>
+                        <th scope="col">Tên Món</th>
+                        <th scope="col">Đơn giá</th>
+                        <th scope="col">Ghi chú</th>
+                        <th scope="col">ACtion</th>
+                    </tr>
+                </thead>
+                <tbody id="dsMonAn">
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>Otto</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Mark</td>
+                        <td style="word-wrap: break-word;min-width: 160px;max-width: 160px;">
+                            Ottoadfasdfđsàasfasfsdfasfasfasdfasdfasdfasfadasfasdfsdf</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div id="chon-dich-vu"  style="display: none; visibility: hidden;">
+            <table class="table table-bordered">
+                <caption style="caption-side: top; text-align: center;">
+                    <h1>Danh sách các dịch vụ</h1>
+                </caption>
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">STT</th>
+                        <th scope="col">Tên Dịch vụ</th>
+                        <th scope="col">Số lượng</th>
+                        <th scope="col">Đơn giá</th>
+                        <th scope="col">ACtion</th>
+                    </tr>
+                </thead>
+                <tbody id="dsDichVu">
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>Otto</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Mark</td>
+                        <td style="word-wrap: break-word;min-width: 160px;max-width: 160px;">
+                            Ottoadfasdfđsàasfasfsdfasfasfasdfasdfasdfasfadasfasdfsdf</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <button type="button" id="btn-quay-lai" class="btn btn-primary" style="display: none; visibility: hidden;">Quay lại</button>
+        <button type="submit" id="btn-dat-tiec" class="btn btn-primary">Đặt tiệc</button>
+        
+    </form>
+
+    <script>
+        current = "#thong-tin-co-ban";
+        data = {}
+
+        $("form").submit(function(e){
+            e.preventDefault();
+            
+            switch(current) {
+                case "#thong-tin-co-ban":
+                    $("#thong-tin-co-ban").css({"display": "none", "visibility" : "hidden"});
+                    $("#chon-mon-an").css({"display": "block", "visibility" : "visible"});
+                    $("#chon-dich-vu").css({"display": "none", "visibility" : "hidden"});
+                    $("#btn-quay-lai").css({"display": "inline", "visibility" : "visible"})
+                    current = "#chon-mon-an"
+                    data["tenChuRe"] = $("#tenChuRe").val()
+                    data["tenCoDau"] = $("#tenCoDau").val()
+                    data["sdt"] = $("#sdt").val()
+                    data["ngayDaiTiec"] = $("#ngayDaiTiec").val()
+                    data["ca"] = $("#dsCa").val()
+                    data["sanh"] = $("#dsSanh").val()
+                    data["soLuongBan"] = $("#soLuongBan").val()
+                    data["soLuongBanDuTru"] = $("#soLuongBanDuTru").val()
+                    data["tienDatCoc"] = $("#tienDatCoc").val()
+                    alert(JSON.stringify(data))
+                    break;
+                case "#chon-mon-an":
+                    $("#thong-tin-co-ban").css({"display": "none", "visibility" : "hidden"});
+                    $("#chon-mon-an").css({"display": "none", "visibility" : "hidden"});
+                    $("#chon-dich-vu").css({"display": "block", "visibility" : "visible"});
+                    $("#btn-quay-lai").css({"display": "inline", "visibility" : "visible"})   
+                    current = "#chon-dich-vu"
+                    dsMonAn = []
+                    $( "#dsMonAn input:checked" ).each(function() {
+                        dsMonAn.push($(this ).val())
+                        
+                    })  
+                    data["monAn"] = dsMonAn
+                    break;
+                case "#chon-dich-vu":
+                    alert("Dat tiec!!");
+                    dsDichVu = []
+                    $( "#dsDichVu input:checked" ).each(function() {                       
+                        dsDichVu.push($(this ).val())                       
+                    })
+                    data["dichVu"] = dsDichVu
+                    alert(JSON.stringify(data))
+                    $.ajax({
+                        type: "POST",
+                        contentType: "application/json",
+                        url: "http://localhost:8080/api/dat-tiec",
+                        data: JSON.stringify(data),
+                        dataType: 'json',
+                    }
+                    )
+            }
+        })
+
+        $("#btn-quay-lai").click(function(e){
+            e.preventDefault();
+            
+            switch(current) {
+                case "#chon-dich-vu":
+                    $("#thong-tin-co-ban").css({"display": "none", "visibility" : "hidden"});
+                    $("#chon-mon-an").css({"display": "block", "visibility" : "visible"});
+                    $("#chon-dich-vu").css({"display": "none", "visibility" : "hidden"});
+                    $("#btn-quay-lai").css({"display": "inline", "visibility" : "visible"})
+                    current = "#chon-mon-an"
+                    break;
+                case "#chon-mon-an":
+                    $("#thong-tin-co-ban").css({"display": "block", "visibility" : "visible"});
+                    $("#chon-mon-an").css({"display": "none", "visibility" : "hidden"});
+                    $("#chon-dich-vu").css({"display": "none", "visibility" : "hidden"});
+                    $("#btn-quay-lai").css({"display": "none", "visibility" : "hidden"})   
+                    current = "#thong-tin-co-ban"
+                    break;
+                case "#thong-tin-co-ban":
+                    
+            }
+
+        })
+    
+        $.get( "http://localhost:8080/api/ds-sanh", function( data ) {
+            //alert(JSON.stringify(data));
+            $("#dsSanh").empty()
+            $.each(data, function(index, d){
+                $("#dsSanh").append($('<option>', { 
+                    value: d.maSanh,
+                    text : d.tenSanh
+                }))
+            })
+        });
+        $.get( "http://localhost:8080/api/ds-mon-an", function( data ) {
+            //alert(JSON.stringify(data));
+            $("#dsMonAn").empty()
+            $.each(data, function(index, d){
+                alert(JSON.stringify(d))
+                $("#dsMonAn").append($('<tr>', { 
+                    id: "row-" + d.maMonAn                    
+                }))
+                $("#row-" + d.maMonAn).append($('<td>',{
+                    text: index
+                }))
+                $("#row-" + d.maMonAn).append($('<td>',{
+                    text: d.tenMonAn
+                }))
+                $("#row-" + d.maMonAn).append($('<td>',{
+                    text: d.donGia
+                }))
+                $("#row-" + d.maMonAn).append($('<td>',{
+                    "style": "style=word-wrap: break-word;min-width: 160px;max-width: 160px;",
+                    text: d.ghiChu
+                }))
+                $("#row-" + d.maMonAn).append($('<td>',{
+                    html: $('<input>',{"type": "checkbox", "value": d.maMonAn}) 
+                }))
+               
+            })
+        });
+        
+        $.get( "http://localhost:8080/api/ds-dich-vu", function( data ) {
+            //alert(JSON.stringify(data));
+            $("#dsDichVu").empty()
+            $.each(data, function(index, d){
+                alert(JSON.stringify(d))
+                $("#dsDichVu").append($('<tr>', { 
+                    id: "row-" + d.maDichVu                   
+                }))
+                $("#row-" + d.maDichVu).append($('<td>',{
+                    text: index
+                }))
+                $("#row-" + d.maDichVu).append($('<td>',{
+                    text: d.tenDichVu
+                }))
+                $("#row-" + d.maDichVu).append($('<td>',{
+                    text: d.soLuong
+                }))
+                $("#row-" + d.maDichVu).append($('<td>',{
+                    text: d.donGia
+                }))
+                $("#row-" + d.maDichVu).append($('<td>',{
+                    html: $('<input>',{"type": "checkbox", "value": d.maDichVu}) 
+                }))
+            })
+        });
+
+        $.get( "http://localhost:8080/api/ds-ca", function( data ) {
+            //alert(JSON.stringify(data));
+            $("#dsCa").empty()
+            $.each(data, function(index, d){
+                $("#dsCa").append($('<option>', { 
+                    value: d.maCa,
+                    text : d.tenCa
+                }))
+            })
+        });
+    
+        
+    </script>
+</body>
+
+</html>

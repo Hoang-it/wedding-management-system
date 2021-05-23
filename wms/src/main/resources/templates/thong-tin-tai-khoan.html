@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html>
+<head> 
+    <title>Home Page</title> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <th:block th:insert="~{index :: libs}"></th:block>
+</head>
+<body>
+    <th:block th:insert="~{index :: menu-bar}"></th:block>
+    <p>Greeting <span th:text="${name}"></span></p>
+    <a href="/admin">Admin</a>
+    <a href="/user">User</a>
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="Sign Out"/>
+    </form>
+    <div sec:authorize="hasRole('USER')">Text visible to user.</div>
+	<div sec:authorize="hasRole('Quyen admin')">Text visible to admin.</div>
+	<div sec:authorize="isAuthenticated()">Text visible only to
+		authenticated users.</div>
+	Authenticated username:
+	<div sec:authentication="name"></div>
+	Authenticated user roles:
+	<div sec:authentication="principal.authorities"></div>
+</body>
+</html>
