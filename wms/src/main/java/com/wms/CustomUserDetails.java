@@ -26,7 +26,6 @@ public class CustomUserDetails implements UserDetails{
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // TODO Auto-generated method stub
         List<GrantedAuthority> roles = new ArrayList<>();
         for (PhanQuyen phanQuyen : phanQuyens) {
             roles.add(new SimpleGrantedAuthority(phanQuyen.getMaChucNang().getTenChucNang()));
@@ -36,37 +35,32 @@ public class CustomUserDetails implements UserDetails{
 
     @Override
     public String getPassword() {
-        // TODO Auto-generated method stub
         return nguoiDung.getMatKhau();
     }
 
     @Override
     public String getUsername() {
-        // TODO Auto-generated method stub
         return nguoiDung.getTenNguoiDung();
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        // TODO Auto-generated method stub
         return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        // TODO Auto-generated method stub
+        
         return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        // TODO Auto-generated method stub
         return true;
     }
 
     @Override
     public boolean isEnabled() {
-        // TODO Auto-generated method stub
         return true;
     }
     

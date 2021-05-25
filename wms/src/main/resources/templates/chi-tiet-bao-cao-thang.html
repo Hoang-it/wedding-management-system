@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html>
+<head> 
+    <title>Home Page</title> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <th:block th:insert="~{index :: libs}"></th:block>
+</head>
+<body>
+    <th:block th:insert="~{index :: menu-bar}"></th:block>
+    <div style="width: 30%;margin-left: auto;margin-right: auto;">
+        <h1 style="text-align: center;">Báo cáo doanh số</h1>
+        <form action="">
+          <div class="row g-2">
+            <div class="col">
+                <p>Tháng : <span th:text="${thang}"></span> </p>                
+            </div>
+          </div>
+          <div class="row g-2">
+            <div class="col">
+                <p>Năm : <span th:th:text="${nam}"></span></p>                
+            </div>
+          </div>
+          <div class="row">
+              <div class="col">
+                  <p id="tenChuRe">Tổng doanh thu : <span th:text="${tongDoanhThu}"></span></p>                
+              </div>
+          </div>
+        </form>
+
+    </div>
+
+    <div style="width: 100%;margin-left: auto;margin-right: auto;">
+          <div class="row">
+            <div class="col">
+                <table class="table table-bordered" style="width: 60%;margin-left: auto;margin-right: auto;">
+                    <caption style="caption-side: top; text-align: center;"><h1>Danh thu theo ngày</h1></caption>
+                    <thead class="thead-dark">
+                      <tr>
+                        <th scope="col">STT</th>
+                        <th scope="col">Ngày</th>
+                        <th scope="col">Số lượng tiệc cưới</th>
+                        <th scope="col">Doanh thu</th>
+                        <th scope="col">Tỉ lệ</th>
+                      </tr>
+                    </thead>
+                    <tbody id="dsDoanhThuNgay">
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                        <td>Mark</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                        <td style="word-wrap: break-word;min-width: 160px;max-width: 160px;">Ottoadfasdfđsàasfasfsdfasfasfasdfasdfasdfasfadasfasdfsdf</td>
+                      </tr>
+                      
+                    </tbody>
+                    
+                  </table>              
+            </div>
+        </div>        
+    </div>
+    <script>
+      $.get("http://localhost:8080/api/ds-doanh-thu-ngay", function(data){
+        $("#dsDoanhThuNgay").empty()
+        $.each(data, function(index, d){
+          $("#dsDoanhThuNgay").append($("<tr>", {
+            "id": "row-" + index
+          }))
+          $("#row-" + index).append($("<td>", {
+            text: index
+          }))
+          $("#row-" + index).append($("<td>", {
+            text: d.ngay
+          }))
+          $("#row-" + index).append($("<td>", {
+            text: d.soLuongTiecCuoi
+          }))
+          $("#row-" + index).append($("<td>", {
+            text: d.doanhThuNgay
+          }))
+          $("#row-" + index).append($("<td>", {
+            text: d.tiLe
+          }))
+        })
+
+      })
+    </script>
+</body>
+</html>

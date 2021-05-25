@@ -14,4 +14,5 @@ public class DichVuDTO {
     private String tenDichVu;
     private int soLuong;
     private double donGia;
+    private double thanhTien;
 }

@@ -19,9 +19,10 @@
             <th scope="col">Ngày</th>
             <th scope="col">Giờ</th>
             <th scope="col">Số lượng bàn</th>
+            <th scope="col">Action</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody id="dsTiecCuoi">
           <tr>
             <th scope="row">1</th>
             <td>Mark</td>
@@ -43,5 +44,44 @@
           
         </tbody>
       </table>
+      <script>
+        $.get("http://localhost:8080/api/ds-tiec-cuoi", function(data){
+          $("#dsTiecCuoi").empty()
+          $.each(data, function(index, d){
+            $("#dsTiecCuoi").append($("<tr>",{
+              "id": "row-" + d.maTiecCuoi
+            }))
+            $("#row-" + d.maTiecCuoi).append($("<td>",{
+              text: index
+            }))
+            $("#row-" + d.maTiecCuoi).append($("<td>",{
+              text: d.tenChuRe
+            }))
+            $("#row-" + d.maTiecCuoi).append($("<td>",{
+              text: d.tenCoDau
+            }))
+            $("#row-" + d.maTiecCuoi).append($("<td>",{
+              text: d.sanh
+            }))
+            $("#row-" + d.maTiecCuoi).append($("<td>",{
+              text: d.ngayDaiTiec
+            }))
+            $("#row-" + d.maTiecCuoi).append($("<td>",{
+              text: d.gio
+            }))
+            $("#row-" + d.maTiecCuoi).append($("<td>",{
+              text: d.soLuongBan
+            }))
+            $("#row-" + d.maTiecCuoi).append($("<td>",{
+              html: $("<a>", {
+                text: "Lập hóa đơn",
+                "href": "http://localhost:8080/lap-hoa-don-thanh-toan?maTiecCuoi=" + d.maTiecCuoi,
+                "class": "btn btn-info"
+              })
+            }))
+          })
+          
+        })
+      </script>
 </body>
 </html>

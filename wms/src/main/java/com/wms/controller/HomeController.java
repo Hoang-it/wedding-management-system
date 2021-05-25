@@ -19,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -111,16 +112,28 @@ public class HomeController implements ErrorController{
     }
 
     @GetMapping(value = {"/lap-hoa-don-thanh-toan"})
-    public ModelAndView lapHoaDonThanhToan(ModelAndView model){
+    public ModelAndView lapHoaDonThanhToan(ModelAndView model, @RequestParam("maTiecCuoi") String maTiecCuoi){
         model.setViewName("lap-hoa-don-thanh-toan");
         model.addObject("navActive", "#link-lap-hoa-don");
+        model.addObject("maTiecCuoi", maTiecCuoi);
         return model;
     }
+
 
     @GetMapping(value = {"/lap-bao-cao-thang"})
     public ModelAndView lapBaoCaoThang(ModelAndView model){
         model.setViewName("lap-bao-cao-thang");
         model.addObject("navActive", "#link-lap-bao-cao");
+        return model;
+    }
+
+    @GetMapping(value = {"/chi-tiet-bao-cao-thang"})
+    public ModelAndView layChiTietBaoCaoThang(ModelAndView model, @RequestParam("thang") String nam, @RequestParam("thang") String thang){
+        model.setViewName("/chi-tiet-bao-cao-thang");
+        model.addObject("navActive", "#link-lap-bao-cao");
+        model.addObject("thang", thang);
+        model.addObject("nam", nam);
+        model.addObject("tongDoanhThu", 10.78);
         return model;
     }
 

@@ -11,11 +11,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TiecDTO {
+    private String maTiecCuoi;
     private String tenChuRe;
     private String tenCoDau;
     private String sdt;
     private Date ngayDaiTiec;
-    private Date gio;
+    private int gio;
     private String ca;
     private String sanh;
     private int soLuongBan;
@@ -23,4 +24,14 @@ public class TiecDTO {
     private double tienDatCoc;  
     private List<String> monAn;
     private List<String> dichVu;
+
+    public TiecDTO(String maTiecCuoi, String tenChuRe, String tenCoDau, String sanh, Date ngayDaiTiec, int gio, int soLuongBan){
+        this.maTiecCuoi = maTiecCuoi;
+        this.tenChuRe = tenChuRe;
+        this.tenCoDau = tenCoDau;
+        this.sanh = sanh;
+        this.ngayDaiTiec = ngayDaiTiec;
+        this.gio = gio;
+        this.soLuongBan = soLuongBan;
+    }
 }

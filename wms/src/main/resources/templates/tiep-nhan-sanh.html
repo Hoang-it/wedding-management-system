@@ -10,38 +10,91 @@
 <body>
     <th:block th:insert="~{index :: menu-bar}"></th:block>
     
-    
-    <table class="table table-bordered" style="width: 70%;margin-left: auto;margin-right: auto;">
-        <caption style="caption-side: top; text-align: center;"><h1>Danh sách sảnh</h1></caption>
-        <thead class="thead-dark">
-          <tr>
-            <th scope="col">STT</th>
-            <th scope="col">Tên Sảnh</th>
-            <th scope="col">Loại Sảnh</th>
-            <th scope="col">Số Lượng Bàn Tối Đa</th>
-            <th scope="col">Đơn giá bàn tối thiểu</th>
-            <th scope="col">Ghi chú</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-            <td>Mark</td>
-            <td>Otto</td>
-          </tr>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-            <td>Mark</td>
-            <td style="word-wrap: break-word;min-width: 160px;max-width: 160px;">Ottoadfasdfđsàasfasfsdfasfasfasdfasdfasdfasfadasfasdfsdf</td>
-          </tr>
-          
-        </tbody>
-      </table>
+    <form class="needs-validation mx-auto" novalidate="" style="width: 700px;" id="formTiepNhanSanh">
+      <h1>Tiếp nhận sảnh</h1>
+      <div class="row g-3">
+        <div class="col-sm-6">
+          <label for="tenSanh" class="form-label">Tên sảnh</label>
+          <input type="text" class="form-control" id="tenSanh" placeholder="" value="" required="">
+          <div class="invalid-feedback">
+            Cần nhập tên sảnh
+          </div>
+        </div>
+
+
+        <div class="col-12">
+          <label for="loaiSanh" class="form-label">Loại sảnh</label>
+          <select class="form-select form-control" id="dsLoaiSanh">
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+          </select>
+          <div class="invalid-feedback">
+            Cần chọn loại sảnh
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <label for="soLuongBanToi" class="form-label">Số bàn tối đa</label>
+          <input type="text" class="form-control" id="soLuongBanToiDa" style="background-color: white;" placeholder="" required="" readonly>
+        </div>
+
+        <div class="col-md-3">
+          <label for="donGiaToiThieu" class="form-label">Đơn giá tối thiểu</label>
+          <input type="text" class="form-control" id="donGiaToiThieu" style="background-color: white;" placeholder="" required="" readonly>
+        </div>
+      </div>
+
+      <hr class="my-4">
+
+      <h4 class="mb-3">Ghi chú</h4>
+      <textarea class="form-control" id="ghiChu" style="height: 100px;"></textarea>
+
+      <hr class="my-4">
+
+      <button class="btn btn-primary btn-lg" type="submit" >Đăng ký</button>
+    </form>
+
+    <script>
+      data = {}
+      dsLoaiSanhData = {}
+
+      $.get("http://localhost:8080/api/ds-loai-sanh", function(data){
+        $("#dsLoaiSanh").empty()
+        $.each(data, function(index, d){           
+            $("#dsLoaiSanh").append($('<option>', { 
+                value: d.maLoaiSanh,
+                text : d.tenLoaiSanh
+            }))
+            dsLoaiSanhData[d.maLoaiSanh] = d
+        })
+        firstKey = Object.keys(dsLoaiSanhData)[0];
+        $("#soLuongBanToiDa").val(dsLoaiSanhData[firstKey].soLuongBanToiDa)
+        $("#donGiaToiThieu").val (dsLoaiSanhData[firstKey].donGiaBanToiThieu)
+       // alert(JSON.stringify(dsLoaiSanhData))
+        $("#dsLoaiSanh").change(function(){
+          //alert(dsLoaiSanhData[$(this).val()].soLuongBanToiDa)
+          $("#soLuongBanToiDa").val(dsLoaiSanhData[$(this).val()].soLuongBanToiDa)
+          $("#donGiaToiThieu").val (dsLoaiSanhData[$(this).val()].donGiaBanToiThieu)
+        })
+
+      })
+      
+      
+      $("#formTiepNhanSanh").submit(function(e){
+        e.preventDefault()
+        alert("submit")
+        data["tenSanh"] = $("#tenSanh").val()
+        data["loaiSanh"] = $("#dsLoaiSanh").val()
+        data["ghiChu"] = $("#ghiChu").val()
+        $.ajax({
+          type: "POST",
+          contentType: "application/json",
+          url: "http://localhost:8080/api/dat-sanh",
+          data: JSON.stringify(data),
+          dataType: "json"
+        })
+      })
+    </script>
 </body>
 </html>

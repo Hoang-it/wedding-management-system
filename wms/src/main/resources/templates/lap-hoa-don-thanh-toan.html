@@ -9,27 +9,27 @@
 <body>
     <th:block th:insert="~{index :: menu-bar}"></th:block>
     <div style="width: 70%;margin-left: auto;margin-right: auto;">
-        <h1 style="text-align: center;">Hóa Đơn</h1>
+        <h1 style="text-align: center;">Hóa Đơn cho Tiệc Cưới <span id="maTiec" th:text="${maTiecCuoi}"></span></h1>
         <div class="row">
             <div class="col">
-                <p id="tenChuRe">Tên chú rể : </p>                
+                <p>Tên chú rể : <span id="tenChuRe"></span></p>                
             </div>
             <div class="col">
-                <p id="tenChuRe">Tên cô dâu : </p>                
+                <p >Tên cô dâu : <span id="tenCoDau"></span></p>                
             </div>
             <div class="col">
-                <p id="tenChuRe">Ngày thanh toán : </p>                
+                <p>Ngày thanh toán : <span id="ngayThanhToan"></span></p>                
             </div>
         </div>
         <div class="row">
             <div class="col">
-                <p id="tenChuRe">Số lượng bàn : </p>                
+                <p>Số lượng bàn : <span id="soLuongBan"></span></p>                
             </div>
             <div class="col">
-                <p id="tenChuRe">Đơn giá bàn: </p>                
+                <p>Đơn giá bàn: <span id="donGiaBan"></span></p>                
             </div>
             <div class="col">
-                <p id="tenChuRe">Tổng tiền bàn : </p>                
+                <p>Tổng tiền bàn : <span id="tongTienBan"></span></p>                
             </div>
         </div>
     </div>
@@ -48,7 +48,7 @@
                         <th scope="col">Thành tiền</th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="dsDichVu">
                       <tr>
                         <th scope="row">1</th>
                         <td>Mark</td>
@@ -65,7 +65,7 @@
                       </tr>
                       
                     </tbody>
-                    <caption><p id="tong-tien-dich-vu">Tổng tiền dịch vụ : </p></caption>
+                    <caption><p>Tổng tiền dịch vụ : <span  id="tongTienDichVu"></span></p></caption>
                   </table>              
             </div>
             <div class="col">
@@ -79,7 +79,7 @@
                         <th scope="col">Đơn giá</th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="dsMonAn">
                       <tr>
                         <th scope="row">1</th>
                         <td>Mark</td>
@@ -92,7 +92,7 @@
                       </tr>
                       
                     </tbody>
-                    <caption><p id="tong-tien-mon-an">Tổng tiền món ăn (trên 1 bàn): </p></caption>
+                    <caption><p>Tổng tiền món ăn (trên 1 bàn): <span  id="tongTienMonAn"></span></span> </p></caption>
                   </table>              
             </div>
         </div>        
@@ -100,20 +100,76 @@
     <div style="width: 50%;margin-left: auto;margin-right: auto;">
         <div class="row">
             <div class="col">
-                <p id="tenChuRe">Tổng tiền hóa đơn : </p>                
+                <p>Tổng tiền hóa đơn : <span id="tongTienHoaDon"></span> </p>                
             </div>
             <div class="col">
-                <p id="tenChuRe">Tiền đặt cọc : </p>                
+                <p>Tiền đặt cọc : <span id="tienDatCoc"></span> </p>                
             </div>
         </div>
         <div class="row">
             <div class="col">
-                <p>Còn lại : </p>
+                <p>Còn lại : <span  id="conLai"></span> </p>
             </div>
         </div>
     </div>
 
-     
-      
+    <script>
+      //alert($("#maTiec").text())
+      $.get("http://localhost:8080/api/thong-tin-hoa-don?maTiecCuoi=" + $("#maTiec").text(), function(data){
+        //alert("GEt Success")
+        //alert(JSON.stringify(data))
+        $("#tenChuRe").text(data["tenChuRe"])
+        $("#tenCoDau").text(data["tenCoDau"])
+        $("#ngayThanhToan").text(data["ngayThanhToan"])
+        $("#soLuongBan").text(data["soLuongBan"])
+        $("#donGiaBan").text(data["donGiaBan"])
+        $("#tongTienBan").text(data["tongTienBan"])
+        $("#tongTienDichVu").text(data["tongTienDichVu"])
+        $("#tongTienMonAn").text(data["tongTienMonAn"])
+        $("#tongTienHoaDon").text(data["tongTienHoaDon"])
+        $("#tienDatCoc").text(data["tienDatCoc"])
+        $("#conLai").text(data["conLai"])
+
+        $("#dsMonAn").empty()
+        $("#dsDichVu").empty()
+
+        alert(JSON.stringify(data["monAn"]))
+        $.each(data["monAn"], function(index, d){
+          $("#dsMonAn").append($("<tr>", {
+            "id": "row-" + d.maMonAn
+          }))
+          $("#row-" + d.maMonAn).append($("<td>", {
+            text: index
+          }))
+          $("#row-" + d.maMonAn).append($("<td>", {
+            text: d.tenMonAn
+          }))
+          $("#row-" + d.maMonAn).append($("<td>", {
+            text: d.donGia
+          }))
+        })
+
+        $.each(data["dichVu"], function(index, d){
+          $("#dsDichVu").append($("<tr>", {
+            "id": "row-" + d.maDichVu
+          }))
+          $("#row-" + d.maDichVu).append($("<td>", {
+            text: index
+          }))
+          $("#row-" + d.maDichVu).append($("<td>", {
+            text: d.tenDichVu
+          }))
+          $("#row-" + d.maDichVu).append($("<td>", {
+            text: d.soLuong
+          }))
+          $("#row-" + d.maDichVu).append($("<td>", {
+            text: d.donGia
+          }))
+          $("#row-" + d.maDichVu).append($("<td>", {
+            text: d.thanhTien 
+          }))
+        })
+      })
+    </script>
 </body>
 </html>

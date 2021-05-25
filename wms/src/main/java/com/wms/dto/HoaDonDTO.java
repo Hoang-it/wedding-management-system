@@ -17,7 +17,7 @@ public class HoaDonDTO {
     private String tenCoDau;
     private Date ngayThanhToan;
     private int soLuongBan;
-    private double donGiaban;
+    private double donGiaBan;
     private double tongTienBan;
     private double tongTienHoaDon;
     private double tongTienDichVu;

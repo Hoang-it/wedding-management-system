@@ -167,7 +167,7 @@
                     data["soLuongBan"] = $("#soLuongBan").val()
                     data["soLuongBanDuTru"] = $("#soLuongBanDuTru").val()
                     data["tienDatCoc"] = $("#tienDatCoc").val()
-                    alert(JSON.stringify(data))
+                    //alert(JSON.stringify(data))
                     break;
                 case "#chon-mon-an":
                     $("#thong-tin-co-ban").css({"display": "none", "visibility" : "hidden"});
@@ -183,13 +183,13 @@
                     data["monAn"] = dsMonAn
                     break;
                 case "#chon-dich-vu":
-                    alert("Dat tiec!!");
+                    //alert("Dat tiec!!");
                     dsDichVu = []
                     $( "#dsDichVu input:checked" ).each(function() {                       
                         dsDichVu.push($(this ).val())                       
                     })
                     data["dichVu"] = dsDichVu
-                    alert(JSON.stringify(data))
+                    //(JSON.stringify(data))
                     $.ajax({
                         type: "POST",
                         contentType: "application/json",
@@ -239,7 +239,7 @@
             //alert(JSON.stringify(data));
             $("#dsMonAn").empty()
             $.each(data, function(index, d){
-                alert(JSON.stringify(d))
+                //alert(JSON.stringify(d))
                 $("#dsMonAn").append($('<tr>', { 
                     id: "row-" + d.maMonAn                    
                 }))
@@ -267,7 +267,7 @@
             //alert(JSON.stringify(data));
             $("#dsDichVu").empty()
             $.each(data, function(index, d){
-                alert(JSON.stringify(d))
+                //alert(JSON.stringify(d))
                 $("#dsDichVu").append($('<tr>', { 
                     id: "row-" + d.maDichVu                   
                 }))

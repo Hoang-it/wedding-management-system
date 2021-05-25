@@ -36,7 +36,7 @@ public class DefaultData implements CommandLineRunner{
 
     @Override
     public void run(String... args) throws Exception {
-        // TODO Auto-generated method stub
+        // TODO Tạo data default cho hệ thống
         System.out.println("Genarate default data");
         nguoiDungRepository.deleteAll();
         phanQuyenRepository.deleteAll();

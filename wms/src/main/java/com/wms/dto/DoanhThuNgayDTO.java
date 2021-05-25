@@ -12,7 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DoanhThuNgayDTO {
-    private Date ngay;
+    private int ngay;
     private int soLuongTiecCuoi;
     private double doanhThuNgay;
     private double tiLe;

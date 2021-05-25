@@ -10,6 +10,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LoaiSanhDTO {
+    private String maLoaiSanh;
     private String tenLoaiSanh;
+    private int soLuongBanToiDa;
     private double donGiaBanToiThieu;
 }
