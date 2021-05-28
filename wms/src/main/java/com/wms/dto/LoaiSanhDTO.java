@@ -1,5 +1,7 @@
 package com.wms.dto;
 
+import java.math.BigDecimal;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,5 +15,5 @@ public class LoaiSanhDTO {
     private String maLoaiSanh;
     private String tenLoaiSanh;
     private int soLuongBanToiDa;
-    private double donGiaBanToiThieu;
+    private BigDecimal donGiaBanToiThieu;
 }

@@ -146,9 +146,9 @@ public class DefaultData implements CommandLineRunner{
 
     private void createDefaultDanhSachSanh(){
         List<DanhSachSanh> dsSanh = new ArrayList<>();
-        dsSanh.add(new DanhSachSanh("SA01", "SANG Alpha", 100, "", loaiSanhRepository.findById("LS01").get()));
-        dsSanh.add(new DanhSachSanh("SA02", "SANG Alpha", 100, "", loaiSanhRepository.findById("LS01").get()));
-        dsSanh.add(new DanhSachSanh("SA03", "SANG Alpha", 100, "", loaiSanhRepository.findById("LS01").get()));
+        dsSanh.add(new DanhSachSanh("SA01", "SANG Alpha", 100l, "", loaiSanhRepository.findById("LS01").get()));
+        dsSanh.add(new DanhSachSanh("SA02", "SANG Alpha", 100l, "", loaiSanhRepository.findById("LS01").get()));
+        dsSanh.add(new DanhSachSanh("SA03", "SANG Alpha", 100l, "", loaiSanhRepository.findById("LS01").get()));
        
         danhSachSanhRepository.saveAll(dsSanh);
         System.out.println("Đã tạo thành công ds Sảnh");
@@ -295,7 +295,7 @@ public class DefaultData implements CommandLineRunner{
         Set<ChiTietDichVu> dichVu = new HashSet<ChiTietDichVu>();
 
         
-        dsTiec.add(new TiecCuoi("TC01", "Nam", "Linh", "0392661419", LocalDate.of(2021, 12, 4), new BigDecimal("1000000"), 100, 10, caRepository.findById("CA01").get(), danhSachSanhRepository.findById("SA01").get()));
+        dsTiec.add(new TiecCuoi("TC01", "Nam", "Linh", "0392661419", LocalDate.of(2021, 12, 4), new BigDecimal("1000000"), 100l, 10l, caRepository.findById("CA01").get(), danhSachSanhRepository.findById("SA01").get()));
         
         tiecCuoiRepository.saveAll(dsTiec);
 
@@ -306,9 +306,9 @@ public class DefaultData implements CommandLineRunner{
         thucDon.add(new ChiTietMonAn(tiec1, monAnRepository.findById("MA03").get(), ""));
         tiec1.setChiTietMonAn(thucDon);
 
-        dichVu.add(new ChiTietDichVu(tiec1, dichVuRepository.findById("DV01").get(), 10));
-        dichVu.add(new ChiTietDichVu(tiec1, dichVuRepository.findById("DV02").get(), 10));
-        dichVu.add(new ChiTietDichVu(tiec1, dichVuRepository.findById("DV03").get(), 10));
+        dichVu.add(new ChiTietDichVu(tiec1, dichVuRepository.findById("DV01").get(), 10l, new BigDecimal(100)));
+        dichVu.add(new ChiTietDichVu(tiec1, dichVuRepository.findById("DV02").get(), 10l, new BigDecimal(100)));
+        dichVu.add(new ChiTietDichVu(tiec1, dichVuRepository.findById("DV03").get(), 10l, new BigDecimal(100)));
         tiec1.setChiTietDichVu(dichVu);
         
         tiecCuoiRepository.save(tiec1);        
@@ -344,18 +344,6 @@ public class DefaultData implements CommandLineRunner{
         // TODO Tạo data default cho hệ thống
         // System.out.println("Genarate default data");
 
-        // phanQuyenRepository.deleteAll();
-        // chucNangRepository.deleteAll();
-        // nguoiDungRepository.deleteAll();
-        // nhomNguoiDungRepository.deleteAll();
-        
-        // hoaDonThanhToanRepository.deleteAll();
-        // tiecCuoiRepository.deleteAll();
-        // caRepository.deleteAll();  
-        // danhSachSanhRepository.deleteAll();          
-        // loaiSanhRepository.deleteAll();
-        // monAnRepository.deleteAll();
-        // dichVuRepository.deleteAll();
 
         // createDefaultCacLoaiChucNang();
         // createDefaultCacNhomNguoiDung();

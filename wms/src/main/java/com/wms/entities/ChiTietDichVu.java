@@ -1,17 +1,15 @@
 package com.wms.entities;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -42,12 +40,16 @@ public class ChiTietDichVu implements Serializable{
     private DichVu maDichVu;
 
     @Column
-    private int soLuong;
+    private Long soLuong;
 
-    public ChiTietDichVu(TiecCuoi tiec, DichVu dichVu, int soLuong){
+    @Column(precision = 15, scale = 2)
+    private BigDecimal donGiaDichVu;
+
+    public ChiTietDichVu(TiecCuoi tiec, DichVu dichVu, Long soLuong, BigDecimal donGia){
         this.maTiecCuoi = tiec;
         this.maDichVu = dichVu;
         this.soLuong = soLuong;
+        this.donGiaDichVu = donGia;
 
     }
 }

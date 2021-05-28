@@ -33,9 +33,6 @@ public class DichVu {
     @OneToMany(mappedBy = "maDichVu")
     private Set<ChiTietDichVu> chiTietDichVu;
 
-    @OneToMany(mappedBy = "maDichVu")
-    private Set<HoaDonThanhToan> hoaDonThanhToan;
-
     public DichVu(String maDichVu, String tenDichVu, BigDecimal donGia){
         this.maDichVu = maDichVu;
         this.tenDichVu = tenDichVu;

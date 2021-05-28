@@ -2,14 +2,11 @@ package com.wms.entities;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -46,10 +43,10 @@ public class TiecCuoi {
     private BigDecimal tienDatCoc;
 
     @Column
-    private int soLuongBan;
+    private Long soLuongBan;
 
     @Column
-    private int soLuongBanDuTru;
+    private Long soLuongBanDuTru;
 
     @ManyToOne
     private Ca maCa;
@@ -66,7 +63,8 @@ public class TiecCuoi {
     @OneToOne(mappedBy = "maTiecCuoi")
     private HoaDonThanhToan hoaDonThanhToan;
 
-    public TiecCuoi(String maTiecCuoi, String tenChuRe, String tenCoDau, String sdt, LocalDate ngayDaiTiec, BigDecimal tienDatCoc, int soLuongBan, int soLuongBanDuTru, Ca ca, DanhSachSanh sanh){
+    public TiecCuoi(String maTiecCuoi, String tenChuRe, String tenCoDau, String sdt, LocalDate ngayDaiTiec, BigDecimal tienDatCoc,
+             Long soLuongBan, Long soLuongBanDuTru, Ca ca, DanhSachSanh sanh){
         this.maTiecCuoi = maTiecCuoi;
         this.tenChuRe = tenChuRe;
         this.tenCoDau = tenCoDau;

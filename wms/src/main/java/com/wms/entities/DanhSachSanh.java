@@ -30,7 +30,7 @@ public class DanhSachSanh {
     private String tenSanh;
 
     @Column
-    private int soLuongBanToiDa;
+    private Long soLuongBanToiDa;
 
     @Column
     @Lob
@@ -42,7 +42,7 @@ public class DanhSachSanh {
     @OneToMany(mappedBy = "maSanh")
     private Set<TiecCuoi> dsTiecCuoi;
 
-    public DanhSachSanh(String maSanh, String tenSanh, int soLuongBanToiDa, String ghiChu, LoaiSanh maLoaiSanh){
+    public DanhSachSanh(String maSanh, String tenSanh, Long soLuongBanToiDa, String ghiChu, LoaiSanh maLoaiSanh){
         this.maSanh = maSanh;
         this.tenSanh = tenSanh;
         this.soLuongBanToiDa = soLuongBanToiDa;

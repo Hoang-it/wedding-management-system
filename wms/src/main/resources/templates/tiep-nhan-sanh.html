@@ -10,33 +10,30 @@
 <body>
     <th:block th:insert="~{index :: menu-bar}"></th:block>
     
-    <form class="needs-validation mx-auto" novalidate="" style="width: 700px;" id="formTiepNhanSanh">
+    <form class="mx-auto" style="width: 700px;" id="formTiepNhanSanh">
       <h1>Tiếp nhận sảnh</h1>
       <div class="row g-3">
         <div class="col-sm-6">
           <label for="tenSanh" class="form-label">Tên sảnh</label>
-          <input type="text" class="form-control" id="tenSanh" placeholder="" value="" required="">
-          <div class="invalid-feedback">
-            Cần nhập tên sảnh
-          </div>
+          <input type="text" class="form-control" id="tenSanh" placeholder="Nhập tên sảnh" value="" required>
+          <div id="msg_tenSanh"></div>
         </div>
 
 
         <div class="col-12">
           <label for="loaiSanh" class="form-label">Loại sảnh</label>
-          <select class="form-select form-control" id="dsLoaiSanh">
+          <select class="form-select form-control" id="loaiSanh" required>
+            
             <option value="1">One</option>
             <option value="2">Two</option>
             <option value="3">Three</option>
           </select>
-          <div class="invalid-feedback">
-            Cần chọn loại sảnh
-          </div>
         </div>
 
         <div class="col-md-4">
-          <label for="soLuongBanToi" class="form-label">Số bàn tối đa</label>
-          <input type="text" class="form-control" id="soLuongBanToiDa" style="background-color: white;" placeholder="" required="" readonly>
+          <label for="soLuongBanToiDa" class="form-label">Số bàn tối đa</label>
+          <input type="text" class="form-control" id="soLuongBanToiDa" placeholder="Nhập số lượng bàn tối đa" required>
+          <div id="msg_soLuongBanToiDa"></div>
         </div>
 
         <div class="col-md-3">
@@ -60,39 +57,70 @@
       dsLoaiSanhData = {}
 
       $.get("http://localhost:8080/api/ds-loai-sanh", function(data){
-        $("#dsLoaiSanh").empty()
+        $("#loaiSanh").empty()
+        $("#loaiSanh").append($("<option>", {
+          "class" : "selected disabled", 
+          text : "Chọn loại sảnh",
+          value : ""
+        }));
         $.each(data, function(index, d){           
-            $("#dsLoaiSanh").append($('<option>', { 
+            $("#loaiSanh").append($('<option>', { 
                 value: d.maLoaiSanh,
                 text : d.tenLoaiSanh
             }))
             dsLoaiSanhData[d.maLoaiSanh] = d
         })
         firstKey = Object.keys(dsLoaiSanhData)[0];
-        $("#soLuongBanToiDa").val(dsLoaiSanhData[firstKey].soLuongBanToiDa)
-        $("#donGiaToiThieu").val (dsLoaiSanhData[firstKey].donGiaBanToiThieu)
+        $("#donGiaToiThieu").val (0)
        // alert(JSON.stringify(dsLoaiSanhData))
-        $("#dsLoaiSanh").change(function(){
+        $("#loaiSanh").change(function(){
           //alert(dsLoaiSanhData[$(this).val()].soLuongBanToiDa)
-          $("#soLuongBanToiDa").val(dsLoaiSanhData[$(this).val()].soLuongBanToiDa)
-          $("#donGiaToiThieu").val (dsLoaiSanhData[$(this).val()].donGiaBanToiThieu)
-        })
+          if ($(this).val() == ""){
+            $("#donGiaToiThieu").val(0);
+            
+          }else{
+            $("#donGiaToiThieu").val (dsLoaiSanhData[$(this).val()].donGiaBanToiThieu)
+        
+          }
+          })
 
       })
-      
+      $("#soLuongBanToiDa").focus(function(){
+        $("#msg_soLuongBanToiDa").empty();
+        $("#msg_soLuongBanToiDa").removeClass();
+      })
+
+      $("#tenSanh").focus(function(){
+        $("#msg_tenSanh").empty();
+        $("#msg_tenSanh").removeClass();
+      })
       
       $("#formTiepNhanSanh").submit(function(e){
         e.preventDefault()
         alert("submit")
         data["tenSanh"] = $("#tenSanh").val()
-        data["loaiSanh"] = $("#dsLoaiSanh").val()
+        data["loaiSanh"] = $("#loaiSanh").val()
+        data["soLuongBanToiDa"] = $("#soLuongBanToiDa").val()
         data["ghiChu"] = $("#ghiChu").val()
+        alert(JSON.stringify(data))
         $.ajax({
           type: "POST",
           contentType: "application/json",
           url: "http://localhost:8080/api/dat-sanh",
           data: JSON.stringify(data),
-          dataType: "json"
+          dataType: "json",
+          success: function(e){
+            alert("Create success")
+            location.reload();
+          },
+          error: function(XMLHttpRequest, textStatus, errorThrown) {
+            //alert(JSON.stringify(XMLHttpRequest["responseJSON"]["errorMessageList"]));
+            $.each(Object.keys(XMLHttpRequest["responseJSON"]["errorMessageList"][0]), function(index, d){
+              //alert(d);
+              $("#msg_" + d).html(XMLHttpRequest["responseJSON"]["errorMessageList"][0][d])
+              $("#msg_" + d).addClass("alert alert-danger")
+            })
+          }
         })
       })
     </script>
