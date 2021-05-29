@@ -31,7 +31,7 @@ public class HoaDonThanhToan {
     private BigDecimal tongTienBan;
 
     @Column(precision = 15, scale = 2)
-    private BigDecimal thanhTien;
+    private BigDecimal donGiaBan;
 
     @Column(precision = 15, scale = 2)
     private BigDecimal tongTienDichVu;
@@ -42,18 +42,21 @@ public class HoaDonThanhToan {
     @Column(precision = 15, scale = 2)
     private BigDecimal conLai;
 
+    @Column(precision = 15, scale = 2)
+    private BigDecimal tienDatCoc;
+
     @OneToOne
     private TiecCuoi maTiecCuoi;
 
     @ManyToOne
     private DoanhThuThang doanhThuThang;
 
-    public HoaDonThanhToan(String maHoaDon, LocalDate ngayThanhToan, BigDecimal tongTienBan, BigDecimal thanhTien,
+    public HoaDonThanhToan(String maHoaDon, LocalDate ngayThanhToan, BigDecimal tongTienBan, BigDecimal donGiaBan,
             BigDecimal tongTienDichVu, BigDecimal tongTienHoaDon, BigDecimal conLai, TiecCuoi maTiecCuoi, DoanhThuThang dThang) {
         this.maHoaDon = maHoaDon;
         this.ngayThanhToan = ngayThanhToan;
         this.tongTienBan = tongTienBan;
-        this.thanhTien = thanhTien;
+        this.donGiaBan = donGiaBan;
         this.tongTienDichVu = tongTienDichVu;
         this.tongTienHoaDon = tongTienHoaDon;
         this.conLai = conLai;

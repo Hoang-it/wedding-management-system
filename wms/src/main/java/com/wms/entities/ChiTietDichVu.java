@@ -45,6 +45,9 @@ public class ChiTietDichVu implements Serializable{
     @Column(precision = 15, scale = 2)
     private BigDecimal donGiaDichVu;
 
+    @Column(precision = 15, scale = 2)
+    private BigDecimal thanhTien;
+
     public ChiTietDichVu(TiecCuoi tiec, DichVu dichVu, Long soLuong, BigDecimal donGia){
         this.maTiecCuoi = tiec;
         this.maDichVu = dichVu;

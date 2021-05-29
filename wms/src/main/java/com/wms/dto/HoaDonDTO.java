@@ -1,5 +1,7 @@
 package com.wms.dto;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -15,15 +17,15 @@ import lombok.Setter;
 public class HoaDonDTO {
     private String tenChuRe;
     private String tenCoDau;
-    private Date ngayThanhToan;
-    private int soLuongBan;
-    private double donGiaBan;
-    private double tongTienBan;
-    private double tongTienHoaDon;
-    private double tongTienDichVu;
-    private double tongTienMonAn;
-    private double tienDatCoc;
-    private double conLai;
+    private LocalDate ngayThanhToan;
+    private Long soLuongBan;
+    private BigDecimal donGiaBan;
+    private BigDecimal tongTienBan;
+    private BigDecimal tongTienHoaDon;
+    private BigDecimal tongTienDichVu;
+    private BigDecimal tongTienMonAn;
+    private BigDecimal tienDatCoc;
+    private BigDecimal conLai;
     private List<MonAnDTO> monAn;
     private List<DichVuDTO> dichVu;
 }

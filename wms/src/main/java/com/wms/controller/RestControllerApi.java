@@ -79,17 +79,7 @@ public class RestControllerApi {
 
     @GetMapping(value = {"/thong-tin-hoa-don"})
     public HoaDonDTO lapHoaDonThanhToan(@RequestParam("maTiecCuoi") String maTiecCuoi) {
-        HoaDonDTO chiTietHoaDon = null;
-        List<DichVuDTO> dsDichVu = new ArrayList<>();
-        List<MonAnDTO> dsMonAn = new ArrayList<>();
-        // dsMonAn.add(new MonAnDTO("MA1", "Thit", 1000000.0, ""));
-        // dsMonAn.add(new MonAnDTO("MA2", "Thit", 1000000.0, ""));
-
-        // dsDichVu.add(new DichVuDTO("DV1", "Thit", 10, 10.0, 0.0));
-        // dsDichVu.add(new DichVuDTO("DV2", "Thit", 100, 1.0, 0.5));
-
-        chiTietHoaDon = new HoaDonDTO("Hoang", "Trang", new Date(2017, 8, 12), 10, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, dsMonAn, dsDichVu);
-        return chiTietHoaDon;
+        return daoService.layThongTinHoaDon(maTiecCuoi);
     }
 
     @PostMapping(value = {"/dat-tiec"}, consumes = MediaType.APPLICATION_JSON_VALUE)

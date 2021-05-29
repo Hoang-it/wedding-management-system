@@ -9,6 +9,7 @@ import java.util.Set;
 
 import com.wms.dto.CaDTO;
 import com.wms.dto.DichVuDTO;
+import com.wms.dto.HoaDonDTO;
 import com.wms.dto.LoaiSanhDTO;
 import com.wms.dto.MonAnDTO;
 import com.wms.dto.SanhDTO;
@@ -18,14 +19,18 @@ import com.wms.entities.ChiTietDichVu;
 import com.wms.entities.ChiTietMonAn;
 import com.wms.entities.DanhSachSanh;
 import com.wms.entities.DichVu;
+import com.wms.entities.HoaDonThanhToan;
 import com.wms.entities.LoaiSanh;
 import com.wms.entities.MonAn;
+import com.wms.entities.ThamSo;
 import com.wms.entities.TiecCuoi;
 import com.wms.repositories.CaRepository;
 import com.wms.repositories.DanhSachSanhRepository;
 import com.wms.repositories.DichVuRepository;
+import com.wms.repositories.HoaDonThanhToanRepository;
 import com.wms.repositories.LoaiSanhRepository;
 import com.wms.repositories.MonAnRepository;
+import com.wms.repositories.ThamSoRepository;
 import com.wms.repositories.TiecCuoiRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +56,15 @@ public class DaoService {
 
     @Autowired
     DichVuRepository dichVuRepository;
+
+    @Autowired
+    HoaDonThanhToanRepository hoaDonThanhToanRepository;
+
+    @Autowired
+    HoaDonService hoaDonService;
+
+    @Autowired
+    ThamSoRepository thamSoRepository;
 
     public List<LoaiSanhDTO> layDanhSachLoaiSanh(){
         List<LoaiSanhDTO> ds = new ArrayList<LoaiSanhDTO>();
@@ -133,12 +147,15 @@ public class DaoService {
 
     public void datTiecCuoi(TiecDTO tiecCuoi){
         TiecCuoi record = new TiecCuoi();
-        Long row = tiecCuoiRepository.count() + 1;
-        String index = row < 10 ? "0" + row.toString() : row.toString();
+        HoaDonThanhToan hoaDon = new HoaDonThanhToan();
+        Long rowTC = tiecCuoiRepository.count() + 1;
+        Long rowHD = hoaDonThanhToanRepository.count() + 1;
+        String indexTC = rowTC < 10 ? "0" + rowTC.toString() : rowTC.toString();
+        String indexHD = rowHD < 10 ? "0" + rowHD.toString() : rowHD.toString();
         Set<ChiTietMonAn> thucDon = new HashSet<>();
         Set<ChiTietDichVu> dsDichVu = new HashSet<>();
 
-        record.setMaTiecCuoi("TC" + index);
+        record.setMaTiecCuoi("TC" + indexTC);
        
         record.setTenChuRe(tiecCuoi.getTenChuRe());
         record.setTenCoDau(tiecCuoi.getTenCoDau());
@@ -170,7 +187,21 @@ public class DaoService {
 
         record.setChiTietDichVu(dsDichVu);
         record.setChiTietMonAn(thucDon);
+
+        hoaDon.setMaHoaDon("HD" + indexHD);
+        hoaDon.setMaTiecCuoi(record);
+        hoaDon.setTienDatCoc(record.getTienDatCoc());        
+        hoaDon.setNgayThanhToan(record.getNgayDaiTiec());
+
+        hoaDon.setDonGiaBan(hoaDonService.tinhDonGiaBan(record.getChiTietMonAn()));
+        hoaDon.setTongTienBan(hoaDonService.tinhTongTienBan(hoaDon.getDonGiaBan(), record.getSoLuongBan(), record.getSoLuongBanDuTru()));
+        hoaDon.setTongTienDichVu(hoaDonService.tinhTongTienDichVu(record.getChiTietDichVu(), 1l));
+        hoaDon.setTongTienHoaDon(hoaDonService.tinhTongTienHoaDon(hoaDon.getTongTienBan(), hoaDon.getTongTienDichVu()));
+        hoaDon.setConLai(hoaDonService.tinhTienConLai(hoaDon.getTongTienHoaDon(), hoaDon.getTienDatCoc()));
+
         tiecCuoiRepository.save(record);
+        hoaDonThanhToanRepository.save(hoaDon);
+        
         
     }
 
@@ -191,4 +222,51 @@ public class DaoService {
         }
         return dsTiecCuoi;
     }
+
+    public HoaDonDTO layThongTinHoaDon(String maTiecCuoi){
+        TiecCuoi tiecCuoi = tiecCuoiRepository.findById(maTiecCuoi).get();
+        HoaDonThanhToan hoaDon = tiecCuoi.getHoaDonThanhToan();
+
+        HoaDonDTO data = new HoaDonDTO();
+        List<DichVuDTO> dsDichVu = new ArrayList<>();
+        List<MonAnDTO> dsMonAn = new ArrayList<>();
+        DichVuDTO dichVu = null;
+        MonAnDTO monAn = null;
+
+        data.setTenCoDau(tiecCuoi.getTenCoDau());
+        data.setTenChuRe(tiecCuoi.getTenChuRe());
+        data.setSoLuongBan(tiecCuoi.getSoLuongBan());
+        data.setNgayThanhToan(tiecCuoi.getNgayDaiTiec());
+        
+        for (ChiTietDichVu ctDichVu : tiecCuoi.getChiTietDichVu()) {
+            dichVu = new DichVuDTO();
+            dichVu.setMaDichVu(ctDichVu.getMaDichVu().getMaDichVu());
+            dichVu.setTenDichVu(ctDichVu.getMaDichVu().getTenDichVu());
+            dichVu.setSoLuong(ctDichVu.getSoLuong());
+            dichVu.setDonGia(ctDichVu.getDonGiaDichVu());
+            dsDichVu.add(dichVu);
+        }
+        data.setDichVu(dsDichVu);
+
+        for (ChiTietMonAn ctMonAn : tiecCuoi.getChiTietMonAn()) {
+            monAn = new MonAnDTO();
+            monAn.setMaMonAn(ctMonAn.getMaMonAn().getMaMonAn());
+            monAn.setTenMonAn(ctMonAn.getMaMonAn().getTenMonAn());
+            monAn.setDonGia(ctMonAn.getDonGiaMonAn());
+            dsMonAn.add(monAn);
+        }
+        data.setMonAn(dsMonAn);
+
+        data.setTienDatCoc(hoaDon.getTienDatCoc());
+        data.setDonGiaBan(hoaDon.getDonGiaBan());
+        data.setTongTienBan(hoaDon.getTongTienBan());
+        data.setTongTienDichVu(hoaDon.getTongTienHoaDon());
+        data.setTongTienHoaDon(hoaDon.getTongTienHoaDon());
+        data.setTongTienMonAn(hoaDon.getDonGiaBan());
+        data.setConLai(hoaDon.getConLai());
+        
+        
+        return data;
+    }
+
 }

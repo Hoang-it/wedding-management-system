@@ -18,7 +18,8 @@
                 <p >Tên cô dâu : <span id="tenCoDau"></span></p>                
             </div>
             <div class="col">
-                <p>Ngày thanh toán : <span id="ngayThanhToan"></span></p>                
+                <p>Ngày thanh toán : <span id="ngayThanhToan"></span></p>
+                
             </div>
         </div>
         <div class="row">
@@ -115,6 +116,7 @@
 
     <script>
       //alert($("#maTiec").text())
+
       $.get("http://localhost:8080/api/thong-tin-hoa-don?maTiecCuoi=" + $("#maTiec").text(), function(data){
         //alert("GEt Success")
         //alert(JSON.stringify(data))

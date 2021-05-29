@@ -21,6 +21,7 @@ import com.wms.entities.MonAn;
 import com.wms.entities.NguoiDung;
 import com.wms.entities.NhomNguoiDung;
 import com.wms.entities.PhanQuyen;
+import com.wms.entities.ThamSo;
 import com.wms.entities.TiecCuoi;
 import com.wms.repositories.CaRepository;
 import com.wms.repositories.ChucNangRepository;
@@ -33,6 +34,7 @@ import com.wms.repositories.MonAnRepository;
 import com.wms.repositories.NguoiDungRepository;
 import com.wms.repositories.NhomNguoiDungRepository;
 import com.wms.repositories.PhanQuyenRepository;
+import com.wms.repositories.ThamSoRepository;
 import com.wms.repositories.TiecCuoiRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,6 +82,9 @@ public class DefaultData implements CommandLineRunner{
 
     @Autowired
     private DoanhThuThangRepository doanhThuThangRepository;
+
+    @Autowired
+    private ThamSoRepository thamSoRepository;
 
     private void createDefaultCacLoaiChucNang(){
         List<ChucNang> cacLoaiChucNang = new ArrayList<>();
@@ -338,6 +343,17 @@ public class DefaultData implements CommandLineRunner{
         System.out.println("Đã tạo thành công ds hoa don");
     }
 
+    private void createDefaultThamSo(){
+        Set<ThamSo> data = new HashSet<ThamSo>();
+
+        data.add(new ThamSo("KiemTraNgayThanhToan", "true"));
+        data.add(new ThamSo("TiLePhanTramPhat", "0.1"));
+        
+        thamSoRepository.saveAll(data);
+        //chiTietMonAnRepository.saveAll(thucDon);
+        System.out.println("Đã tạo thành công ds hoa don");
+    }
+
     
     @Override
     public void run(String... args) throws Exception {
@@ -361,7 +377,7 @@ public class DefaultData implements CommandLineRunner{
         // createDefaultTiec();
         // createDefaultDoanhThuThang();
         // createDefaultHoaDonThanhToan();
-        
+        // createDefaultThamSo();
 
         // NguoiDung nguoiDung = nguoiDungRepository.findByTenNguoiDung("user1");
         // for (PhanQuyen phanQuyen : nguoiDung.getMaNhom().getPhanQuyenIds()) {
