@@ -173,4 +173,22 @@ public class DaoService {
         tiecCuoiRepository.save(record);
         
     }
+
+    public List<TiecDTO> layToanBoDanhSachTiecCuoi(){
+        List<TiecDTO> dsTiecCuoi = new ArrayList<>();
+        TiecDTO data = null;
+        for (TiecCuoi tiecCuoi : tiecCuoiRepository.findAll()) {
+            data = new TiecDTO();
+            data.setMaTiecCuoi(tiecCuoi.getMaTiecCuoi());
+            data.setTenCoDau(tiecCuoi.getTenCoDau());
+            data.setTenChuRe(tiecCuoi.getTenChuRe());
+            data.setSanh(tiecCuoi.getMaSanh().getTenSanh());
+            data.setNgayDaiTiec(tiecCuoi.getNgayDaiTiec());
+            data.setGio(tiecCuoi.getMaCa().getGioBatDau());
+            data.setSoLuongBan(tiecCuoi.getSoLuongBan());
+
+            dsTiecCuoi.add(data);
+        }
+        return dsTiecCuoi;
+    }
 }

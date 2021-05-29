@@ -66,10 +66,7 @@ public class RestControllerApi {
 
     @GetMapping(value = {"/ds-tiec-cuoi"})
     public List<TiecDTO> layToanBoTiecCuoi(){
-        List<TiecDTO> dsTiecCuoi = new ArrayList<>();
-        // dsTiecCuoi.add(new TiecDTO("T01", "Hoang", "han", "Sanh A", new Date(2017, 8, 12), 8, 100));
-        // dsTiecCuoi.add(new TiecDTO("T02", "Hoang", "Linh", "Sanh A", new Date(2017, 8, 12), 8, 100));
-        return dsTiecCuoi;
+        return daoService.layToanBoDanhSachTiecCuoi();
     }
 
     @GetMapping(value = {"/ds-doanh-thu-ngay"})

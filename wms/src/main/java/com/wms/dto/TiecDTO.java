@@ -3,6 +3,7 @@ package com.wms.dto;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import javax.validation.constraints.NotBlank;
@@ -37,7 +38,7 @@ public class TiecDTO {
     @NotNull
     private LocalDate ngayDaiTiec;
 
-    private Long gio;
+    private LocalTime gio;
 
     @NotBlank
     @Size(min = 3, max = 4)
@@ -62,7 +63,7 @@ public class TiecDTO {
     private List<MonAnDTO> monAn;
     private List<DichVuDTO> dichVu;
 
-    public TiecDTO(String maTiecCuoi, String tenChuRe, String tenCoDau, String sanh, LocalDate ngayDaiTiec, Long gio, Long soLuongBan){
+    public TiecDTO(String maTiecCuoi, String tenChuRe, String tenCoDau, String sanh, LocalDate ngayDaiTiec, LocalTime gio, Long soLuongBan){
         this.maTiecCuoi = maTiecCuoi;
         this.tenChuRe = tenChuRe;
         this.tenCoDau = tenCoDau;
