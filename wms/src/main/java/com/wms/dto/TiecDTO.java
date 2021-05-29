@@ -1,7 +1,15 @@
 package com.wms.dto;
 
+import java.math.BigDecimal;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,21 +19,50 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TiecDTO {
-    private String maTiecCuoi;
-    private String tenChuRe;
-    private String tenCoDau;
-    private String sdt;
-    private Date ngayDaiTiec;
-    private int gio;
-    private String ca;
-    private String sanh;
-    private int soLuongBan;
-    private int soLuongBanDuTru;
-    private double tienDatCoc;  
-    private List<String> monAn;
-    private List<String> dichVu;
 
-    public TiecDTO(String maTiecCuoi, String tenChuRe, String tenCoDau, String sanh, Date ngayDaiTiec, int gio, int soLuongBan){
+    private String maTiecCuoi;
+
+    @NotBlank
+    @Size(min = 2, max = 50)
+    private String tenChuRe;
+
+    @NotBlank
+    @Size(min = 2, max = 50)
+    private String tenCoDau;
+
+    @NotBlank
+    @Size(min = 10, max = 10)
+    private String sdt;
+
+    @NotNull
+    private LocalDate ngayDaiTiec;
+
+    private Long gio;
+
+    @NotBlank
+    @Size(min = 3, max = 4)
+    private String ca;
+
+    @NotBlank
+    @Size(min = 4, max = 4)
+    private String sanh;
+
+    @Positive
+    @NotNull
+    private Long soLuongBan;
+
+    @Positive
+    @NotNull
+    private Long soLuongBanDuTru;
+
+    @Positive
+    @NotNull
+    private BigDecimal tienDatCoc;  
+
+    private List<MonAnDTO> monAn;
+    private List<DichVuDTO> dichVu;
+
+    public TiecDTO(String maTiecCuoi, String tenChuRe, String tenCoDau, String sanh, LocalDate ngayDaiTiec, Long gio, Long soLuongBan){
         this.maTiecCuoi = maTiecCuoi;
         this.tenChuRe = tenChuRe;
         this.tenCoDau = tenCoDau;

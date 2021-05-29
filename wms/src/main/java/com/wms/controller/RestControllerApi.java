@@ -40,18 +40,13 @@ public class RestControllerApi {
 
     @GetMapping(value = {"/ds-ca"})
     public List<CaDTO> layToanBoCa(){
-        List<CaDTO> dsCa = new ArrayList<>();
-        dsCa.add(new CaDTO("CA1", "Sang", "8"));
-        dsCa.add(new CaDTO("CA2", "Chieu", "14"));
-        return dsCa;
+        
+        return daoService.layToanBoDanhSachCa();
     } 
 
     @GetMapping(value = {"/ds-sanh"})
     public List<SanhDTO> layToanBoSanh(){
-        List<SanhDTO> dsSanh = new ArrayList<>();
-        dsSanh.add(new SanhDTO("S!", "Sang 1", "S", 10l, 1000000, ""));
-        dsSanh.add(new SanhDTO("S2", "Sanh 2", "A", 10l, 1200000, ""));
-        return dsSanh;
+        return daoService.layToanBoDanhSachSanh();
     } 
 
     @GetMapping(value = {"/ds-loai-sanh"})
@@ -61,25 +56,19 @@ public class RestControllerApi {
 
     @GetMapping(value = {"/ds-mon-an"})
     public List<MonAnDTO> layToanBoMonAn(){
-        List<MonAnDTO> dsMonAn = new ArrayList<>();
-        dsMonAn.add(new MonAnDTO("MA1", "Thit", 1000000.0, ""));
-        dsMonAn.add(new MonAnDTO("MA2", "Thit", 1000000.0, ""));
-        return dsMonAn;
+        return daoService.layToanBoDanhSachMonAn();
     } 
 
     @GetMapping(value = {"/ds-dich-vu"})
     public List<DichVuDTO> layToanBoDichVu(){
-        List<DichVuDTO> dsDichVu = new ArrayList<>();
-        dsDichVu.add(new DichVuDTO("DV1", "Thit", 10, 10.0, 0.0));
-        dsDichVu.add(new DichVuDTO("DV2", "Thit", 100, 1.0, 0.5));
-        return dsDichVu;
+        return daoService.layToanBoDanhSachDichVu();
     }
 
     @GetMapping(value = {"/ds-tiec-cuoi"})
     public List<TiecDTO> layToanBoTiecCuoi(){
         List<TiecDTO> dsTiecCuoi = new ArrayList<>();
-        dsTiecCuoi.add(new TiecDTO("T01", "Hoang", "han", "Sanh A", new Date(2017, 8, 12), 8, 100));
-        dsTiecCuoi.add(new TiecDTO("T02", "Hoang", "Linh", "Sanh A", new Date(2017, 8, 12), 8, 100));
+        // dsTiecCuoi.add(new TiecDTO("T01", "Hoang", "han", "Sanh A", new Date(2017, 8, 12), 8, 100));
+        // dsTiecCuoi.add(new TiecDTO("T02", "Hoang", "Linh", "Sanh A", new Date(2017, 8, 12), 8, 100));
         return dsTiecCuoi;
     }
 
@@ -96,11 +85,11 @@ public class RestControllerApi {
         HoaDonDTO chiTietHoaDon = null;
         List<DichVuDTO> dsDichVu = new ArrayList<>();
         List<MonAnDTO> dsMonAn = new ArrayList<>();
-        dsMonAn.add(new MonAnDTO("MA1", "Thit", 1000000.0, ""));
-        dsMonAn.add(new MonAnDTO("MA2", "Thit", 1000000.0, ""));
+        // dsMonAn.add(new MonAnDTO("MA1", "Thit", 1000000.0, ""));
+        // dsMonAn.add(new MonAnDTO("MA2", "Thit", 1000000.0, ""));
 
-        dsDichVu.add(new DichVuDTO("DV1", "Thit", 10, 10.0, 0.0));
-        dsDichVu.add(new DichVuDTO("DV2", "Thit", 100, 1.0, 0.5));
+        // dsDichVu.add(new DichVuDTO("DV1", "Thit", 10, 10.0, 0.0));
+        // dsDichVu.add(new DichVuDTO("DV2", "Thit", 100, 1.0, 0.5));
 
         chiTietHoaDon = new HoaDonDTO("Hoang", "Trang", new Date(2017, 8, 12), 10, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, dsMonAn, dsDichVu);
         return chiTietHoaDon;
@@ -108,9 +97,28 @@ public class RestControllerApi {
 
     @PostMapping(value = {"/dat-tiec"}, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public void datTiec(@RequestBody TiecDTO tiec) throws Exception{
+    public ResponseEntity<ValidationResponse> datTiec(@RequestBody @Valid TiecDTO tiec, BindingResult result) throws Exception{
         System.out.println("DAT TIEC");
-        System.out.println(tiec.toString());
+        
+        ValidationResponse res = new ValidationResponse();
+        if(!result.hasErrors()){
+            res.setStatus("SUCCESS");
+            daoService.datTiecCuoi(tiec);  
+            System.out.println(tiec.toString());
+            return new ResponseEntity<>(res, HttpStatus.OK);
+        } else{
+            res.setStatus("FAIL");
+            HashMap<String, String> errorFields = new HashMap<>();
+            List container = new ArrayList<>();
+    
+            for (FieldError iterable_element : result.getFieldErrors()) {
+                errorFields.put(iterable_element.getField(), iterable_element.getDefaultMessage());
+            }
+            container.add(errorFields);
+            res.setErrorMessageList(container);
+            return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+        }
+       
     }
 
     @PostMapping(value = {"/dat-sanh"}, consumes = MediaType.APPLICATION_JSON_VALUE)

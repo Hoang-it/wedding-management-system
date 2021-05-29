@@ -1,5 +1,7 @@
 package com.wms.dto;
 
+import java.math.BigDecimal;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +14,7 @@ import lombok.Setter;
 public class DichVuDTO {
     private String maDichVu;
     private String tenDichVu;
-    private int soLuong;
-    private double donGia;
-    private double thanhTien;
+    private Long soLuong;
+    private BigDecimal donGia;
+    private BigDecimal thanhTien;
 }

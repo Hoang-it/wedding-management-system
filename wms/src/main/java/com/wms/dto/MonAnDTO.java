@@ -1,5 +1,7 @@
 package com.wms.dto;
 
+import java.math.BigDecimal;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,6 +14,6 @@ import lombok.Setter;
 public class MonAnDTO {
     private String maMonAn;
     private String tenMonAn;
-    private double donGia;
+    private BigDecimal donGia;
     private String ghiChu;
 }
