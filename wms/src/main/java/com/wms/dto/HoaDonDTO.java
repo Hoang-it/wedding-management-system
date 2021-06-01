@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,10 +16,12 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class HoaDonDTO {
+    private String maTiecCuoi;
     private String tenChuRe;
     private String tenCoDau;
     private LocalDate ngayThanhToan;
     private Long soLuongBan;
+    private Long ngayTreHan;
     private BigDecimal donGiaBan;
     private BigDecimal tongTienBan;
     private BigDecimal tongTienHoaDon;

@@ -1,0 +1,159 @@
+<!DOCTYPE HTML>
+<html>
+<head> 
+    <title>Home Page</title> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <th:block th:insert="~{index :: libs}"></th:block>
+</head>
+<body>
+  <div class="container">
+    <!-- Trigger the modal with a button -->  
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+      <div class="modal-dialog">
+      
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Cập nhật danh sách ca</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group row">
+              <label for="tenCa" class="col-3 col-form-label">Tên ca</label>
+              <div class="col-9">
+                <input class="form-control" type="hidden" value="" id="maCa">
+                <input class="form-control" type="text" value="" id="tenCa">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="gioBatDau" class="col-3 col-form-label">Giờ bắt đầu</label>
+              <div class="col-9">
+                <input class="form-control" type="time" value="13:45:00" id="gioBatDau">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="gioKetThuc" class="col-3 col-form-label">Giờ kết thúc</label>
+              <div class="col-9">
+                <input class="form-control" type="time" value="13:45:00" id="gioKetThuc">
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="capNhat" class="btn btn-default"  data-dismiss="modal">Cập nhât</button>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  
+  <th:block th:insert="~{index :: menu-bar}"></th:block>
+  <table class="table table-bordered" style="width: 70%;margin-left: auto;margin-right: auto;">
+      <caption style="caption-side: top; text-align: center;"><h1>Danh sách ca</h1></caption>
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">STT</th>
+          <th scope="col">Tên ca</th>
+          <th scope="col">Giờ bắt đầu</th>
+          <th scope="col">Giờ bắt đầu</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody id="dsCa">
+        <tr>
+          <th scope="row">1</th>
+          <td>Mark</td>
+          <td>Otto</td>
+          <td>Otto</td>
+        </tr>
+        <tr>
+          <th scope="row">1</th>
+          <td>Mark</td>
+          <td>Otto</td>
+          <td style="word-wrap: break-word;min-width: 160px;max-width: 160px;">Ottoadfasdfđsàasfasfsdfasfasfasdfasdfasdfasfadasfasdfsdf</td>
+        </tr>
+        
+      </tbody>
+  </table>
+      
+  <script>
+    $.get( "http://localhost:8080/api/ds-ca", function( data ) {
+        //alert(JSON.stringify(data));
+        $("#dsCa").empty()
+        $.each(data, function(index, d){
+            $("#dsCa").append($('<tr>', { 
+                "id":  "row-" + d.maCa
+            }))
+            $("#row-" + d.maCa).append($('<td>', { 
+                text: index
+            }))
+            $("#row-" + d.maCa).append($('<td>', { 
+                text: d.tenCa
+            }))
+            $("#row-" + d.maCa).append($('<td>', { 
+                text: d.gioBatDau
+            }))
+            $("#row-" + d.maCa).append($('<td>', { 
+                text: d.gioKetThuc
+            }))
+            $("#row-" + d.maCa).append($('<td>', { 
+                id: "action-" + d.maCa
+            }))  
+            $("#action-" + d.maCa).append($('<button>', {
+                "type": "button",
+                "style": "margin-left: 3%;",
+                "class": "fa fa-info btn btn-primary",
+                "data-toggle": "modal",
+                "data-target": "#myModal",
+                click: function(){
+                  //alert(d.maCa)
+                  $.get("http://localhost:8080/api/thong-tin-ca?caid=" + d.maCa, function(data){
+                    $("#tenCa").val(data["tenCa"])
+                    $("#gioBatDau").val(data["gioBatDau"])
+                    $("#gioKetThuc").val(data["gioKetThuc"])
+                    $("#maCa").val(data["maCa"])
+                  })
+                }
+            }))   
+            $("#action-" + d.maCa).append($('<button>', {
+                "style": "margin-left: 3%;",
+                "class": "fa fa-trash btn btn-primary"
+            }))
+
+        })
+    });
+
+    $("#capNhat").click(function(){
+      //alert("Cap nhat")
+      data = {}
+      data["tenCa"] = $("#tenCa").val()
+      data["gioBatDau"] = $("#gioBatDau").val()
+      data["gioKetThuc"] = $("#gioKetThuc").val()
+      data["maCa"] = $("#maCa").val()
+      $.ajax({
+          type: "POST",
+          contentType: "application/json",
+          url: "http://localhost:8080/api/cap-nhat-ca",
+          data: JSON.stringify(data),
+          dataType: "json",
+          success: function(){
+            alert("Cap nhat thanh cong")
+            location.reload();
+          },
+          error: function(XMLHttpRequest, textStatus, errorThrown) {
+            //alert(JSON.stringify(XMLHttpRequest["responseJSON"]["errorMessageList"]));
+            location.reload();
+            // $.each(Object.keys(XMLHttpRequest["responseJSON"]["errorMessageList"][0]), function(index, d){
+            //   //alert(d);
+            //   $("#msg_" + d).html(XMLHttpRequest["responseJSON"]["errorMessageList"][0][d])
+            //   $("#msg_" + d).addClass("alert alert-danger")
+            // })
+          }
+        })
+        //location.reload();
+    })
+  </script>
+</body>
+</html>

@@ -347,7 +347,7 @@ public class DefaultData implements CommandLineRunner{
         Set<ThamSo> data = new HashSet<ThamSo>();
 
         data.add(new ThamSo("KiemTraNgayThanhToan", "true"));
-        data.add(new ThamSo("TiLePhanTramPhat", "0.1"));
+        data.add(new ThamSo("TiLePhanTramPhat", "0.01"));
         
         thamSoRepository.saveAll(data);
         //chiTietMonAnRepository.saveAll(thucDon);

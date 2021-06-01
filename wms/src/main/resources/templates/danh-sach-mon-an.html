@@ -1,0 +1,70 @@
+<!DOCTYPE HTML>
+<html>
+<head> 
+    <title>Home Page</title> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <th:block th:insert="~{index :: libs}"></th:block>
+</head>
+<body>
+    <th:block th:insert="~{index :: menu-bar}"></th:block>
+    <table class="table table-bordered" style="width: 70%;margin-left: auto;margin-right: auto;">
+        <caption style="caption-side: top; text-align: center;"><h1>Danh sách món ăn</h1></caption>
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">STT</th>
+            <th scope="col">Tên Món ăn</th>
+            <th scope="col">Đơn giá</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody id="dsMonAn">
+          <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>Otto</td>
+          </tr>
+          <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td style="word-wrap: break-word;min-width: 160px;max-width: 160px;">Ottoadfasdfđsàasfasfsdfasfasfasdfasdfasdfasfadasfasdfsdf</td>
+          </tr>
+        </tbody>
+      </table>
+      <script>
+        $.get( "http://localhost:8080/api/ds-mon-an", function( data ) {
+            //alert(JSON.stringify(data));
+            $("#dsMonAn").empty()
+            $.each(data, function(index, d){
+                //alert(JSON.stringify(d))
+                $("#dsMonAn").append($('<tr>', { 
+                    id: "row-" + d.maMonAn                    
+                }))
+                $("#row-" + d.maMonAn).append($('<td>',{
+                    text: index
+                }))
+                $("#row-" + d.maMonAn).append($('<td>',{
+                    text: d.tenMonAn
+                }))
+                $("#row-" + d.maMonAn).append($('<td>',{
+                    text: d.donGia
+                }))
+                $("#row-" + d.maMonAn).append($('<td>', { 
+                  id: "action-" + d.maMonAn
+                }))  
+                $("#action-" + d.maMonAn).append($('<button>', {
+                    "style": "margin-left: 3%;",
+                    "class": "fa fa-info btn btn-primary"
+                }))   
+                $("#action-" + d.maMonAn).append($('<button>', {
+                    "style": "margin-left: 3%;",
+                    "class": "fa fa-trash btn btn-primary"
+                }))
+               
+            })
+        });
+      </script>
+</body>
+</html>

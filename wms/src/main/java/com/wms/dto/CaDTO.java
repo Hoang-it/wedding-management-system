@@ -1,5 +1,7 @@
 package com.wms.dto;
 
+import java.time.LocalTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,5 +14,6 @@ import lombok.Setter;
 public class CaDTO {
     private String maCa;
     private String tenCa;
-    private String gio;    
+    private LocalTime gioBatDau;
+    private LocalTime gioKetThuc;    
 }

@@ -1,0 +1,71 @@
+<!DOCTYPE HTML>
+<html>
+<head> 
+    <title>Home Page</title> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <th:block th:insert="~{index :: libs}"></th:block>
+</head>
+<body>
+    <th:block th:insert="~{index :: menu-bar}"></th:block>
+    <table class="table table-bordered" style="width: 70%;margin-left: auto;margin-right: auto;">
+        <caption style="caption-side: top; text-align: center;"><h1>Danh sách dịch vụ</h1></caption>
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">STT</th>
+            <th scope="col">Tên dịch vụ</th>
+            <th scope="col">Đơn giá</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody id="dsDichVu">
+          <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>Otto</td>
+          </tr>
+          <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td style="word-wrap: break-word;min-width: 160px;max-width: 160px;">Ottoadfasdfđsàasfasfsdfasfasfasdfasdfasdfasfadasfasdfsdf</td>
+          </tr>
+
+        </tbody>
+      </table>
+
+      <script>
+        $.get( "http://localhost:8080/api/ds-dich-vu", function( data ) {
+            //alert(JSON.stringify(data));
+            $("#dsDichVu").empty()
+            $.each(data, function(index, d){
+                //alert(JSON.stringify(d))
+                $("#dsDichVu").append($('<tr>', { 
+                    id: "row-" + d.maDichVu                   
+                }))
+                $("#row-" + d.maDichVu).append($('<td>',{
+                    text: index
+                }))
+                $("#row-" + d.maDichVu).append($('<td>',{
+                    text: d.tenDichVu
+                }))
+                $("#row-" + d.maDichVu).append($('<td>',{
+                    text: d.donGia
+                }))
+                $("#row-" + d.maDichVu).append($('<td>', { 
+                    id: "action-" + d.maDichVu
+                }))  
+                $("#action-" + d.maDichVu).append($('<button>', {
+                    "style": "margin-left: 3%;",
+                    "class": "fa fa-info btn btn-primary"
+                }))   
+                $("#action-" + d.maDichVu).append($('<button>', {
+                    "style": "margin-left: 3%;",
+                    "class": "fa fa-trash btn btn-primary"
+                }))
+            })
+        });
+      </script>
+</body>
+</html>

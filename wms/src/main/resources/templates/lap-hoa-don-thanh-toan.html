@@ -21,6 +21,7 @@
                 <p>Ngày thanh toán : <span id="ngayThanhToan"></span></p>
                 
             </div>
+          
         </div>
         <div class="row">
             <div class="col">
@@ -32,6 +33,12 @@
             <div class="col">
                 <p>Tổng tiền bàn : <span id="tongTienBan"></span></p>                
             </div>
+            
+        </div>
+        <div class="row">
+          <div class="col">
+              <p>Số ngày trễ hạn : <span id="soNgayTreHan"></span></p>                
+          </div>
         </div>
     </div>
 
@@ -99,7 +106,9 @@
         </div>        
     </div>
     <div style="width: 50%;margin-left: auto;margin-right: auto;">
-        <div class="row">
+      <div class="row">
+        <div class="col">
+          <div class="row">
             <div class="col">
                 <p>Tổng tiền hóa đơn : <span id="tongTienHoaDon"></span> </p>                
             </div>
@@ -107,16 +116,21 @@
                 <p>Tiền đặt cọc : <span id="tienDatCoc"></span> </p>                
             </div>
         </div>
-        <div class="row">
-            <div class="col">
-                <p>Còn lại : <span  id="conLai"></span> </p>
-            </div>
+          <div class="row">
+              <div class="col">
+                  <p>Còn lại : <span  id="conLai"></span> </p>
+              </div>
+          </div>
         </div>
+        <div class="col">
+          <button type="submit" id="xacNhan" class="btn btn-primary btn-lg">Xác nhận</button>
+        </div>
+      </div> 
     </div>
 
     <script>
       //alert($("#maTiec").text())
-
+      dichVu = []
       $.get("http://localhost:8080/api/thong-tin-hoa-don?maTiecCuoi=" + $("#maTiec").text(), function(data){
         //alert("GEt Success")
         //alert(JSON.stringify(data))
@@ -124,6 +138,7 @@
         $("#tenCoDau").text(data["tenCoDau"])
         $("#ngayThanhToan").text(data["ngayThanhToan"])
         $("#soLuongBan").text(data["soLuongBan"])
+        $("#soNgayTreHan").text(data["ngayTreHan"])
         $("#donGiaBan").text(data["donGiaBan"])
         $("#tongTienBan").text(data["tongTienBan"])
         $("#tongTienDichVu").text(data["tongTienDichVu"])
@@ -152,6 +167,7 @@
         })
 
         $.each(data["dichVu"], function(index, d){
+          dichVu = data["dichVu"]
           $("#dsDichVu").append($("<tr>", {
             "id": "row-" + d.maDichVu
           }))
@@ -172,6 +188,35 @@
           }))
         })
       })
-    </script>
+   
+      $("#xacNhan").click(function(e){
+        e.preventDefault()
+        alert("Xac nhan hoa don!" + $("#maTiec").html())
+        data = {}
+
+        data["maTiecCuoi"] = $("#maTiec").html()
+        data["ngayThanhToan"] = $("#ngayThanhToan").html()
+        data["donGiaBan"] = $("#donGiaBan").html()
+        data["tongTienBan"] = $("#tongTienBan").html()
+        data["tongTienHoaDon"] = $("#tongTienHoaDon").html()
+        data["tongTienDichVu"] = $("#tongTienDichVu").html()
+        data["tienDatCoc"] = $("#tienDatCoc").html()
+        data["conLai"] = $("#conLai").html()
+        data["dichVu"] = dichVu
+
+        alert(JSON.stringify(data))
+        //alert(JSON.stringify(dichVu))
+        $.ajax({
+          type: "POST",
+          contentType: "application/json",
+          url: "http://localhost:8080/api/lap-hoa-don",
+          data: JSON.stringify(data),
+          dataType: "json",
+          success: function(){
+            alert("Lap hoa don thanh cong")
+          }
+        })
+      })
+   </script>
 </body>
 </html>

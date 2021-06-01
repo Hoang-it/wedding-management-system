@@ -40,13 +40,14 @@ public class HoaDonService {
         ThamSo apDungQuyDinh = thamSoRepository.findById("KiemTraNgayThanhToan").get();
         BigDecimal mucPhat = new BigDecimal(thamSoRepository.findById("TiLePhanTramPhat").get().getGiaTri());
 
-        ngayTre = 0l; // default 
         for (ChiTietDichVu chiTietDichVu : dsDichVu) {
-            tongTienDichVu = tongTienDichVu.add(chiTietDichVu.getDonGiaDichVu());
+            tongTienDichVu = tongTienDichVu.add(chiTietDichVu.getThanhTien());
         }
         if ("true".equals(apDungQuyDinh.getGiaTri())){
-            BigDecimal phanTramPhat = mucPhat.multiply(new BigDecimal(ngayTre + 1));
+            BigDecimal phanTramPhat = mucPhat.multiply(new BigDecimal(ngayTre));
+            System.out.println("PHẦN TRĂM PHẠT : " + phanTramPhat.doubleValue());
             tienPhat = phanTramPhat.multiply(tongTienDichVu);
+            System.out.println("TIỀN PHẠT : " + tienPhat.doubleValue());
             tongTienDichVu = tongTienDichVu.add(tienPhat);
         }
         

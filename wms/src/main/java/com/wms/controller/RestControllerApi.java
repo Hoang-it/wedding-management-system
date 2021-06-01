@@ -24,6 +24,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,8 +40,7 @@ public class RestControllerApi {
     DaoService daoService;
 
     @GetMapping(value = {"/ds-ca"})
-    public List<CaDTO> layToanBoCa(){
-        
+    public List<CaDTO> layToanBoCa(){        
         return daoService.layToanBoDanhSachCa();
     } 
 
@@ -69,12 +69,52 @@ public class RestControllerApi {
         return daoService.layToanBoDanhSachTiecCuoi();
     }
 
+    @GetMapping(value = {"/ds-tham-so"})
+    public List<TiecDTO> layToanBoThamSo(){
+        return daoService.layToanBoDanhSachTiecCuoi();
+    }
+
     @GetMapping(value = {"/ds-doanh-thu-ngay"})
     public List<DoanhThuNgayDTO> layToanBoDoanhThuThang(){
         List<DoanhThuNgayDTO> dsDoanhThuNgay = new ArrayList<>();
         dsDoanhThuNgay.add(new DoanhThuNgayDTO(1, 10, 10.56, 0.56));
         dsDoanhThuNgay.add(new DoanhThuNgayDTO(1, 10, 10.56, 0.56));
         return dsDoanhThuNgay;
+    }
+
+    @GetMapping(value = {"/thong-tin-loai-sanh"})
+    public LoaiSanhDTO lapThongTinLoaiSanh(@RequestParam("lsid") String loaiSanh) {
+        return daoService.layThongTinLoaiSanh(loaiSanh);
+    }
+
+    @PostMapping(value = {"/cap-nhat-loai-sanh"})
+    public ResponseEntity<ValidationResponse> capNhatThongTinLoaiSanh(@RequestBody LoaiSanhDTO sanh, @RequestParam("type") String type) {
+        if ("update".equals(type)){
+            daoService.capNhatThongTinLoaiSanh(sanh);
+            return new ResponseEntity<>(null, HttpStatus.OK);
+        }
+        if ("add".equals(type)){
+            daoService.themLoaiSanh(sanh);
+            return new ResponseEntity<>(null, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+    }
+
+    @DeleteMapping(value = {"/xoa-loai-sanh"})
+    public ResponseEntity<ValidationResponse> xoaThongTinLoaiSanh(@RequestParam("lsid") String maLoaiSanh) {
+        daoService.xoaThongTinLoaiSanh(maLoaiSanh);
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+
+    @GetMapping(value = {"/thong-tin-ca"})
+    public CaDTO lapThongTinCa(@RequestParam("caid") String maCa) {
+        return daoService.layThongTinCa(maCa);
+    }
+
+    @PostMapping(value = {"/cap-nhat-ca"})
+    public ResponseEntity<ValidationResponse> capNhatThongTinCa(@RequestBody CaDTO ca) {
+        daoService.capNhatThongTinCa(ca);
+        return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
     @GetMapping(value = {"/thong-tin-hoa-don"})
@@ -115,6 +155,32 @@ public class RestControllerApi {
         if(!result.hasErrors()){
             res.setStatus("SUCCESS");
             daoService.datSanhCuoi(sanh);  
+            return new ResponseEntity<>(res, HttpStatus.OK);
+        } else{
+            res.setStatus("FAIL");
+            HashMap<String, String> errorFields = new HashMap<>();
+            List container = new ArrayList<>();
+    
+            for (FieldError iterable_element : result.getFieldErrors()) {
+                errorFields.put(iterable_element.getField(), iterable_element.getDefaultMessage());
+            }
+            container.add(errorFields);
+            res.setErrorMessageList(container);
+            return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+        }
+       
+              
+    }
+
+    @PostMapping(value = {"/lap-hoa-don"}, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<ValidationResponse>  lapHoaDon(@RequestBody @Valid HoaDonDTO hoaDon, BindingResult result ) throws Exception{
+        ValidationResponse res = new ValidationResponse();
+        if(!result.hasErrors()){
+            res.setStatus("SUCCESS");
+            daoService.lapHoaDon(hoaDon);
+            //System.out.println(hoaDon.toString());
+            //daoService.datSanhCuoi(sanh);  
             return new ResponseEntity<>(res, HttpStatus.OK);
         } else{
             res.setStatus("FAIL");

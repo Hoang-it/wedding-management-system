@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html>
+<head> 
+    <title>Home Page</title> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <th:block th:insert="~{index :: libs}"></th:block>
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+</head>
+<body>
+    <th:block th:insert="~{index :: menu-bar}"></th:block>
+    <table class="table table-bordered" style="width: 70%;margin-left: auto;margin-right: auto;">
+        <caption style="caption-side: top; text-align: center;"><h1>Quy định</h1></caption>
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">STT</th>
+            <th scope="col">Quy định</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody id="dsCa">
+          <tr>
+            <th scope="row">1</th>
+            <td>Áp dụng quy định phạt</td>
+            <td>
+              <input type="checkbox" id="apDungQuyDinhPhat" checked data-toggle="toggle" data-on="Enabled" data-off="Disabled">
+            </td>
+          </tr>
+          
+          
+        </tbody>
+      </table>
+      <script>
+         $('#apDungQuyDinhPhat').change(function() {
+           alert('Toggle: ' + $(this).prop('checked'))
+        })
+      </script>
+</body>
+</html>

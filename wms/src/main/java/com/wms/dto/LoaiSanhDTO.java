@@ -14,6 +14,5 @@ import lombok.Setter;
 public class LoaiSanhDTO {
     private String maLoaiSanh;
     private String tenLoaiSanh;
-    private int soLuongBanToiDa;
     private BigDecimal donGiaBanToiThieu;
 }

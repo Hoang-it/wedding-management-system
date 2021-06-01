@@ -5,31 +5,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
     <th:block th:insert="~{index :: libs}"></th:block>
+    
 </head>
 <body>
     <th:block th:insert="~{index :: menu-bar}"></th:block>
-    <table class="table table-bordered" style="width: 70%;margin-left: auto;margin-right: auto;">
-        <caption style="caption-side: top; text-align: center;"><h1>Danh sách loại sảnh</h1></caption>
-        <thead class="thead-dark">
-          <tr>
-            <th scope="col">STT</th>
-            <th scope="col">Loại Sảnh</th>
-            <th scope="col">Đơn giá bàn tối thiểu</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-          </tr>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td style="word-wrap: break-word;min-width: 160px;max-width: 160px;">Ottoadfasdfđsàasfasfsdfasfasfasdfasdfasdfasfadasfasdfsdf</td>
-          </tr>
-          
-        </tbody>
-      </table>
+    
+    <form class="mx-auto" style="width: 700px;" id="formTiepNhanSanh">
+      <h1>Cập nhật thông tin sảnh</h1>
+      <div class="row g-3">
+        <div class="col-sm-6">
+          <label for="tenLoaiSanh" class="form-label">Tên loại sảnh</label>
+          <input type="text" class="form-control" id="tenLoaiSanh" placeholder="Nhập tên sảnh" th:value="${sanh.getTenLoaiSanh()}" required>
+          <div id="msg_tenSanh"></div>
+        </div>
+      </div>
+      <div class="row g-3">
+        <div class="col-md-4">
+          <label for="soLuongBanToiDa" class="form-label">Số bàn tối đa</label>
+          <input type="text" class="form-control" id="donGiaBanToiThieu" placeholder="Nhập số lượng bàn tối đa" th:value="${sanh.getDonGiaBanToiThieu()}" required>
+          <div id="msg_soLuongBanToiDa"></div>
+        </div>
+      </div>
+
+      <hr class="my-4">
+
+      <button class="btn btn-primary btn-lg" type="submit" >Cập nhật</button>
+    </form>
+
+    <script>
+      data = {}
+      dsLoaiSanhData = {}      
+      
+      $("#formTiepNhanSanh").submit(function(e){
+        e.preventDefault()
+        alert("submit")
+        data["tenLoaiSanh"] = $("#tenLoaiSanh").val()
+        data["donGiaBanToiThieu"] = $("#donGiaBanToiThieu").val()
+        
+        alert(JSON.stringify(data))
+        $.ajax({
+          type: "POST",
+          contentType: "application/json",
+          url: "http://localhost:8080/api/cap-nhat-sanh",
+          data: JSON.stringify(data),
+          dataType: "json",
+          success: function(e){
+            alert("Create success")
+            location.reload();
+          },
+          error: function(XMLHttpRequest, textStatus, errorThrown) {
+            //alert(JSON.stringify(XMLHttpRequest["responseJSON"]["errorMessageList"]));
+            $.each(Object.keys(XMLHttpRequest["responseJSON"]["errorMessageList"][0]), function(index, d){
+              //alert(d);
+              $("#msg_" + d).html(XMLHttpRequest["responseJSON"]["errorMessageList"][0][d])
+              $("#msg_" + d).addClass("alert alert-danger")
+            })
+          }
+        })
+      })
+    </script>
 </body>
 </html>
