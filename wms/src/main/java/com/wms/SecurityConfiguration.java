@@ -33,14 +33,28 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        String[] allowAll  =  {
+            "/css/**",
+            "/images/**",
+            "/fonts/**",
+            "/scripts/**",
+            "/ds/**",
+            "/api/**",
+            "/tra-cuu-tiec-cuoi",
+        };
+
+        
+
         http.authorizeRequests()
+            .antMatchers(allowAll).permitAll()
+            .antMatchers("/").permitAll()
             .anyRequest()
             .authenticated()
             .and()
             .formLogin()
             .loginPage("/login")
             .failureUrl("/login-error")
-            .defaultSuccessUrl("/", true)
+            .successHandler(new CustomeLoginSuccessHandler())
             .permitAll()
             .and()
             .exceptionHandling().accessDeniedPage("/access-denied")

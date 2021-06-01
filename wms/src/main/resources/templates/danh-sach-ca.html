@@ -132,6 +132,7 @@
       data["gioBatDau"] = $("#gioBatDau").val()
       data["gioKetThuc"] = $("#gioKetThuc").val()
       data["maCa"] = $("#maCa").val()
+      alert(JSON.stringify(data))
       $.ajax({
           type: "POST",
           contentType: "application/json",

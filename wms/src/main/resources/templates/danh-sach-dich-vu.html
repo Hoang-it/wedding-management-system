@@ -7,6 +7,41 @@
     <th:block th:insert="~{index :: libs}"></th:block>
 </head>
 <body>
+  <div class="container">
+    <!-- Trigger the modal with a button -->  
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+      <div class="modal-dialog">
+      
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Cập nhật dịch vụ</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group row">
+              <label for="tenDichVu" class="col-3 col-form-label">Tên dịch vụ</label>
+              <div class="col-9">
+                <input class="form-control" type="hidden" value="" id="maDichVu">
+                <input class="form-control" type="text" value="" id="tenDichVu">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="donGia" class="col-3 col-form-label">Đơn giá</label>
+              <div class="col-9">
+                <input class="form-control" type="number" value="" id="donGia">
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="capNhat" class="btn btn-default"  data-dismiss="modal">Cập nhât</button>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
     <th:block th:insert="~{index :: menu-bar}"></th:block>
     <table class="table table-bordered" style="width: 70%;margin-left: auto;margin-right: auto;">
         <caption style="caption-side: top; text-align: center;"><h1>Danh sách dịch vụ</h1></caption>
@@ -57,15 +92,55 @@
                     id: "action-" + d.maDichVu
                 }))  
                 $("#action-" + d.maDichVu).append($('<button>', {
-                    "style": "margin-left: 3%;",
-                    "class": "fa fa-info btn btn-primary"
-                }))   
-                $("#action-" + d.maDichVu).append($('<button>', {
-                    "style": "margin-left: 3%;",
-                    "class": "fa fa-trash btn btn-primary"
-                }))
+                  "type": "button",
+                  "style": "margin-left: 3%;",
+                  "class": "fa fa-info btn btn-primary",
+                  "data-toggle": "modal",
+                  "data-target": "#myModal",
+                  click: function(){
+                  //alert(d.maCa)
+                  $.get("http://localhost:8080/api/thong-tin-dich-vu?dvid=" + d.maDichVu, function(data){
+                    $("#maDichVu").val(data["maDichVu"])
+                    $("#tenDichVu").val(data["tenDichVu"])
+                    $("#donGia").val(data["donGia"])
+                    
+                  })
+                }
+              }))
+              
             })
         });
+        
+        $("#capNhat").click(function(){
+          //alert("Cap nhat")
+          data = {}
+          data["maDichVu"] = $("#maDichVu").val()
+          data["tenDichVu"] = $("#tenDichVu").val()
+          data["donGia"] = $("#donGia").val()
+
+          $.ajax({
+          type: "POST",
+          contentType: "application/json",
+          url: "http://localhost:8080/api/cap-nhat-dich-vu",
+          data: JSON.stringify(data),
+          dataType: "json",
+          success: function(){
+            alert("Cap nhat thanh cong")
+            location.reload();
+          },
+          error: function(XMLHttpRequest, textStatus, errorThrown) {
+            //alert(JSON.stringify(XMLHttpRequest["responseJSON"]["errorMessageList"]));
+            location.reload();
+            // $.each(Object.keys(XMLHttpRequest["responseJSON"]["errorMessageList"][0]), function(index, d){
+            //   //alert(d);
+            //   $("#msg_" + d).html(XMLHttpRequest["responseJSON"]["errorMessageList"][0][d])
+            //   $("#msg_" + d).addClass("alert alert-danger")
+            // })
+          }
+        })
+      
+        })
+        
       </script>
 </body>
 </html>

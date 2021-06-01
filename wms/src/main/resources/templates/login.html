@@ -7,9 +7,9 @@
     <th:block th:insert="~{index :: libs}"></th:block>
 </head>
 <body>
-   
+  <th:block th:insert="~{index :: menu-bar}"></th:block>
     <form th:action = "@{/login}" method="post" style="width: 50%; margin-left: auto; margin-right: auto; margin-top: 5%;">
-      <h1>Login </h1>  
+      <h1>Đăng nhập</h1>  
       <p th:if="${loginError}" class="error">Wrong user or password</p>
       <div class="form-group">
           <label for="username">Username</label>

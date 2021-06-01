@@ -15,33 +15,18 @@
 </head>
 <body>
     <th:block th:fragment="menu-bar">
-      <p id="roleUser" th:text="${role}" style="display: none;visibility: hidden;"></p>
+      <p id="roleUser" th:text="${roles}" style="display: none;visibility: hidden;"></p>
       <p id="nav-active" th:text="${navActive}" style="display: none;visibility: hidden;"></p>
-      <header id="headbar" class="d-flex flex-wrap justify-content-center py-3 ">
+      <header class="d-flex flex-wrap justify-content-center py-3 ">
         <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
           <span class="fs-4">WMS</span>
-        </a>     
-        
-        <th:block th:switch="${role}">
-          <th:block th:case="''" >
-            <th:block th:insert="~{menu-bar :: menu-bar-default}"></th:block>
-          </th:block>
-          <th:block th:case="'admin'">
-            <th:block th:insert="~{menu-bar :: menu-bar-admin}"></th:block>
-          </th:block>
-          <th:block th:case="'bql'">
-            <th:block th:insert="~{menu-bar :: menu-bar-bql}"></th:block>
-          </th:block>
-          <th:block th:case="'nhanvien'">
-            <th:block th:insert="~{menu-bar :: menu-bar-nhan-vien}"></th:block>
-          </th:block>
-        </th:block>
+        </a>      
+        <th:block th:insert="~{menu-bar :: menu-bar-bql}"></th:block>
+       
       </header>
-      
     </th:block>
-
     
-    <!-- <div id="carousel-section" class="carousel slide" data-ride="carousel">
+    <div id="carousel-section" class="carousel slide" data-ride="carousel">
       <ol class="carousel-indicators">
         <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
         <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
@@ -96,22 +81,8 @@
       $('.carousel').carousel({
         interval: 1500
       })
-    </script> -->
+    </script>
     
-    <th:block th:switch="${role}">
-          <th:block th:case="''" >
-            <th:block th:insert="~{chuc-nang :: chuc-nang-default}"></th:block>
-          </th:block>
-          <th:block th:case="'admin'">
-            <th:block th:insert="~{chuc-nang :: chuc-nang-admin}"></th:block>
-          </th:block>
-          <th:block th:case="'bql'">
-            <th:block th:insert="~{chuc-nang :: chuc-nang-bql}"></th:block>
-          </th:block>
-          <th:block th:case="'nhanvien'">
-            <th:block th:insert="~{chuc-nang :: chuc-nang-nhan-vien}"></th:block>
-          </th:block>
-        </th:block>
-    </th:block>
+    <th:block th:insert="~{chuc-nang :: chuc-nang-bql}"></th:block>
 </body>
 </html>

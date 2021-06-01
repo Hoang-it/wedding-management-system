@@ -1,0 +1,265 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head > 
+    <title>Home Page</title> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <th:block th:fragment="libs">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/css/index.css">
+    </th:block>
+</head>
+<body>
+    <th:block th:fragment="chuc-nang-default">
+        <h2 style="text-align: center;margin: 3%;"> CÁC CHỨC NĂNG</h2>
+        <div class="container-fluid">
+          <div class="row g-4 py-5 row-cols-1 row-cols-lg-3" style="margin-left: 5%; margin-right: 5%;">
+            <!-- XEM DANH SÁCH LOẠI SẢNH -->
+            <div class="col-md-4 d-flex align-items-start">
+              <div class="icon-square bg-light flex-shrink-0">
+                <i class="fa fa-heart"></i>
+              </div>
+              <div>
+                <h2>Xem danh sách loại sảnh</h2>
+                <p>Hiện thị các thông tin của sảnh như tên, loại sảnh, đơn giá tối thiểu,..v.v và cho phép tao một sảnh mới</p>
+                <a href="/ds/loai-sanh" class="btn btn-primary">
+                  Explore
+                </a>
+              </div>
+            </div>
+            
+            <!-- XEM DANH SÁCH MÓN ĂN -->
+            <div class="col-md-4 d-flex align-items-start">
+              <div class="icon-square bg-light flex-shrink-0">
+                <i class="fa fa-heart"></i>
+              </div>
+              <div>
+                <h2>Xem danh sách món ăn</h2>
+                <p>Đắng ký một buổi tiêc cưới dựa trên các thông tin cơ bản như : tên cô dâu, chú rể,..v.v đặt thực đơn, dịch vụ</p>
+                <a href="/ds/mon-an" class="btn btn-primary">
+                  Explore
+                </a>
+              </div>
+            </div>
+
+            <!-- XEM DANH SÁCH DỊCH VỤ -->
+            <div class="col-md-4 d-flex align-items-start">
+              <div class="icon-square bg-light flex-shrink-0">
+                <i class="fa fa-heart"></i>
+              </div>
+              <div>
+                <h2>Xem danh sách dịch vụ</h2>
+                <p>Hiện thị danh sách những buổi tiệc cưới đang diễn ra, sắp diễn ra và đã diễn gia và cho phép tìm buổi tiệc mong muốn</p>
+                <a href="/ds/dich-vu" class="btn btn-primary">
+                  Explore
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="row g-4 py-5 row-cols-1 row-cols-lg-2" style="padding: 15%;">
+            <!-- TRA CỨU TIỆC CƯỚI -->
+            <div class="col-md-6 d-flex align-items-start">
+              <div class="icon-square bg-light flex-shrink-0">
+                <i class="fa fa-heart"></i>
+              </div>
+              <div>
+                <h2>Tra cứu tiệc cưới</h2>
+                <p>Lập hóa đơn thanh toán cho buổi tiệc dựa trên thông tin được dùng để đăng ký cho buổi tiệc đó</p>
+                <a href="/tra-cuu-tiec-cuoi" class="btn btn-primary">
+                  Explore
+                </a>
+              </div>
+            </div>
+            
+            <!-- TRA CỨU PHIẾU MÓN ĂN, DỊCH VỤ -->
+            <div class="col-md-6 d-flex align-items-start">
+              <div class="icon-square bg-light flex-shrink-0">
+                <i class="fa fa-heart"></i>
+              </div>
+              <div>
+                <h2>Tra cứu phiếu món ăn, dịch vụ</h2>
+                <p>Thống kê, tính doanh thu của nhà hang dựa vào các hóa đơn đã được thành lập trong tháng đó</p>
+                <a href="/tra-cuu-tiec-cuoi" class="btn btn-primary">
+                  Explore
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+    </th:block>
+    
+    <th:block th:fragment="chuc-nang-nhan-vien">
+        <h2 style="text-align: center;margin: 3%;"> CÁC CHỨC NĂNG</h2>
+        <div class="container-fluid">
+          <div class="row g-4 py-5 row-cols-1 row-cols-lg-3" style="margin-left: 5%; margin-right: 5%;">
+            <!-- XEM DANH SÁCH LOẠI SẢNH -->
+            <div class="col-md-4 d-flex align-items-start">
+             
+              <div>
+                <h2>Xem danh sách loại sảnh</h2>
+                <p>Hiện thị các thông tin của sảnh như tên, loại sảnh, đơn giá tối thiểu,..v.v và cho phép tao một sảnh mới</p>
+                <a href="/ds/loai-sanh" class="btn btn-primary">
+                  Explore
+                </a>
+              </div>
+            </div>
+            
+            <!-- XEM DANH SÁCH MÓN ĂN -->
+            <div class="col-md-4 d-flex align-items-start">
+             
+              <div>
+                <h2>Xem danh sách món ăn</h2>
+                <p>Đắng ký một buổi tiêc cưới dựa trên các thông tin cơ bản như : tên cô dâu, chú rể,..v.v đặt thực đơn, dịch vụ</p>
+                <a href="/ds/mon-an" class="btn btn-primary">
+                  Explore
+                </a>
+              </div>
+            </div>
+
+            <!-- XEM DANH SÁCH DỊCH VỤ -->
+            <div class="col-md-4 d-flex align-items-start">
+             
+              <div>
+                <h2>Xem danh sách dịch vụ</h2>
+                <p>Hiện thị danh sách những buổi tiệc cưới đang diễn ra, sắp diễn ra và đã diễn gia và cho phép tìm buổi tiệc mong muốn</p>
+                <a href="/ds/dich-vu" class="btn btn-primary">
+                  Explore
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="row g-4 py-5 row-cols-1 row-cols-lg-3" style="margin-left: 5%; margin-right: 5%;">
+            <!-- TRA CỨU TIỆC CƯỚI -->
+            <div class="col-md-4 d-flex align-items-start">
+              
+              <div>
+                <h2>Tra cứu tiệc cưới</h2>
+                <p>Lập hóa đơn thanh toán cho buổi tiệc dựa trên thông tin được dùng để đăng ký cho buổi tiệc đó</p>
+                <a href="/tra-cuu-tiec-cuoi" class="btn btn-primary">
+                  Explore
+                </a>
+              </div>
+            </div>
+            
+            <!-- TRA CỨU PHIẾU MÓN ĂN, DỊCH VỤ -->
+            <div class="col-md-4 d-flex align-items-start">
+              
+              <div>
+                <h2>Tra cứu phiếu món ăn,<br> dịch vụ</h2>
+                <p>Thống kê, tính doanh thu của nhà hang dựa vào các hóa đơn đã được thành lập trong tháng đó</p>
+                <a href="/tra-cuu-tiec-cuoi" class="btn btn-primary">
+                  Explore
+                </a>
+              </div>
+            </div>
+            <!-- TRA CỨU HÓA ĐƠN -->
+            <div class="col-md-4 d-flex align-items-start">
+                
+                <div>
+                  <h2>Tra cứu hóa đơn</h2>
+                  <p>Thống kê, tính doanh thu của nhà hang dựa vào các hóa đơn đã được thành lập trong tháng đó</p>
+                  <a href="/tra-cuu-tiec-cuoi" class="btn btn-primary">
+                    Explore
+                  </a>
+                </div>
+              </div>
+          </div>
+        </div>
+    </th:block>
+
+    <th:block th:fragment="chuc-nang-bql">
+        <h2 style="text-align: center;margin: 3%;"> CÁC CHỨC NĂNG</h2>
+        <div class="container-fluid">
+          <div class="row g-4 py-5 row-cols-1 row-cols-lg-3" style="margin-left: 5%; margin-right: 5%;">
+            <div class="col-md-4 d-flex align-items-start">
+              <div class="icon-square bg-light flex-shrink-0">
+                <i class="fa fa-heart"></i>
+              </div>
+              <div>
+                <h2>Tiếp nhận sảnh</h2>
+                <p>Hiện thị các thông tin của sảnh như tên, loại sảnh, đơn giá tối thiểu,..v.v và cho phép tao một sảnh mới</p>
+                <a href="/tiep-nhan-sanh" class="btn btn-primary">
+                  Explore
+                </a>
+              </div>
+            </div>
+    
+            <div class="col-md-4 d-flex align-items-start">
+              <div class="icon-square bg-light flex-shrink-0">
+                <i class="fa fa-heart"></i>
+              </div>
+              <div>
+                <h2>Đặt tiệc cưới</h2>
+                <p>Đắng ký một buổi tiêc cưới dựa trên các thông tin cơ bản như : tên cô dâu, chú rể,..v.v đặt thực đơn, dịch vụ</p>
+                <a href="/nhan-dat-tiec-cuoi" class="btn btn-primary">
+                  Explore
+                </a>
+              </div>
+            </div>
+            <div class="col-md-4 d-flex align-items-start">
+              <div class="icon-square bg-light flex-shrink-0">
+                <i class="fa fa-heart"></i>
+              </div>
+              <div>
+                <h2>Tra cứu tiệc cưới</h2>
+                <p>Hiện thị danh sách những buổi tiệc cưới đang diễn ra, sắp diễn ra và đã diễn gia và cho phép tìm buổi tiệc mong muốn</p>
+                <a href="/tra-cuu-tiec-cuoi" class="btn btn-primary">
+                  Explore
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="row g-4 py-5 row-cols-1 row-cols-lg-2" style="padding: 15%;">
+            <div class="col-md-6 d-flex align-items-start">
+              <div class="icon-square bg-light flex-shrink-0">
+                <i class="fa fa-heart"></i>
+              </div>
+              <div>
+                <h2>Lập hóa đơn thanh toán</h2>
+                <p>Lập hóa đơn thanh toán cho buổi tiệc dựa trên thông tin được dùng để đăng ký cho buổi tiệc đó</p>
+                <a class="btn btn-primary">
+                  Explore
+                </a>
+              </div>
+            </div>
+            <div class="col-md-6 d-flex align-items-start">
+              <div class="icon-square bg-light flex-shrink-0">
+                <i class="fa fa-heart"></i>
+              </div>
+              <div>
+                <h2>Lập báo cáo tháng</h2>
+                <p>Thống kê, tính doanh thu của nhà hang dựa vào các hóa đơn đã được thành lập trong tháng đó</p>
+                <a href="/lap-bao-cao-thang" class="btn btn-primary">
+                  Explore
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+    </th:block>
+    
+    <th:block th:fragment="chuc-nang-admin">
+        <h2 style="text-align: center;margin: 3%;"> CÁC CHỨC NĂNG</h2>
+        <div class="container-fluid">
+          <div class="row g-4 py-5 row-cols-1 row-cols-lg-2" style="margin-left: 15%; margin-right: 5%;">
+            <div class="col-md-4 d-flex align-items-start">
+              
+              <div>
+                <h2>Phân quyền</h2>
+                <p>Hiện thị các thông tin của sảnh như tên, loại sảnh, đơn giá tối thiểu,..v.v và cho phép tao một sảnh mới</p>
+                <a href="/phan-quyen" class="btn btn-primary">
+                  Explore
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+    </th:block>
+</body>
+</html>

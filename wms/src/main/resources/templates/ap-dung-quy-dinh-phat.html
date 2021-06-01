@@ -24,7 +24,7 @@
             <th scope="row">1</th>
             <td>Áp dụng quy định phạt</td>
             <td>
-              <input type="checkbox" id="apDungQuyDinhPhat" checked data-toggle="toggle" data-on="Enabled" data-off="Disabled">
+              <input type="checkbox" id="apDungQuyDinhPhat"  checked data-toggle="toggle" data-on="Sử dụng" data-width="70%" data-height="50%" data-off="Không áp dụng">
             </td>
           </tr>
           
@@ -32,9 +32,45 @@
         </tbody>
       </table>
       <script>
-         $('#apDungQuyDinhPhat').change(function() {
-           alert('Toggle: ' + $(this).prop('checked'))
+        $.get("http://localhost:8080/api/quy-dinh-phat", function(data){
+          if (data["giaTri"] == "true"){
+            //alert("true")
+            $('#apDungQuyDinhPhat').bootstrapToggle('on')
+          } else{
+            //alert("false")
+            $('#apDungQuyDinhPhat').bootstrapToggle('off')
+          }
+          $('#apDungQuyDinhPhat').change(function() {
+           //alert('Toggle: ' + $(this).prop('checked'))
+            data = {}
+            data["tenThamSo"] = "KiemTraNgayThanhToan"
+            data["giaTri"] = $(this).prop('checked')
+            alert(JSON.stringify(data))
+            $.ajax({
+              type: "POST",
+              contentType: "application/json",
+              url: "http://localhost:8080/api/cap-nhat-quy-dinh",
+              data: JSON.stringify(data),
+              dataType: "json",
+              success: function(){
+                alert("Cap nhat thanh cong")
+                location.reload();
+              },
+              error: function(XMLHttpRequest, textStatus, errorThrown) {
+                //alert(JSON.stringify(XMLHttpRequest["responseJSON"]["errorMessageList"]));
+                location.reload();
+                // $.each(Object.keys(XMLHttpRequest["responseJSON"]["errorMessageList"][0]), function(index, d){
+                //   //alert(d);
+                //   $("#msg_" + d).html(XMLHttpRequest["responseJSON"]["errorMessageList"][0][d])
+                //   $("#msg_" + d).addClass("alert alert-danger")
+                // })
+              }
+            })
+          })
         })
-      </script>
+
+         
+     
+     </script>
 </body>
 </html>

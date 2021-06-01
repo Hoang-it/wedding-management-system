@@ -24,27 +24,82 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class HomeController implements ErrorController{
+    private static String role = "";
     Logger logger = LoggerFactory.getLogger(HomeController.class);
     
     CustomUserDetails customUserDetails = null;
 
-    @ModelAttribute("roles")
-    public Collection<? extends GrantedAuthority> getRoles(){
-        customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return customUserDetails.getAuthorities();
+    @ModelAttribute("role")
+    public String getUserRole(){
+        return role;
     }
 
     @RequestMapping(value = { "/" })
     public ModelAndView homePage(ModelAndView model) {
-        customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        //customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        
         System.out.println("");
         model.setViewName("index");
-        model.addObject("name", customUserDetails.getUsername());
-        model.addObject("roles", customUserDetails.getAuthorities());
+        // model.addObject("name", customUserDetails.getUsername());
+        model.addObject("role", role);
         model.addObject("navActive", "#link-trang-chu");
         return model;
     }
+
+    @GetMapping(value = {"ds/chinh-sua-quy-dinh-phat"})
+    public ModelAndView chinhSuaQuyDinhPhat(ModelAndView model){
+        model.setViewName("/ap-dung-quy-dinh-phat");
+        return model;
+    }
+
+    @GetMapping(value = {"/ds/ca"})
+    public ModelAndView chinhSuaCaPage(ModelAndView model){
+        model.setViewName("/danh-sach-ca");
+        return model;
+    }
+
+    @GetMapping(value = {"/ds/loai-sanh"})
+    public ModelAndView chinhSuaLoaiSanhPage(ModelAndView model){
+        model.setViewName("/danh-sach-loai-sanh");
+        return model;
+    }
+
+    @GetMapping(value = {"/ds/mon-an"})
+    public ModelAndView chinhSuaMonAnPage(ModelAndView model){
+        model.setViewName("/danh-sach-mon-an");
+        return model;
+    }
+
+    @GetMapping(value = {"/ds/dich-vu"})
+    public ModelAndView chinhSuaDichVuPage(ModelAndView model){
+        model.setViewName("/danh-sach-dich-vu");
+        return model;
+    }
     
+    @RequestMapping(value = { "/quan-tri-vien" })
+    public ModelAndView adminHomePage(ModelAndView model) {
+        role = "admin";
+        return homePage(model);
+    }
+
+    @RequestMapping(value = { "/nhan-vien" })
+    public ModelAndView nhanVienHomePage(ModelAndView model) {
+        role = "nhanvien";
+        return homePage(model);
+    }
+
+    @RequestMapping(value = { "/bql" })
+    public ModelAndView bqlHomePage(ModelAndView model) {
+        role = "bql";
+        return homePage(model);
+    }
+
+    @RequestMapping(value = { "/phan-quyen" })
+    public ModelAndView phanQuyenPage(ModelAndView model) {
+        model.setViewName("index-admin");
+        return model;
+    }
+
     @RequestMapping(value = { "/logout" })
     public ModelAndView logoutPage(ModelAndView model, HttpServletRequest request, HttpServletResponse response) {
         model.setViewName("login");

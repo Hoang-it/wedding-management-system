@@ -1,0 +1,129 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head > 
+    <title>Home Page</title> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <th:block th:fragment="libs">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/css/index.css">
+    </th:block>
+</head>
+<body>
+    <th:block th:fragment="menu-bar-default">
+        <div id="span-navbar" style="width: 25%;"></div>
+        <ul class="nav nav-pills">
+            <li class="nav-item">
+                <a class="nav-link" id="link-trang-chu" href="/">Trang chủ <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="link-tiep-nhan-sanh" href="/ds/loai-sanh">Danh sách loại sảnh</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="link-dat-tiec-cuoi" href="/ds/mon-an">Danh sách món ăn</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="link-tra-cuu-tiec-cuoi" href="/ds/dich-vu">Danh sách dịch vụ</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="link-lap-bao-cao" href="/tra-cuu-tiec-cuoi">Tra cứu tiệc cưới</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="link-lap-bao-cao" href="/login">Đăng nhập</a>
+            </li>
+        </ul>
+    </th:block>
+
+    <th:block th:fragment="menu-bar-nhan-vien">
+        <div id="span-navbar" style="width: 35%;"></div>
+        <ul class="nav nav-pills">
+            <li class="nav-item">
+                <a class="nav-link" id="link-trang-chu" href="/">Trang chủ <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="link-tiep-nhan-sanh" href="/ds/loai-sanh">Danh sách loại sảnh</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="link-dat-tiec-cuoi" href="/ds/mon-an">Danh sách món ăn</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="link-tra-cuu-tiec-cuoi" href="/ds/dich-vu">Danh sách dịch vụ</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="link-lap-bao-cao" href="/tra-cuu-tiec-cuoi">Tra cứu tiệc cưới</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="link-lap-bao-cao" href="/logout">Đăng xuất</a>
+            </li>
+        </ul>
+    </th:block>
+
+    <th:block th:fragment="menu-bar-bql">   
+        <div id="span-navbar" style="width: 15%;"></div>
+        <ul class="nav nav-pills">
+            <li class="nav-item">
+                <a class="nav-link" id="link-trang-chu" href="/">Trang chủ <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="link-tiep-nhan-sanh" href="/ds/loai-sanh">Danh sách loại sảnh</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="link-dat-tiec-cuoi" href="/ds/mon-an">Danh sách món ăn</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="link-tra-cuu-tiec-cuoi" href="/ds/dich-vu">Danh sách dịch vụ</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="link-lap-bao-cao" href="/tra-cuu-tiec-cuoi">Tra cứu tiệc cưới</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="link-lap-bao-cao" href="/lap-bao-cao-thang">Lập báo cáo tháng</a>
+            </li>
+            <li class="nav-item dropdown nav-bql">
+                <div>
+                <a class="nav-link dropdown-toggle" href="#" id="chinhSuaDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Chỉnh sửa
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="chinhSuaDropdown">
+                    <a class="dropdown-item" href="/ds/loai-sanh">Loại sảnh</a>
+                    <a class="dropdown-item" href="/ds/ca">Ca</a>
+                    <a class="dropdown-item" href="/ds/mon-an">Món ăn</a>
+                    <a class="dropdown-item" href="/ds/dich-vu">Dịch vụ</a>
+                    <a class="dropdown-item" href="/ds/chinh-sua-quy-dinh-phat">Quy định phạt</a>
+                </div>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Tài khoản
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="/logout">Đăng xuất</a>
+                </div>
+            </li>
+        </ul>
+    </th:block>
+
+    <th:block th:fragment="menu-bar-admin">
+        <div id="span-navbar" style="width: 75%;"></div>
+        <ul class="nav nav-pills">   
+            <li class="nav-item">
+                <a class="nav-link" id="link-lap-bao-cao" href="/phan-quyen">Phân quyền</a>
+            </li>         
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Tài khoản
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="/logout">Đăng xuất</a>
+                </div>
+            </li>
+        </ul>
+    </th:block>
+    
+</body>
+</html>

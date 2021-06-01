@@ -16,6 +16,8 @@ import com.wms.dto.LoaiSanhDTO;
 import com.wms.dto.MonAnDTO;
 import com.wms.dto.SanhDTO;
 import com.wms.dto.TiecDTO;
+import com.wms.dto.UserDTO;
+import com.wms.entities.ThamSo;
 import com.wms.service.DaoService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,12 +76,61 @@ public class RestControllerApi {
         return daoService.layToanBoDanhSachTiecCuoi();
     }
 
+    @GetMapping(value = {"/ds-tai-khoan"})
+    public List<UserDTO> layToanBoTaiKhoan(){
+        return daoService.layToanBoDanhSachNguoiDung();
+    }
+
+    @PostMapping(value = {"/cap-nhat-tai-khoan"})
+    public ResponseEntity<ValidationResponse> capNhatTaiKhoan(@RequestBody UserDTO taiKhoan) {
+        daoService.capNhatTaiKhoan(taiKhoan);
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+
     @GetMapping(value = {"/ds-doanh-thu-ngay"})
     public List<DoanhThuNgayDTO> layToanBoDoanhThuThang(){
         List<DoanhThuNgayDTO> dsDoanhThuNgay = new ArrayList<>();
         dsDoanhThuNgay.add(new DoanhThuNgayDTO(1, 10, 10.56, 0.56));
         dsDoanhThuNgay.add(new DoanhThuNgayDTO(1, 10, 10.56, 0.56));
         return dsDoanhThuNgay;
+    }
+
+    @GetMapping(value = {"/thong-tin-tai-khoan"})
+    public UserDTO lapThongTinTaiKhoan(@RequestParam("tkid") Long maTaiKhoan) {
+        return daoService.layThongTinTaiKhoan(maTaiKhoan);
+    }
+
+    @GetMapping(value = {"/quy-dinh-phat"})
+    public ThamSo layQuyDinhPhat() {
+        return daoService.layQuyDinhPhat();        
+    }
+
+    @PostMapping(value = {"/cap-nhat-quy-dinh"})
+    public ResponseEntity<ValidationResponse> capNhatQuyDinh(@RequestBody ThamSo thamSo) {
+        daoService.capNhatQuyDinh(thamSo);
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+
+    @GetMapping(value = {"/thong-tin-dich-vu"})
+    public DichVuDTO lapThongTinDichVu(@RequestParam("dvid") String maDichVu) {
+        return daoService.layThongTinDichVu(maDichVu);
+    }
+
+    @PostMapping(value = {"/cap-nhat-dich-vu"})
+    public ResponseEntity<ValidationResponse> capNhatThongTinDichVu(@RequestBody DichVuDTO dichVu) {
+        daoService.capNhatThongTinDichVu(dichVu);
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+
+    @GetMapping(value = {"/thong-tin-mon-an"})
+    public MonAnDTO lapThongTinMonAn(@RequestParam("maid") String monAn) {
+        return daoService.layThongTinMonAn(monAn);
+    }
+
+    @PostMapping(value = {"/cap-nhat-mon-an"})
+    public ResponseEntity<ValidationResponse> capNhatThongTinMonAn(@RequestBody MonAnDTO monAn) {
+        daoService.capNhatThongTinMonAn(monAn);
+        return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
     @GetMapping(value = {"/thong-tin-loai-sanh"})
