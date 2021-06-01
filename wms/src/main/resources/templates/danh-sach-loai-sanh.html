@@ -1,0 +1,186 @@
+<!DOCTYPE HTML>
+<html>
+<head> 
+    <title>Home Page</title> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <th:block th:insert="~{index :: libs}"></th:block>
+</head>
+<body>
+  <div class="container">
+    <!-- Trigger the modal with a button -->  
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+      <div class="modal-dialog">
+      
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <p style="display: none; visibility: hidden;" id="mType"></p>
+            <h4 class="modal-title" id="mTitle">Cập nhật danh sách loại sảnh</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group row">
+              <label for="tenLoaiSanh" class="col-3 col-form-label">Tên loại sảnh</label>
+              <div class="col-9">
+                <input class="form-control" type="hidden" value="" id="maLoaiSanh">
+                <input class="form-control" type="text" value="" id="tenLoaiSanh">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="donGiaBanToiThieu" class="col-3 col-form-label">Đơn giá bàn tối thiểu</label>
+              <div class="col-9">
+                <input class="form-control" type="number" value="" id="donGiaBanToiThieu">
+              </div>
+            </div>
+            
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="capNhat" class="btn btn-default"  data-dismiss="modal">Cập nhât</button>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <th:block th:insert="~{index :: menu-bar}"></th:block>
+  <table class="table table-bordered" style="width: 70%;margin-left: auto;margin-right: auto;">
+      <caption style="caption-side: top; text-align: center;"><h1>Danh sách loại sảnh</h1></caption>
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">STT</th>
+          <th scope="col">Loại Sảnh</th>
+          <th scope="col">Đơn giá bàn tối thiểu</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody id="dsLoaiSanh">
+        <tr>
+          <th scope="row">1</th>
+          <td>Mark</td>
+          <td>Otto</td>
+          <td>Otto</td>
+        </tr>
+        <tr>
+          <th scope="row">1</th>
+          <td>Mark</td>
+          <td>Otto</td> 
+          <td style="word-wrap: break-word;min-width: 160px;max-width: 160px;">Ottoadfasdfđsàasfasfsdfasfasfasdfasdfasdfasfadasfasdfsdf</td>
+        </tr>
+        
+      </tbody>
+    </table>
+  <script>
+      $.get("http://localhost:8080/api/ds-loai-sanh", function(data){
+      $("#dsLoaiSanh").empty()
+
+      $.each(data, function(index, d){           
+          $("#dsLoaiSanh").append($('<tr>', { 
+                "id":  "row-" + d.maLoaiSanh
+          }))
+          $("#row-" + d.maLoaiSanh).append($('<td>', { 
+              text: index
+          }))
+          $("#row-" + d.maLoaiSanh).append($('<td>', { 
+              text: d.tenLoaiSanh
+          }))
+          $("#row-" + d.maLoaiSanh).append($('<td>', { 
+              text: d.donGiaBanToiThieu
+          }))
+          $("#row-" + d.maLoaiSanh).append($('<td>', { 
+              id: "action-" + d.maLoaiSanh
+          }))  
+          $("#action-" + d.maLoaiSanh).append($('<button>', {
+                "type": "button",
+                "style": "margin-left: 3%;",
+                "class": "fa fa-info btn btn-primary",
+                "data-toggle": "modal",
+                "data-target": "#myModal",
+                click: function(){
+                  //alert(d.maCa)
+                  $("#mType").html("update")
+                  $("#mTitle").html("Cập nhật loại sảnh")
+                  $.get("http://localhost:8080/api/thong-tin-loai-sanh?lsid=" + d.maLoaiSanh, function(data){
+                    
+                    $("#tenLoaiSanh").val(data["tenLoaiSanh"])
+                    $("#donGiaBanToiThieu").val(data["donGiaBanToiThieu"])
+                    $("#maLoaiSanh").val(data["maLoaiSanh"])
+                  })
+                }
+            }))    
+          $("#action-" + d.maLoaiSanh).append($('<button>', {
+              "style": "margin-left: 3%;",
+              "class": "fa fa-trash btn btn-primary",
+              click: function(){
+                alert("Đợi email của cô")
+              //   $.ajax({
+              //     url: "http://localhost:8080/api/xoa-loai-sanh?lsid=" + d.maLoaiSanh,
+              //     type: 'DELETE',
+              //     success: function(result) {
+              //         // Do something with the result
+              //     }
+              // });   
+              }
+          }))
+      })
+      
+      $("#dsLoaiSanh").append($('<tr>', { 
+                "id":  "row-add",
+                "style": " border: 1px solid Transparent!important;"
+          }))
+      $("#row-add").append($('<button>', {
+            "type": "button",
+            "style": "margin-left: 3%;",
+            "class": "fa fa-plus btn btn-primary",
+            "data-toggle": "modal",
+            "data-target": "#myModal",
+            click: function(){
+                  //alert(d.maCa)
+                  $("#mType").html("add")
+                  $("#mTitle").html("Thêm loại sảnh")
+                  $("#tenLoaiSanh").val("")
+                  $("#donGiaBanToiThieu").val("")
+                  $("#maLoaiSanh").val("")
+            }
+        }))
+      
+      
+      $("#capNhat").click(function(){
+      //alert("Cap nhat")
+      
+      data = {}
+
+     
+      data["maLoaiSanh"] = $("#maLoaiSanh").val()
+      data["tenLoaiSanh"] = $("#tenLoaiSanh").val()
+      data["donGiaBanToiThieu"] = $("#donGiaBanToiThieu").val()
+      
+      //alert(JSON.stringify(data))
+      $.ajax({
+          type: "POST",
+          contentType: "application/json",
+          url: "http://localhost:8080/api/cap-nhat-loai-sanh?type=" + $("#type").html(),
+          data: JSON.stringify(data),
+          dataType: "json",
+          success: function(){
+            alert("Cap nhat thanh cong")
+            location.reload();
+          },
+          error: function(XMLHttpRequest, textStatus, errorThrown) {
+            //alert(JSON.stringify(XMLHttpRequest["responseJSON"]["errorMessageList"]));
+            location.reload();
+            // $.each(Object.keys(XMLHttpRequest["responseJSON"]["errorMessageList"][0]), function(index, d){
+            //   //alert(d);
+            //   $("#msg_" + d).html(XMLHttpRequest["responseJSON"]["errorMessageList"][0][d])
+            //   $("#msg_" + d).addClass("alert alert-danger")
+            // })
+          }
+        })
+        //location.reload();
+    })
+    })
+  </script>
+</body>
+</html>
