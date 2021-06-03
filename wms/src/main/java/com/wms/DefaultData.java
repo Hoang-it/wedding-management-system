@@ -371,7 +371,7 @@ public class DefaultData implements CommandLineRunner{
         // createDefaultLoaiSanh();
         // createDefaultDanhSachSanh();
 
-        createDefaultDanhSachMonAn();
+        // createDefaultDanhSachMonAn();
 
         // createDefaultDanhSachDichVu();
         // createDefaultTiec();

@@ -1,5 +1,6 @@
 package com.wms.controller;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,6 +41,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class RestControllerApi {
     @Autowired
     DaoService daoService;
+
+    @GetMapping(value = {"/tong-doanh-thu"})
+    public BigDecimal layDoanhThuThang(@RequestParam("thang") String thang, @RequestParam("nam") String nam){        
+        return daoService.layDoanhThuThang(thang, nam);
+    }
 
     @GetMapping(value = {"/ds-ca"})
     public List<CaDTO> layToanBoCa(){        
@@ -88,11 +94,8 @@ public class RestControllerApi {
     }
 
     @GetMapping(value = {"/ds-doanh-thu-ngay"})
-    public List<DoanhThuNgayDTO> layToanBoDoanhThuThang(){
-        List<DoanhThuNgayDTO> dsDoanhThuNgay = new ArrayList<>();
-        dsDoanhThuNgay.add(new DoanhThuNgayDTO(1, 10, 10.56, 0.56));
-        dsDoanhThuNgay.add(new DoanhThuNgayDTO(1, 10, 10.56, 0.56));
-        return dsDoanhThuNgay;
+    public List<DoanhThuNgayDTO> layToanBoDoanhThuThang(@RequestParam("thang") String thang, @RequestParam("nam") String nam){        
+        return daoService.layDanhSachDoanhThuNgay(thang, nam);
     }
 
     @GetMapping(value = {"/thong-tin-tai-khoan"})

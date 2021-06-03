@@ -10,36 +10,81 @@
     <th:block th:insert="~{index :: menu-bar}"></th:block>
     <div style="width: 30%;margin-left: auto;margin-right: auto;">
         <h1 style="text-align: center;">Báo cáo doanh số</h1>
-        <form action="/chi-tiet-bao-cao-thang">
-          <div class="row g-2">
-            <div class="col">
-                <p>Tháng </p>                
-            </div>
-            <div class="col-10">
-              <input type="text" class="form-control" id="thang" placeholder="Tháng"> 
-            </div>
+        <div class="row g-2">
+          <div class="col">
+              <p>Tháng </p>                
           </div>
-          <div class="row g-2">
-            <div class="col">
-                <p>Năm </p>                
-            </div>
-            <div class="col-10">
-              <input type="password" class="form-control" id="nam" placeholder="Năm"> 
-            </div>
+          <div class="col-10">
+            <input type="number" class="form-control" id="thang" placeholder="Tháng"> 
           </div>
-          <div class="row">
-              <div class="col text-center">
-                <button type="submit" class="form-control btn btn-primary mx-auto" id="xem" style="width: 15vmin;">Xem</button>
-              </div>
+        </div>
+        <div class="row g-2">
+          <div class="col">
+              <p>Năm </p>                
           </div>
-        </form>
-        <script>
-          $("form").submit(function(e){
-            alert("Lap bao cao thang thang=" + $("#thang").val() + "&nam=" + $("#nam").val())
-            e.preventDefault()
-            window.location = "http://localhost:8080/chi-tiet-bao-cao-thang?thang=" + $("#thang").val() + "&nam=" + $("#nam").val()
+          <div class="col-10">
+            <input type="number" class="form-control" id="nam" placeholder="Năm"> 
+          </div>
+        </div>
+        <div class="row">
+            <div class="col text-center">
+              <button type="submit" class="form-control btn btn-primary mx-auto" id="xem" style="width: 15vmin;">Xem</button>
+            </div>
+        </div>
+    </div>    
+    <div class="row">
+        <div class="col">
+            <table class="table table-bordered" style="width: 60%;margin-left: auto;margin-right: auto;">
+                <caption style="caption-side: top; text-align: center;"><h1>Danh thu theo ngày</h1></caption>
+                <caption><h5>Tổng doanh thu : </h5><span id="tongDoanhThu"></span></caption>
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">STT</th>
+                    <th scope="col">Ngày</th>
+                    <th scope="col">Số lượng tiệc cưới</th>
+                    <th scope="col">Doanh thu</th>
+                    <th scope="col">Tỉ lệ</th>
+                  </tr>
+                </thead>
+                <tbody id="dsDoanhThuNgay">
+                </tbody>
+                
+              </table>              
+        </div>
+    </div>        
+        
+    <script>
+      $("#xem").click(function(){
+        alert("http://localhost:8080/api/ds-doanh-thu-ngay?thang=" + $("#thang").val() + "&nam=" + $("#nam").val())
+        $.get("http://localhost:8080/api/ds-doanh-thu-ngay?thang=" + $("#thang").val() + "&nam=" + $("#nam").val(), function(data){
+          $("#dsDoanhThuNgay").empty()
+          $.each(data, function(index, d){
+            $("#dsDoanhThuNgay").append($("<tr>", {
+              "id": "row-" + index
+            }))
+            $("#row-" + index).append($("<td>", {
+              text: index
+            }))
+            $("#row-" + index).append($("<td>", {
+              text: d.ngay
+            }))
+            $("#row-" + index).append($("<td>", {
+              text: d.soLuongTiecCuoi
+            }))
+            $("#row-" + index).append($("<td>", {
+              text: d.doanhThuNgay
+            }))
+            $("#row-" + index).append($("<td>", {
+              text: (d.tiLe * 100 ) + "%"
+            }))
           })
-        </script>
+
+          $.get("http://localhost:8080/api/tong-doanh-thu?thang=" + $("#thang").val() + "&nam=" + $("#nam").val(), function(data){
+            $("#tongDoanhThu").text(data)
+          })
+        })
+      })
+    </script>
     </div>
 
 

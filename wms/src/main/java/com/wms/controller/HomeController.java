@@ -229,7 +229,7 @@ public class HomeController implements ErrorController{
 
     @GetMapping(value = {"/lap-bao-cao-thang"})
     public ModelAndView lapBaoCaoThang(ModelAndView model){
-        if ("bql".equals(role)){
+        if (!"bql".equals(role)){
             model.setViewName("/access-deny");
             return model;
         }

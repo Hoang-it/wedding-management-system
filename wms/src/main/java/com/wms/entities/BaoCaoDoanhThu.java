@@ -29,8 +29,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class BaoCaoDoanhThu implements Serializable{
     @Id
-    @Column(length = 4, name = "ma_baocao_doanhthu")
-    private Long maBaoCaoDoanhThu;
+    @Column(length = 10, name = "ma_baocao_doanhthu")
+    private String maBaoCaoDoanhThu;
 
     @Column(name = "thang")
     private int thang;

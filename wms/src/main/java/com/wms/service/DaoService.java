@@ -14,13 +14,16 @@ import java.util.Set;
 import com.wms.ValidationResponse;
 import com.wms.dto.CaDTO;
 import com.wms.dto.DichVuDTO;
+import com.wms.dto.DoanhThuNgayDTO;
 import com.wms.dto.HoaDonDTO;
 import com.wms.dto.LoaiSanhDTO;
 import com.wms.dto.MonAnDTO;
 import com.wms.dto.SanhDTO;
 import com.wms.dto.TiecDTO;
 import com.wms.dto.UserDTO;
+import com.wms.entities.BaoCaoDoanhThu;
 import com.wms.entities.Ca;
+import com.wms.entities.ChiTietBaoCao;
 import com.wms.entities.ChiTietDichVu;
 import com.wms.entities.ChiTietMonAn;
 import com.wms.entities.ChucNang;
@@ -34,10 +37,13 @@ import com.wms.entities.NhomNguoiDung;
 import com.wms.entities.PhanQuyen;
 import com.wms.entities.ThamSo;
 import com.wms.entities.TiecCuoi;
+import com.wms.repositories.BaoCaoDoanhThuRepository;
 import com.wms.repositories.CaRepository;
+import com.wms.repositories.ChiTietBaoCaoRepository;
 import com.wms.repositories.ChucNangRepository;
 import com.wms.repositories.DanhSachSanhRepository;
 import com.wms.repositories.DichVuRepository;
+import com.wms.repositories.DoanhThuThangRepository;
 import com.wms.repositories.HoaDonThanhToanRepository;
 import com.wms.repositories.LoaiSanhRepository;
 import com.wms.repositories.MonAnRepository;
@@ -52,6 +58,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class DaoService {
+    @Autowired
+    BaoCaoDoanhThuRepository baoCaoDoanhThuRepository;
+
+    @Autowired
+    ChiTietBaoCaoRepository chiTietBaoCaoRepository;
+
     @Autowired
     LoaiSanhRepository loaiSanhRepository;
 
@@ -87,6 +99,9 @@ public class DaoService {
 
     @Autowired
     NguoiDungRepository nguoiDungRepository;
+
+    @Autowired
+    BaoCaoService baoCaoService;
     
     public List<LoaiSanhDTO> layDanhSachLoaiSanh(){
         List<LoaiSanhDTO> ds = new ArrayList<LoaiSanhDTO>();
@@ -325,6 +340,27 @@ public class DaoService {
         thamSoRepository.save(record);
     }
 
+    public BigDecimal layDoanhThuThang(String thang, String nam){
+        BaoCaoDoanhThu doanhThuThang = baoCaoDoanhThuRepository.findById("BC" + thang + nam).get();
+        
+        return doanhThuThang.getTongDoanhThu();
+    }
+
+    public List<DoanhThuNgayDTO> layDanhSachDoanhThuNgay(String thang, String nam){
+        List<DoanhThuNgayDTO> dsDoanhThuNgay = new ArrayList<>();
+        BaoCaoDoanhThu doanhThuThang = baoCaoDoanhThuRepository.findById("BC" + thang + nam).get();
+        DoanhThuNgayDTO temp = null;
+        for (ChiTietBaoCao doanhThuNgay : doanhThuThang.getChiTietBaoCao()) {
+            temp = new DoanhThuNgayDTO();
+            temp.setDoanhThuNgay(doanhThuNgay.getDoanhThu().doubleValue());
+            temp.setSoLuongTiecCuoi(doanhThuNgay.getSoLuongTiecCuoi());
+            temp.setTiLe(doanhThuNgay.getTiLe());
+            temp.setNgay(doanhThuNgay.getNgayThanhToan().getDayOfMonth());
+            dsDoanhThuNgay.add(temp);
+        }
+        return dsDoanhThuNgay;
+    }
+
     public DichVuDTO layThongTinDichVu(String maDichVU){
         DichVuDTO model = new DichVuDTO();
         DichVu data = dichVuRepository.findById(maDichVU).get();
@@ -476,16 +512,72 @@ public class DaoService {
     public void lapHoaDon(HoaDonDTO data){
         TiecCuoi tiecCuoi = tiecCuoiRepository.findById(data.getMaTiecCuoi()).get();
         HoaDon hoaDon = tiecCuoi.getHoaDonThanhToan();  
-        
-        hoaDon.setTienDatCoc(data.getTienDatCoc());        
-       // hoaDon.setNgayThanhToan(data.getNgayThanhToan());
+        ChiTietBaoCao doanhThuNgay = null;
+        BaoCaoDoanhThu doanhThuThang = null;
+        String maBCT = "BC" + data.getNgayThanhToan().getMonthValue() + data.getNgayThanhToan().getYear();
+        Set<ChiTietBaoCao> dsDoanhThuNgay = null;
+        Set<HoaDon> dsHoaDon = null;
+        System.out.println(maBCT);
 
+        try {
+            baoCaoDoanhThuRepository.findById(maBCT).get();
+            
+        } catch (Exception e) {
+            //TODO: handle exception
+            dsDoanhThuNgay = new HashSet<>();
+            doanhThuThang = new BaoCaoDoanhThu();
+            doanhThuThang.setMaBaoCaoDoanhThu(maBCT);
+            doanhThuThang.setNam(data.getNgayThanhToan().getYear());
+            doanhThuThang.setThang(data.getNgayThanhToan().getMonthValue());
+            doanhThuThang.setChiTietBaoCao(dsDoanhThuNgay);
+            doanhThuThang.setTongDoanhThu(new BigDecimal("0"));
+            baoCaoDoanhThuRepository.save(doanhThuThang);
+        }
+        
+        doanhThuThang = baoCaoDoanhThuRepository.findById(maBCT).get();
+        dsDoanhThuNgay = doanhThuThang.getChiTietBaoCao();
+
+        try {
+            chiTietBaoCaoRepository.findById(data.getNgayThanhToan()).get();
+            System.out.println("Thanh cong");
+        } catch (Exception e) {
+            doanhThuNgay = new ChiTietBaoCao();
+            dsHoaDon = new HashSet<>();
+            doanhThuNgay.setNgayThanhToan(data.getNgayThanhToan());
+            doanhThuNgay.setBaoCaoDoanhThu(doanhThuThang);
+            doanhThuNgay.setSoLuongTiecCuoi(0);
+            doanhThuNgay.setDsHoaDon(dsHoaDon);
+            doanhThuNgay.setDoanhThu(new BigDecimal("0"));
+            doanhThuNgay.setTiLe(0);
+            chiTietBaoCaoRepository.save(doanhThuNgay);
+            System.out.println("Khong Thanh cong");
+        }
+
+        doanhThuNgay =  chiTietBaoCaoRepository.findById(data.getNgayThanhToan()).get();
+        dsHoaDon = doanhThuNgay.getDsHoaDon();
+
+        hoaDon.setTienDatCoc(data.getTienDatCoc());        
         hoaDon.setDonGiaBan(data.getDonGiaBan());
+        hoaDon.setNgayThanhToan(doanhThuNgay);
         hoaDon.setTongTienBan(data.getTongTienBan());
         hoaDon.setTongTienDichVu(data.getTongTienDichVu());
         hoaDon.setTongTienHoaDon(data.getTongTienHoaDon());
         hoaDon.setConLai(data.getConLai());
+        hoaDon = hoaDonThanhToanRepository.save(hoaDon);
+        dsHoaDon.add(hoaDon);        
 
+        doanhThuNgay.setDoanhThu(baoCaoService.tinhDoanhThuTheoNgayTrongThang(dsHoaDon));
+        doanhThuNgay.setSoLuongTiecCuoi(baoCaoService.tinhTongSoLuongTiecCuoiTrongThang(dsHoaDon));
+        doanhThuNgay.setDsHoaDon(dsHoaDon);
+        doanhThuNgay = chiTietBaoCaoRepository.save(doanhThuNgay);
+
+        dsDoanhThuNgay.add(doanhThuNgay);
+        doanhThuThang.setChiTietBaoCao(dsDoanhThuNgay);
+        doanhThuThang.setTongDoanhThu(baoCaoService.tinhTongDoanhThuThang(doanhThuThang.getChiTietBaoCao()));
+        doanhThuThang = baoCaoDoanhThuRepository.save(doanhThuThang);
+
+        doanhThuNgay.setTiLe(baoCaoService.tinhTyLeDoanhThuTheoNgayTrongThang(doanhThuThang.getTongDoanhThu(), doanhThuNgay.getDoanhThu()));
+        chiTietBaoCaoRepository.save(doanhThuNgay);
         for (ChiTietDichVu ctDv : tiecCuoi.getChiTietDichVu()) {
             for (DichVuDTO dv : data.getDichVu()) {
                 if (ctDv.getMaDichVu().getMaDichVu().equals(dv.getMaDichVu())){
@@ -494,6 +586,7 @@ public class DaoService {
             }
         }
         
-        hoaDonThanhToanRepository.save(hoaDon);
+        tiecCuoiRepository.save(tiecCuoi);
+        
     }
 }

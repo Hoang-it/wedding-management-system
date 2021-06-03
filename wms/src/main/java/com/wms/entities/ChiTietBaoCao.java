@@ -36,7 +36,7 @@ public class ChiTietBaoCao  {
     private BigDecimal doanhThu;
 
     @Column(name = "ti_le")
-    private Float tiLe;
+    private double tiLe;
 
     @ManyToOne
     @JoinColumn(name = "baocao_doanhthu", foreignKey = @ForeignKey(name ="FK_CHITIEBAOCAO"))
