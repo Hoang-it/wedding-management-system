@@ -20,13 +20,13 @@ import lombok.Setter;
 @NoArgsConstructor
 public class MonAn {
     @Id
-    @Column(length = 4)
+    @Column(length = 4, name = "ma_monan")
     private String maMonAn;
 
-    @Column(length = 50)
+    @Column(length = 50, name = "ten_monan")
     private String tenMonAn;
 
-    @Column(precision = 15, scale = 2)
+    @Column(precision = 15, scale = 2, name = "don_gia")
     private BigDecimal donGia;
 
     @OneToMany(mappedBy = "maMonAn")

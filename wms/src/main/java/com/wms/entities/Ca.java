@@ -20,16 +20,16 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Ca {
     @Id
-    @Column(length = 4)
+    @Column(length = 4, name = "ma_ca")
     private String maCa;
 
-    @Column(length = 10)
+    @Column(length = 10, name = "ten_Ca")
     private String tenCa;
 
-    @Column
+    @Column(name = "gio_batdau")
     private LocalTime gioBatDau;
 
-    @Column
+    @Column(name = "gio_ketthuc")
     private LocalTime gioKetThuc;
 
     @OneToMany(mappedBy = "maCa")

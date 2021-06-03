@@ -18,9 +18,9 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ThamSo {
     @Id
-    @Column
+    @Column(name = "ten_thamso")
     private String tenThamSo;
 
-    @Column
+    @Column(name = "gia_tri")
     private String giaTri;
 }

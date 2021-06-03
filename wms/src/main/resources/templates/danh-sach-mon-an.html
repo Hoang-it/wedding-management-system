@@ -16,7 +16,7 @@
         <!-- Modal content-->
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title">Cập nhật món ăn</h4>
+            <h4 class="modal-title" id="mTitle">Thông tin món ăn</h4>
             <button type="button" class="close" data-dismiss="modal">&times;</button>
           </div>
           <div class="modal-body">
@@ -35,80 +35,123 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" id="capNhat" class="btn btn-default"  data-dismiss="modal">Cập nhât</button>
+            <!-- PHÂN QUYỀN -->
+            <th:block th:switch="${role}">
+              <th:block th:case="''" >
+                
+              </th:block>
+              <th:block th:case="'admin'">
+                
+              </th:block>
+              <th:block th:case="'bql'">
+                <button type="button" id="capNhat" class="btn btn-default"  data-dismiss="modal">Cập nhât</button>
+              </th:block>
+              <th:block th:case="'nhanvien'">
+                
+              </th:block>
+            </th:block> 
           </div>
         </div>
         
       </div>
     </div>
   </div>
-    <th:block th:insert="~{index :: menu-bar}"></th:block>
-    <table class="table table-bordered" style="width: 70%;margin-left: auto;margin-right: auto;">
-        <caption style="caption-side: top; text-align: center;"><h1>Danh sách món ăn</h1></caption>
-        <thead class="thead-dark">
-          <tr>
-            <th scope="col">STT</th>
-            <th scope="col">Tên Món ăn</th>
-            <th scope="col">Đơn giá</th>
-            <th scope="col">Action</th>
-          </tr>
-        </thead>
-        <tbody id="dsMonAn">
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>Otto</td>
-          </tr>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td style="word-wrap: break-word;min-width: 160px;max-width: 160px;">Ottoadfasdfđsàasfasfsdfasfasfasdfasdfasdfasfadasfasdfsdf</td>
-          </tr>
-        </tbody>
-      </table>
-      <script>
-        $.get( "http://localhost:8080/api/ds-mon-an", function( data ) {
-            //alert(JSON.stringify(data));
-            $("#dsMonAn").empty()
-            $.each(data, function(index, d){
-                //alert(JSON.stringify(d))
-                $("#dsMonAn").append($('<tr>', { 
-                    id: "row-" + d.maMonAn                    
-                }))
-                $("#row-" + d.maMonAn).append($('<td>',{
-                    text: index
-                }))
-                $("#row-" + d.maMonAn).append($('<td>',{
-                    text: d.tenMonAn
-                }))
-                $("#row-" + d.maMonAn).append($('<td>',{
-                    text: d.donGia
-                }))
-                $("#row-" + d.maMonAn).append($('<td>', { 
-                  id: "action-" + d.maMonAn
-                }))  
-                $("#action-" + d.maMonAn).append($('<button>', {
-                  "type": "button",
-                  "style": "margin-left: 3%;",
-                  "class": "fa fa-info btn btn-primary",
-                  "data-toggle": "modal",
-                  "data-target": "#myModal",
-                  click: function(){
-                  //alert(d.maCa)
-                  $.get("http://localhost:8080/api/thong-tin-mon-an?maid=" + d.maMonAn, function(data){
-                    $("#maMonAn").val(data["maMonAn"])
-                    $("#tenMonAn").val(data["tenMonAn"])
-                    $("#donGia").val(data["donGia"])
-                    
-                  })
-                }
-                })) 
-            })
-        });
-     
-        $("#capNhat").click(function(){
+  <th:block th:insert="~{index :: menu-bar}"></th:block>
+  <table class="table table-bordered" style="width: 70%;margin-left: auto;margin-right: auto;">
+      <caption style="caption-side: top; text-align: center;"><h1>Danh sách món ăn</h1></caption>
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">STT</th>
+          <th scope="col">Tên Món ăn</th>
+          <th scope="col">Đơn giá</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody id="dsMonAn">
+        <tr>
+          <th scope="row">1</th>
+          <td>Mark</td>
+          <td>Otto</td>
+          <td>Otto</td>
+        </tr>
+        <tr>
+          <th scope="row">1</th>
+          <td>Mark</td>
+          <td>Otto</td>
+          <td style="word-wrap: break-word;min-width: 160px;max-width: 160px;">Ottoadfasdfđsàasfasfsdfasfasfasdfasdfasdfasfadasfasdfsdf</td>
+        </tr>
+      </tbody>
+  </table>
+  <script>
+    $.get( "http://localhost:8080/api/ds-mon-an", function( data ) {
+        //alert(JSON.stringify(data));
+        $("#dsMonAn").empty()
+        $.each(data, function(index, d){
+            //alert(JSON.stringify(d))
+            $("#dsMonAn").append($('<tr>', { 
+                id: "row-" + d.maMonAn                    
+            }))
+            $("#row-" + d.maMonAn).append($('<td>',{
+                text: index
+            }))
+            $("#row-" + d.maMonAn).append($('<td>',{
+                text: d.tenMonAn
+            }))
+            $("#row-" + d.maMonAn).append($('<td>',{
+                text: d.donGia
+            }))
+            $("#row-" + d.maMonAn).append($('<td>', { 
+              id: "action-" + d.maMonAn
+            }))  
+            $("#action-" + d.maMonAn).append($('<button>', {
+              "type": "button",
+              "style": "margin-left: 3%;",
+              "class": "fa fa-info btn btn-primary",
+              "data-toggle": "modal",
+              "data-target": "#myModal",
+              click: function(){
+              //alert(d.maCa)
+              $.get("http://localhost:8080/api/thong-tin-mon-an?maid=" + d.maMonAn, function(data){
+                $("#maMonAn").val(data["maMonAn"])
+                $("#tenMonAn").val(data["tenMonAn"])
+                $("#donGia").val(data["donGia"])
+                
+              })
+            }
+            })) 
+        })
+    });
+    
+    switch($("#roleUser").html()) {
+      case '':
+        $("input").prop('readonly', true);
+        $("input").removeClass("form-control")
+        $("input").addClass("form-control-plaintext")
+        break;
+      case 'admin':
+        $("input").removeClass("form-control")
+        $("input").addClass("form-control-plaintext")
+        $("input").prop('readonly', true);
+        break;
+      case 'bql':
+        $("input").removeClass("form-control-plaintext")
+        $("input").addClass("form-control")
+        $("input").prop('readonly', false);
+        $("#mTitle").html("Cập nhật thông tin món ăn")
+        $("#dsLoaiSanh").append($('<tr>', { 
+              "id":  "row-add",
+              "style": " border: 1px solid Transparent!important;"
+        }))
+        break;
+      case 'nhanvien':
+        $("input").removeClass("form-control")
+        $("input").addClass("form-control-plaintext")
+        $("input").prop('readonly', true);
+        break;
+      default:
+        // code block
+    }
+    $("#capNhat").click(function(){
       //alert("Cap nhat")
       data = {}
       data["maMonAn"] = $("#maMonAn").val()
@@ -137,6 +180,6 @@
         })
         //location.reload();
     })
-     </script>
+  </script>
 </body>
 </html>

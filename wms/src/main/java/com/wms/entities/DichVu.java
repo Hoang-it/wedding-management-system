@@ -21,13 +21,13 @@ import lombok.Setter;
 public class DichVu {
 
     @Id
-    @Column(length = 4)
+    @Column(length = 4, name = "ma_dichvu")
     private String maDichVu;
 
-    @Column(length = 50)
+    @Column(length = 50, name = "ten_dichvu")
     private String tenDichVu;
 
-    @Column(precision = 15, scale = 2)
+    @Column(precision = 15, scale = 2, name = "don_gia")
     private BigDecimal donGia;
 
     @OneToMany(mappedBy = "maDichVu")

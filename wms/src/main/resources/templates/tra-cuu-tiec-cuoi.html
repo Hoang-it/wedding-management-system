@@ -19,7 +19,20 @@
             <th scope="col">Ngày</th>
             <th scope="col">Giờ</th>
             <th scope="col">Số lượng bàn</th>
-            <th scope="col">Action</th>
+            <th:block th:switch="${role}">
+              <th:block th:case="''" >
+                
+              </th:block>
+              <th:block th:case="'admin'">
+                
+              </th:block>
+              <th:block th:case="'bql'">
+              </th:block>
+              <th:block th:case="'nhanvien'">
+                <th scope="col">Action</th>
+              </th:block>
+            </th:block> 
+            
           </tr>
         </thead>
         <tbody id="dsTiecCuoi">
@@ -39,6 +52,7 @@
             <td>@mdo</td>
             <td>Mark</td>
             <td>Otto</td>
+
             <td style="word-wrap: break-word;min-width: 160px;max-width: 160px;">Ottoadfasdfđsàasfasfsdfasfasfasdfasdfasdfasfadasfasdfsdf</td>
           </tr>
           
@@ -72,13 +86,27 @@
             $("#row-" + d.maTiecCuoi).append($("<td>",{
               text: d.soLuongBan
             }))
-            $("#row-" + d.maTiecCuoi).append($("<td>",{
-              html: $("<a>", {
-                text: "Lập hóa đơn",
-                "href": "http://localhost:8080/lap-hoa-don-thanh-toan?maTiecCuoi=" + d.maTiecCuoi,
-                "class": "btn btn-info"
-              })
-            }))
+            switch($("#roleUser").html()) {
+              case '':
+                //alert($("#mTitle").html())
+                break;
+              case 'admin':
+                break;
+              case 'bql':
+                break;
+              case 'nhanvien':
+                $("#row-" + d.maTiecCuoi).append($("<td>",{
+                  html: $("<a>", {
+                    text: "Lập hóa đơn",
+                    "href": "http://localhost:8080/lap-hoa-don-thanh-toan?maTiecCuoi=" + d.maTiecCuoi,
+                    "class": "btn btn-info"
+                  })
+                }))
+                break;
+              default:
+                // code block
+            }
+            
           })
           
         })

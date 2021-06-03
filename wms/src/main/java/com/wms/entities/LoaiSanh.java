@@ -20,20 +20,20 @@ import lombok.Setter;
 @NoArgsConstructor
 public class LoaiSanh {
     @Id
-    @Column(length = 4)
-    private String maSanh;
+    @Column(length = 4, name = "ma_loaisanh")
+    private String maLoaiSanh;
 
-    @Column(length = 50)
+    @Column(length = 50, name = "ten_loaisanh")
     private String tenLoaiSanh;
 
-    @Column(precision = 10, scale = 2)
+    @Column(precision = 10, scale = 2, name = "dongia_ban_toithieu")
     private BigDecimal donGiaBanToiThieu;
 
     @OneToMany(mappedBy = "maLoaiSanh")
-    private Set<DanhSachSanh> dsSanh;
+    private Set<Sanh> dsSanh;
 
     public LoaiSanh(String maSanh, String tenLoaiSanh, BigDecimal donGiaBanToiThieu){
-        this.maSanh = maSanh;
+        this.maLoaiSanh = maSanh;
         this.tenLoaiSanh = tenLoaiSanh;
         this.donGiaBanToiThieu = donGiaBanToiThieu;
     }

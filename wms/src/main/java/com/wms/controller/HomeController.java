@@ -24,7 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class HomeController implements ErrorController{
-    private static String role = "";
+    public static String role = "";
     Logger logger = LoggerFactory.getLogger(HomeController.class);
     
     CustomUserDetails customUserDetails = null;
@@ -34,11 +34,24 @@ public class HomeController implements ErrorController{
         return role;
     }
 
+    @RequestMapping("dangXuat")
+    public ModelAndView logOut(ModelAndView model, HttpServletRequest request, HttpServletResponse response){
+        model.setViewName("login");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        
+        if (auth != null) {
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
+        role = "";
+        model.addObject("role", role);
+        return model;
+    }
+
     @RequestMapping(value = { "/" })
     public ModelAndView homePage(ModelAndView model) {
         //customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        
-        System.out.println("");
+       
+        System.out.println(role);
         model.setViewName("index");
         // model.addObject("name", customUserDetails.getUsername());
         model.addObject("role", role);
@@ -46,32 +59,52 @@ public class HomeController implements ErrorController{
         return model;
     }
 
-    @GetMapping(value = {"ds/chinh-sua-quy-dinh-phat"})
+    @GetMapping(value = {"/chinh-sua-quy-dinh-phat"})
     public ModelAndView chinhSuaQuyDinhPhat(ModelAndView model){
+        if (!"bql".equals(role)){
+            model.setViewName("/access-deny");
+            return model;
+        }
         model.setViewName("/ap-dung-quy-dinh-phat");
         return model;
     }
 
     @GetMapping(value = {"/ds/ca"})
     public ModelAndView chinhSuaCaPage(ModelAndView model){
+        if (!"bql".equals(role)){
+            model.setViewName("/access-deny");
+            return model;
+        }
         model.setViewName("/danh-sach-ca");
         return model;
     }
 
-    @GetMapping(value = {"/ds/loai-sanh"})
+    @GetMapping(value = {"/ds/loai-sanh"})    
     public ModelAndView chinhSuaLoaiSanhPage(ModelAndView model){
+        if ("admin".equals(role)){
+            model.setViewName("/access-deny");
+            return model;
+        }
         model.setViewName("/danh-sach-loai-sanh");
         return model;
     }
 
     @GetMapping(value = {"/ds/mon-an"})
     public ModelAndView chinhSuaMonAnPage(ModelAndView model){
+        if ("admin".equals(role)){
+            model.setViewName("/access-deny");
+            return model;
+        }
         model.setViewName("/danh-sach-mon-an");
         return model;
     }
 
     @GetMapping(value = {"/ds/dich-vu"})
     public ModelAndView chinhSuaDichVuPage(ModelAndView model){
+        if ("admin".equals(role)){
+            model.setViewName("/access-deny");
+            return model;
+        }
         model.setViewName("/danh-sach-dich-vu");
         return model;
     }
@@ -100,15 +133,17 @@ public class HomeController implements ErrorController{
         return model;
     }
 
-    @RequestMapping(value = { "/logout" })
-    public ModelAndView logoutPage(ModelAndView model, HttpServletRequest request, HttpServletResponse response) {
-        model.setViewName("login");
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null) {
-            new SecurityContextLogoutHandler().logout(request, response, auth);
-        }
-        return model;
-    }
+    // @RequestMapping(value = { "/logout" })
+    // public ModelAndView logoutPage(ModelAndView model, HttpServletRequest request, HttpServletResponse response) {
+    //     model.setViewName("login");
+    //     role = "";
+    //     System.out.println("Quyen : " + role);
+    //     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    //     if (auth != null) {
+    //         new SecurityContextLogoutHandler().logout(request, response, auth);
+    //     }
+    //     return model;
+    // }
 
     @RequestMapping(value = {"/access-denied"})
     public ModelAndView accessDeniedPage(ModelAndView model){
@@ -147,6 +182,10 @@ public class HomeController implements ErrorController{
 
     @GetMapping(value = {"/tiep-nhan-sanh"})
     public ModelAndView tiepNhanSanh(ModelAndView model){
+        if (!"bql".equals(role)){
+            model.setViewName("/access-deny");
+            return model;
+        }
         model.setViewName("tiep-nhan-sanh");
         model.addObject("navActive", "#link-tiep-nhan-sanh");
         return model;
@@ -154,6 +193,10 @@ public class HomeController implements ErrorController{
 
     @GetMapping(value = {"/nhan-dat-tiec-cuoi"})
     public ModelAndView nhanDatTiecCuoi(ModelAndView model){
+        if (!"nhanvien".equals(role)){
+            model.setViewName("/access-deny");
+            return model;
+        }
         model.setViewName("nhan-dat-tiec-cuoi");
         model.addObject("navActive", "#link-dat-tiec-cuoi");
         return model;
@@ -161,6 +204,10 @@ public class HomeController implements ErrorController{
     
     @GetMapping(value = {"/tra-cuu-tiec-cuoi"})
     public ModelAndView traCuuTiecCuoi(ModelAndView model){
+        if ("admin".equals(role)){
+            model.setViewName("/access-deny");
+            return model;
+        }
         model.setViewName("tra-cuu-tiec-cuoi");
         model.addObject("navActive", "#link-tra-cuu-tiec-cuoi");
         return model;
@@ -168,7 +215,12 @@ public class HomeController implements ErrorController{
 
     @GetMapping(value = {"/lap-hoa-don-thanh-toan"})
     public ModelAndView lapHoaDonThanhToan(ModelAndView model, @RequestParam("maTiecCuoi") String maTiecCuoi){
+        if (!"nhanvien".equals(role)){
+            model.setViewName("/access-deny");
+            return model;
+        }
         model.setViewName("lap-hoa-don-thanh-toan");
+
         model.addObject("navActive", "#link-lap-hoa-don");
         model.addObject("maTiecCuoi", maTiecCuoi);
         return model;
@@ -177,6 +229,10 @@ public class HomeController implements ErrorController{
 
     @GetMapping(value = {"/lap-bao-cao-thang"})
     public ModelAndView lapBaoCaoThang(ModelAndView model){
+        if ("bql".equals(role)){
+            model.setViewName("/access-deny");
+            return model;
+        }
         model.setViewName("lap-bao-cao-thang");
         model.addObject("navActive", "#link-lap-bao-cao");
         return model;

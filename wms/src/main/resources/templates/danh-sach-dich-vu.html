@@ -7,6 +7,7 @@
     <th:block th:insert="~{index :: libs}"></th:block>
 </head>
 <body>
+  <th:block th:insert="~{index :: menu-bar}"></th:block>
   <div class="container">
     <!-- Trigger the modal with a button -->  
     <!-- Modal -->
@@ -16,12 +17,12 @@
         <!-- Modal content-->
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title">Cập nhật dịch vụ</h4>
+            <h4 class="modal-title" id="mTitle">Thông tin dịch vụ</h4>
             <button type="button" class="close" data-dismiss="modal">&times;</button>
           </div>
           <div class="modal-body">
             <div class="form-group row">
-              <label for="tenDichVu" class="col-3 col-form-label">Tên dịch vụ</label>
+              <label for="tenDichVu" class="col-3 col-form-label" >Tên dịch vụ</label>
               <div class="col-9">
                 <input class="form-control" type="hidden" value="" id="maDichVu">
                 <input class="form-control" type="text" value="" id="tenDichVu">
@@ -35,112 +36,156 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" id="capNhat" class="btn btn-default"  data-dismiss="modal">Cập nhât</button>
-          </div>
+            <!-- PHÂN QUYỀN -->
+            <th:block th:switch="${role}">
+              <th:block th:case="''" >
+                
+              </th:block>
+              <th:block th:case="'admin'">
+                
+              </th:block>
+              <th:block th:case="'bql'">
+                <button type="button" id="capNhat" class="btn btn-default"  data-dismiss="modal">Cập nhât</button>
+              </th:block>
+              <th:block th:case="'nhanvien'">
+                
+              </th:block>
+            </th:block> 
         </div>
         
       </div>
     </div>
   </div>
-    <th:block th:insert="~{index :: menu-bar}"></th:block>
-    <table class="table table-bordered" style="width: 70%;margin-left: auto;margin-right: auto;">
-        <caption style="caption-side: top; text-align: center;"><h1>Danh sách dịch vụ</h1></caption>
-        <thead class="thead-dark">
-          <tr>
-            <th scope="col">STT</th>
-            <th scope="col">Tên dịch vụ</th>
-            <th scope="col">Đơn giá</th>
-            <th scope="col">Action</th>
-          </tr>
-        </thead>
-        <tbody id="dsDichVu">
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>Otto</td>
-          </tr>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td style="word-wrap: break-word;min-width: 160px;max-width: 160px;">Ottoadfasdfđsàasfasfsdfasfasfasdfasdfasdfasfadasfasdfsdf</td>
-          </tr>
+  
+  <table class="table table-bordered" style="width: 70%;margin-left: auto;margin-right: auto;">
+      <caption style="caption-side: top; text-align: center;"><h1>Danh sách dịch vụ</h1></caption>
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">STT</th>
+          <th scope="col">Tên dịch vụ</th>
+          <th scope="col">Đơn giá</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody id="dsDichVu">
+        <tr>
+          <th scope="row">1</th>
+          <td>Mark</td>
+          <td>Otto</td>
+          <td>Otto</td>
+        </tr>
+        <tr>
+          <th scope="row">1</th>
+          <td>Mark</td>
+          <td>Otto</td>
+          <td style="word-wrap: break-word;min-width: 160px;max-width: 160px;">Ottoadfasdfđsàasfasfsdfasfasfasdfasdfasdfasfadasfasdfsdf</td>
+        </tr>
 
-        </tbody>
-      </table>
+      </tbody>
+  </table>
 
-      <script>
-        $.get( "http://localhost:8080/api/ds-dich-vu", function( data ) {
-            //alert(JSON.stringify(data));
-            $("#dsDichVu").empty()
-            $.each(data, function(index, d){
-                //alert(JSON.stringify(d))
-                $("#dsDichVu").append($('<tr>', { 
-                    id: "row-" + d.maDichVu                   
-                }))
-                $("#row-" + d.maDichVu).append($('<td>',{
-                    text: index
-                }))
-                $("#row-" + d.maDichVu).append($('<td>',{
-                    text: d.tenDichVu
-                }))
-                $("#row-" + d.maDichVu).append($('<td>',{
-                    text: d.donGia
-                }))
-                $("#row-" + d.maDichVu).append($('<td>', { 
-                    id: "action-" + d.maDichVu
-                }))  
-                $("#action-" + d.maDichVu).append($('<button>', {
-                  "type": "button",
-                  "style": "margin-left: 3%;",
-                  "class": "fa fa-info btn btn-primary",
-                  "data-toggle": "modal",
-                  "data-target": "#myModal",
-                  click: function(){
-                  //alert(d.maCa)
-                  $.get("http://localhost:8080/api/thong-tin-dich-vu?dvid=" + d.maDichVu, function(data){
-                    $("#maDichVu").val(data["maDichVu"])
-                    $("#tenDichVu").val(data["tenDichVu"])
-                    $("#donGia").val(data["donGia"])
-                    
-                  })
-                }
-              }))
-              
-            })
-        });
-        
-        $("#capNhat").click(function(){
-          //alert("Cap nhat")
-          data = {}
-          data["maDichVu"] = $("#maDichVu").val()
-          data["tenDichVu"] = $("#tenDichVu").val()
-          data["donGia"] = $("#donGia").val()
-
-          $.ajax({
-          type: "POST",
-          contentType: "application/json",
-          url: "http://localhost:8080/api/cap-nhat-dich-vu",
-          data: JSON.stringify(data),
-          dataType: "json",
-          success: function(){
-            alert("Cap nhat thanh cong")
-            location.reload();
-          },
-          error: function(XMLHttpRequest, textStatus, errorThrown) {
-            //alert(JSON.stringify(XMLHttpRequest["responseJSON"]["errorMessageList"]));
-            location.reload();
-            // $.each(Object.keys(XMLHttpRequest["responseJSON"]["errorMessageList"][0]), function(index, d){
-            //   //alert(d);
-            //   $("#msg_" + d).html(XMLHttpRequest["responseJSON"]["errorMessageList"][0][d])
-            //   $("#msg_" + d).addClass("alert alert-danger")
-            // })
-          }
+  <script>
+    $.get( "http://localhost:8080/api/ds-dich-vu", function( data ) {
+        //alert(JSON.stringify(data));
+        $("#dsDichVu").empty()
+        $.each(data, function(index, d){
+            //alert(JSON.stringify(d))
+            $("#dsDichVu").append($('<tr>', { 
+                id: "row-" + d.maDichVu                   
+            }))
+            $("#row-" + d.maDichVu).append($('<td>',{
+                text: index
+            }))
+            $("#row-" + d.maDichVu).append($('<td>',{
+                text: d.tenDichVu
+            }))
+            $("#row-" + d.maDichVu).append($('<td>',{
+                text: d.donGia
+            }))
+            $("#row-" + d.maDichVu).append($('<td>', { 
+                id: "action-" + d.maDichVu
+            }))  
+            $("#action-" + d.maDichVu).append($('<button>', {
+              "type": "button",
+              "style": "margin-left: 3%;",
+              "class": "fa fa-info btn btn-primary",
+              "data-toggle": "modal",
+              "data-target": "#myModal",
+              click: function(){
+              //alert(d.maCa)
+              $.get("http://localhost:8080/api/thong-tin-dich-vu?dvid=" + d.maDichVu, function(data){
+                $("#maDichVu").val(data["maDichVu"])
+                $("#tenDichVu").val(data["tenDichVu"])
+                $("#donGia").val(data["donGia"])
+                
+              })
+            }
+          }))
+          
         })
-      
-        })
-        
-      </script>
+    });
+
+    switch($("#roleUser").html()) {
+      case '':
+        $("input").prop('readonly', true);
+        $("input").removeClass("form-control")
+        $("input").addClass("form-control-plaintext")
+        //alert($("#mTitle").html())
+        break;
+      case 'admin':
+        $("input").removeClass("form-control")
+        $("input").addClass("form-control-plaintext")
+        $("input").prop('readonly', true);
+        break;
+      case 'bql':
+        $("input").removeClass("form-control-plaintext")
+        $("input").addClass("form-control")
+        $("input").prop('readonly', false);
+        $("#mTitle").html("Cập nhật thông tin dịch vụ")
+        $("#dsLoaiSanh").append($('<tr>', { 
+              "id":  "row-add",
+              "style": " border: 1px solid Transparent!important;"
+        }))
+        break;
+      case 'nhanvien':
+        $("input").removeClass("form-control")
+        $("input").addClass("form-control-plaintext")
+        $("input").prop('readonly', true);
+        break;
+      default:
+        // code block
+    }
+    
+    $("#capNhat").click(function(){
+      //alert("Cap nhat")
+      data = {}
+      data["maDichVu"] = $("#maDichVu").val()
+      data["tenDichVu"] = $("#tenDichVu").val()
+      data["donGia"] = $("#donGia").val()
+
+      $.ajax({
+      type: "POST",
+      contentType: "application/json",
+      url: "http://localhost:8080/api/cap-nhat-dich-vu",
+      data: JSON.stringify(data),
+      dataType: "json",
+      success: function(){
+        alert("Cap nhat thanh cong")
+        location.reload();
+      },
+      error: function(XMLHttpRequest, textStatus, errorThrown) {
+        //alert(JSON.stringify(XMLHttpRequest["responseJSON"]["errorMessageList"]));
+        location.reload();
+        // $.each(Object.keys(XMLHttpRequest["responseJSON"]["errorMessageList"][0]), function(index, d){
+        //   //alert(d);
+        //   $("#msg_" + d).html(XMLHttpRequest["responseJSON"]["errorMessageList"][0][d])
+        //   $("#msg_" + d).addClass("alert alert-danger")
+        // })
+      }
+    })
+  
+    })
+    
+  </script>
 </body>
 </html>

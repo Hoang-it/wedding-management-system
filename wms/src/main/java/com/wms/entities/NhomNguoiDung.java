@@ -27,10 +27,10 @@ public class NhomNguoiDung implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+    @Column(unique = true, name = "ma_nhom")
     private String maNhom;
 
-    @Column
+    @Column(name = "ten_nhom")
     private String tenNhom;
 
     @OneToMany(mappedBy = "maNhom")

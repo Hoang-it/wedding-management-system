@@ -41,9 +41,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             "/ds/**",
             "/api/**",
             "/tra-cuu-tiec-cuoi",
+            "/chinh-sua-quy-dinh-phat",
         };
 
-        
+        String[] allowToBql = {
+           
+        };
 
         http.authorizeRequests()
             .antMatchers(allowAll).permitAll()
@@ -61,9 +64,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .and()
             .logout()
             .permitAll()
-            .logoutSuccessUrl("/login")
-            .and()
-            .rememberMe().key("uniqueAndSecret").tokenValiditySeconds(60 * 2)
             .and()
             .csrf().disable();
 

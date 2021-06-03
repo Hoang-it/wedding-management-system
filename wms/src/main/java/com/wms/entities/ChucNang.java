@@ -28,13 +28,13 @@ public class ChucNang implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+    @Column(unique = true, name = "ma_chucnang")
     private String maChucNang;
 
-    @Column
+    @Column(name = "ten_chucnang")
     private String tenChucNang;
 
-    @Column
+    @Column(name = "ten_manhinh_duocload")
     private String tenManHinhDuocLoad;
 
     @OneToMany(mappedBy = "maChucNang", fetch = FetchType.EAGER)

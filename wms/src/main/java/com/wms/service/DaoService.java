@@ -5,11 +5,13 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import com.wms.ValidationResponse;
 import com.wms.dto.CaDTO;
 import com.wms.dto.DichVuDTO;
 import com.wms.dto.HoaDonDTO;
@@ -22,9 +24,9 @@ import com.wms.entities.Ca;
 import com.wms.entities.ChiTietDichVu;
 import com.wms.entities.ChiTietMonAn;
 import com.wms.entities.ChucNang;
-import com.wms.entities.DanhSachSanh;
+import com.wms.entities.Sanh;
 import com.wms.entities.DichVu;
-import com.wms.entities.HoaDonThanhToan;
+import com.wms.entities.HoaDon;
 import com.wms.entities.LoaiSanh;
 import com.wms.entities.MonAn;
 import com.wms.entities.NguoiDung;
@@ -93,7 +95,7 @@ public class DaoService {
         for (LoaiSanh data : loaiSanhRepository.findAll()) {
             d = new LoaiSanhDTO();
             d.setTenLoaiSanh(data.getTenLoaiSanh());
-            d.setMaLoaiSanh(data.getMaSanh());
+            d.setMaLoaiSanh(data.getMaLoaiSanh());
             d.setDonGiaBanToiThieu(data.getDonGiaBanToiThieu());
             ds.add(d);
         }
@@ -101,7 +103,7 @@ public class DaoService {
     }
 
     public void datSanhCuoi(SanhDTO sanhMoi){
-        DanhSachSanh record = new DanhSachSanh();
+        Sanh record = new Sanh();
         Long row = danhSachSanhRepository.count() + 1;
         String index = row < 10 ? "0" + row.toString() : row.toString();
         record.setMaSanh("SA" + index);
@@ -131,7 +133,7 @@ public class DaoService {
     public List<SanhDTO> layToanBoDanhSachSanh(){
         List<SanhDTO> dsSanh = new ArrayList<>();
         SanhDTO data = null;
-        for (DanhSachSanh sanh : danhSachSanhRepository.findAll()) {
+        for (Sanh sanh : danhSachSanhRepository.findAll()) {
             data = new SanhDTO();
             data.setMaSanh(sanh.getMaSanh());
             data.setTenSanh(sanh.getTenSanh());
@@ -167,56 +169,75 @@ public class DaoService {
         return dsDichVu;
     }
 
-    public void datTiecCuoi(TiecDTO tiecCuoi){
+    public boolean datTiecCuoi(TiecDTO tiecCuoi, ValidationResponse res){
         TiecCuoi record = new TiecCuoi();
-        HoaDonThanhToan hoaDon = new HoaDonThanhToan();  
+        HoaDon hoaDon = new HoaDon();  
         Long rowHD = hoaDonThanhToanRepository.count() + 1;       
         String indexHD = rowHD < 10 ? "0" + rowHD.toString() : rowHD.toString();
         Set<ChiTietMonAn> thucDon = new HashSet<>();
         Set<ChiTietDichVu> dsDichVu = new HashSet<>();
         Long rowTC = tiecCuoiRepository.count() + 1;
         String indexTC = rowTC < 10 ? "0" + rowTC.toString() : rowTC.toString();
+        boolean choPhepDatTiec = true;
+        HashMap<String, String> errorFields = new HashMap<>();
+        List container = new ArrayList<>();
 
-        record.setMaTiecCuoi("TC" + indexTC);
+        List<TiecCuoi> dsTiecCuoiNgay = tiecCuoiRepository.findAllByNgayDaiTiec(tiecCuoi.getNgayDaiTiec());
+
+        for (TiecCuoi tC : dsTiecCuoiNgay) {
+            if (tiecCuoi.getCa().equals(tC.getMaCa().getMaCa())){
+                if (tiecCuoi.getSanh().equals(tC.getMaSanh().getMaSanh())){
+                    choPhepDatTiec = false;
+                }
+                
+            }
+        }
+
+        if (choPhepDatTiec){
+            record.setMaTiecCuoi("TC" + indexTC);
        
-        record.setTenChuRe(tiecCuoi.getTenChuRe());
-        record.setTenCoDau(tiecCuoi.getTenCoDau());
-        record.setDienThoai(tiecCuoi.getSdt());
-        record.setNgayDaiTiec(tiecCuoi.getNgayDaiTiec());
-        record.setMaCa(caRepository.findById(tiecCuoi.getCa()).get());
-        record.setMaSanh(danhSachSanhRepository.findById(tiecCuoi.getSanh()).get());
-        record.setSoLuongBan(tiecCuoi.getSoLuongBan());
-        record.setSoLuongBanDuTru(tiecCuoi.getSoLuongBanDuTru());
-        record.setTienDatCoc(tiecCuoi.getTienDatCoc());
+            record.setTenChuRe(tiecCuoi.getTenChuRe());
+            record.setTenCoDau(tiecCuoi.getTenCoDau());
+            record.setDienThoai(tiecCuoi.getSdt());
+            record.setNgayDaiTiec(tiecCuoi.getNgayDaiTiec());
+            record.setMaCa(caRepository.findById(tiecCuoi.getCa()).get());
+            record.setMaSanh(danhSachSanhRepository.findById(tiecCuoi.getSanh()).get());
+            record.setSoLuongBan(tiecCuoi.getSoLuongBan());
+            record.setSoLuongBanDuTru(tiecCuoi.getSoLuongBanDuTru());
+            record.setTienDatCoc(tiecCuoi.getTienDatCoc());
 
-        for (DichVuDTO dichVu : tiecCuoi.getDichVu()) {
-            ChiTietDichVu data = new ChiTietDichVu();
-            data.setMaTiecCuoi(record);
-            data.setMaDichVu(dichVuRepository.findById(dichVu.getMaDichVu()).get());
-            data.setDonGiaDichVu(dichVuRepository.findById(dichVu.getMaDichVu()).get().getDonGia());
-            data.setSoLuong(dichVu.getSoLuong());
-            data.setThanhTien(data.getDonGiaDichVu().multiply(new BigDecimal(data.getSoLuong())));
-            dsDichVu.add(data);
+            for (DichVuDTO dichVu : tiecCuoi.getDichVu()) {
+                ChiTietDichVu data = new ChiTietDichVu();
+                data.setMaTiecCuoi(record);
+                data.setMaDichVu(dichVuRepository.findById(dichVu.getMaDichVu()).get());
+                data.setDonGiaDichVu(dichVuRepository.findById(dichVu.getMaDichVu()).get().getDonGia());
+                data.setSoLuong(dichVu.getSoLuong());
+                data.setThanhTien(data.getDonGiaDichVu().multiply(new BigDecimal(data.getSoLuong())));
+                dsDichVu.add(data);
+            }
+
+            for (MonAnDTO monAn : tiecCuoi.getMonAn()) {
+                ChiTietMonAn data = new ChiTietMonAn();
+                data.setMaTiecCuoi(record);
+                data.setMaMonAn(monAnRepository.findById(monAn.getMaMonAn()).get());
+                data.setDonGiaMonAn(monAnRepository.findById(monAn.getMaMonAn()).get().getDonGia());
+                data.setGhiChu(monAn.getGhiChu());
+
+                thucDon.add(data);
+            }
+
+            record.setChiTietDichVu(dsDichVu);
+            record.setChiTietMonAn(thucDon);
+
+            hoaDon.setMaHoaDon("HD" + indexHD);
+            hoaDon.setMaTiecCuoi(record);
+
+            tiecCuoiRepository.save(record);      
+            hoaDonThanhToanRepository.save(hoaDon); 
+            return choPhepDatTiec;
         }
-
-        for (MonAnDTO monAn : tiecCuoi.getMonAn()) {
-            ChiTietMonAn data = new ChiTietMonAn();
-            data.setMaTiecCuoi(record);
-            data.setMaMonAn(monAnRepository.findById(monAn.getMaMonAn()).get());
-            data.setDonGiaMonAn(monAnRepository.findById(monAn.getMaMonAn()).get().getDonGia());
-            data.setGhiChu(monAn.getGhiChu());
-
-            thucDon.add(data);
-        }
-
-        record.setChiTietDichVu(dsDichVu);
-        record.setChiTietMonAn(thucDon);
-
-        hoaDon.setMaHoaDon("HD" + indexHD);
-        hoaDon.setMaTiecCuoi(record);
-
-        tiecCuoiRepository.save(record);      
-        hoaDonThanhToanRepository.save(hoaDon);  
+        
+        return choPhepDatTiec;
     }
 
     public List<TiecDTO> layToanBoDanhSachTiecCuoi(){
@@ -247,7 +268,7 @@ public class DaoService {
             iter = nguoiDung.getMaNhom().getPhanQuyenIds().iterator(); 
             quyen = (PhanQuyen) iter.next();  
             data.setMaTaiKhoan(nguoiDung.getId());
-            data.setTenTaiKhoan(nguoiDung.getTenNguoiDung());
+            data.setTenTaiKhoan(nguoiDung.getTenDangNhap());
             data.setQuyen(quyen.getMaChucNang().getTenChucNang());
             dsNguoiDung.add(data);
         }
@@ -287,7 +308,7 @@ public class DaoService {
         PhanQuyen quyen = (PhanQuyen) iter.next();
 
         model.setMaTaiKhoan(data.getId());
-        model.setTenTaiKhoan(data.getTenNguoiDung());
+        model.setTenTaiKhoan(data.getTenDangNhap());
         model.setQuyen(quyen.getMaChucNang().getTenChucNang());
         return model;
     }
@@ -345,7 +366,7 @@ public class DaoService {
         LoaiSanhDTO model = new LoaiSanhDTO();
         LoaiSanh data = loaiSanhRepository.findById(maLoaiSanh).get();
         
-        model.setMaLoaiSanh(data.getMaSanh());
+        model.setMaLoaiSanh(data.getMaLoaiSanh());
         model.setTenLoaiSanh(data.getTenLoaiSanh());
         model.setDonGiaBanToiThieu(data.getDonGiaBanToiThieu());
         return model;
@@ -373,7 +394,7 @@ public class DaoService {
         Long row = loaiSanhRepository.count();
         String index = row < 10 ? "0" + row.toString() : row.toString();
 
-        record.setMaSanh("LS" + row);
+        record.setMaLoaiSanh("LS" + row);
         record.setTenLoaiSanh(sanh.getTenLoaiSanh());
         record.setDonGiaBanToiThieu(sanh.getDonGiaBanToiThieu());        
         loaiSanhRepository.save(record);
@@ -454,10 +475,10 @@ public class DaoService {
 
     public void lapHoaDon(HoaDonDTO data){
         TiecCuoi tiecCuoi = tiecCuoiRepository.findById(data.getMaTiecCuoi()).get();
-        HoaDonThanhToan hoaDon = tiecCuoi.getHoaDonThanhToan();  
+        HoaDon hoaDon = tiecCuoi.getHoaDonThanhToan();  
         
         hoaDon.setTienDatCoc(data.getTienDatCoc());        
-        hoaDon.setNgayThanhToan(data.getNgayThanhToan());
+       // hoaDon.setNgayThanhToan(data.getNgayThanhToan());
 
         hoaDon.setDonGiaBan(data.getDonGiaBan());
         hoaDon.setTongTienBan(data.getTongTienBan());

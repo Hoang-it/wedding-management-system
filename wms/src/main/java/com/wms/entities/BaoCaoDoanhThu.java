@@ -2,6 +2,7 @@ package com.wms.entities;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -13,6 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,26 +25,26 @@ import lombok.Setter;
 })
 @Getter
 @Setter
+@AllArgsConstructor
 @NoArgsConstructor
-public class DoanhThuThang implements Serializable{
-
+public class BaoCaoDoanhThu implements Serializable{
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long maDoanhThuThang;
+    @Column(length = 4, name = "ma_baocao_doanhthu")
+    private Long maBaoCaoDoanhThu;
 
-    @Column(length = 2)
-    private String thang;
+    @Column(name = "thang")
+    private int thang;
 
-    @Column(length = 4)
-    private String nam;
+    @Column(name = "nam")
+    private int nam;
 
-    @Column(precision = 15, scale = 2)
-    private BigDecimal doanhThu;
+    @Column(precision = 15, scale = 2, name = "tong_doanhthu")
+    private BigDecimal tongDoanhThu;
 
-    @OneToMany(mappedBy = "doanhThuThang")
-    private Set<HoaDonThanhToan> dsHoaDon;
+    @OneToMany(mappedBy = "baoCaoDoanhThu")
+    Set<ChiTietBaoCao> chiTietBaoCao;
 
-    public DoanhThuThang(String thang, String nam) {
+    public BaoCaoDoanhThu(int thang, int nam) {
         this.thang = thang;
         this.nam = nam;
     }

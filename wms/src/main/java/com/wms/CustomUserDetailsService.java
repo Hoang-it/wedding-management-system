@@ -19,7 +19,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        NguoiDung nguoiDung = nguoiDungRepository.findByTenNguoiDung(username);
+        NguoiDung nguoiDung = nguoiDungRepository.findByTenDangNhap(username);
         Set<PhanQuyen> phanQuyen = nguoiDung.getMaNhom().getPhanQuyenIds();
         return new CustomUserDetails(nguoiDung, phanQuyen);
     }

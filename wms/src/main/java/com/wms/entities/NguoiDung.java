@@ -28,18 +28,18 @@ public class NguoiDung {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
-    private String tenNguoiDung;
+    @Column(unique = true, name = "ten_dangnhap")
+    private String tenDangNhap;
 
-    @Column
+    @Column(name = "matkhau")
     private String matKhau;
 
     @ManyToOne
-    @JoinColumn(name = "maNhom", foreignKey = @ForeignKey(name ="FK_NGUOIDUNG_NHOMNGUOIDUNG"), referencedColumnName = "maNhom")
+    @JoinColumn(name = "ma_nhom", foreignKey = @ForeignKey(name ="FK_NGUOIDUNG_NHOMNGUOIDUNG"), referencedColumnName = "ma_nhom")
     private NhomNguoiDung maNhom;
 
     public NguoiDung(String string, String encode, NhomNguoiDung nhomNguoiDung) {
-        this.tenNguoiDung = string;
+        this.tenDangNhap = string;
         this.matKhau = encode;
         this.maNhom = nhomNguoiDung;
     }

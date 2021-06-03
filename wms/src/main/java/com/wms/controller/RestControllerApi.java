@@ -138,17 +138,41 @@ public class RestControllerApi {
         return daoService.layThongTinLoaiSanh(loaiSanh);
     }
 
-    @PostMapping(value = {"/cap-nhat-loai-sanh"})
-    public ResponseEntity<ValidationResponse> capNhatThongTinLoaiSanh(@RequestBody LoaiSanhDTO sanh, @RequestParam("type") String type) {
-        if ("update".equals(type)){
-            daoService.capNhatThongTinLoaiSanh(sanh);
-            return new ResponseEntity<>(null, HttpStatus.OK);
+    @PostMapping(value = {"/cap-nhat-loai-sanh"}, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<ValidationResponse> capNhatThongTinLoaiSanh(@RequestBody @Valid LoaiSanhDTO sanh, 
+            @RequestParam("type") String type, BindingResult result) throws Exception{
+        ValidationResponse res = new ValidationResponse();
+        if (!result.hasErrors()){
+            res.setStatus("SUCCESS");
+            if ("bql".equals(HomeController.role)){
+                if ("update".equals(type)){
+                    daoService.capNhatThongTinLoaiSanh(sanh);
+                    return new ResponseEntity<>(res, HttpStatus.OK);
+                }
+                if ("add".equals(type)){
+                    daoService.themLoaiSanh(sanh);
+                    return new ResponseEntity<>(res, HttpStatus.OK);
+                }
+                return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+            }
+            return new ResponseEntity<>(res, HttpStatus.FORBIDDEN);
+        } else{
+            res.setStatus("FAIL");
+            System.out.println("FAILLLLLLLLLL");
+            HashMap<String, String> errorFields = new HashMap<>();
+            List container = new ArrayList<>();
+    
+            for (FieldError iterable_element : result.getFieldErrors()) {
+                System.out.println(iterable_element.getDefaultMessage());
+                errorFields.put(iterable_element.getField(), iterable_element.getDefaultMessage());
+            }
+            container.add(errorFields);
+            res.setErrorMessageList(container);
+            return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
         }
-        if ("add".equals(type)){
-            daoService.themLoaiSanh(sanh);
-            return new ResponseEntity<>(null, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        
+        
     }
 
     @DeleteMapping(value = {"/xoa-loai-sanh"})
@@ -177,17 +201,23 @@ public class RestControllerApi {
     @ResponseBody
     public ResponseEntity<ValidationResponse> datTiec(@RequestBody @Valid TiecDTO tiec, BindingResult result) throws Exception{
         System.out.println("DAT TIEC");
-        
+        HashMap<String, String> errorFields = new HashMap<>();
+        List container = new ArrayList<>();
+
         ValidationResponse res = new ValidationResponse();
         if(!result.hasErrors()){
             res.setStatus("SUCCESS");
-            daoService.datTiecCuoi(tiec);  
+            if (!daoService.datTiecCuoi(tiec, res)){
+                errorFields.put("ca", "Không thể đặt vào ngày này");
+                container.add(errorFields);
+                res.setErrorMessageList(container);
+                return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+            }  
             System.out.println(tiec.toString());
             return new ResponseEntity<>(res, HttpStatus.OK);
         } else{
             res.setStatus("FAIL");
-            HashMap<String, String> errorFields = new HashMap<>();
-            List container = new ArrayList<>();
+            
     
             for (FieldError iterable_element : result.getFieldErrors()) {
                 errorFields.put(iterable_element.getField(), iterable_element.getDefaultMessage());

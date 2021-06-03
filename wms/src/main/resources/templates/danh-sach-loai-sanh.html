@@ -7,6 +7,9 @@
     <th:block th:insert="~{index :: libs}"></th:block>
 </head>
 <body>
+  <th:block th:insert="~{index :: menu-bar}"></th:block>
+
+  <!-- MODEL -->
   <div class="container">
     <!-- Trigger the modal with a button -->  
     <!-- Modal -->
@@ -15,11 +18,13 @@
       
         <!-- Modal content-->
         <div class="modal-content">
+          <!-- HEADER -->
           <div class="modal-header">
             <p style="display: none; visibility: hidden;" id="mType"></p>
-            <h4 class="modal-title" id="mTitle">Cập nhật danh sách loại sảnh</h4>
+            <h4 class="modal-title" id="mTitle">Thông tin sảnh</h4>
             <button type="button" class="close" data-dismiss="modal">&times;</button>
           </div>
+          <!-- BODY -->
           <div class="modal-body">
             <div class="form-group row">
               <label for="tenLoaiSanh" class="col-3 col-form-label">Tên loại sảnh</label>
@@ -34,18 +39,31 @@
                 <input class="form-control" type="number" value="" id="donGiaBanToiThieu">
               </div>
             </div>
-            
+          <!-- FOOTER -->
           </div>
           <div class="modal-footer">
-            <button type="button" id="capNhat" class="btn btn-default"  data-dismiss="modal">Cập nhât</button>
+            <!-- PHÂN QUYỀN -->
+            <th:block th:switch="${role}">
+              <th:block th:case="''" >
+                
+              </th:block>
+              <th:block th:case="'admin'">
+                
+              </th:block>
+              <th:block th:case="'bql'">
+                <button type="button" id="capNhat" class="btn btn-default"  data-dismiss="modal">Cập nhât</button>
+              </th:block>
+              <th:block th:case="'nhanvien'">
+                
+              </th:block>
+            </th:block> 
+            
           </div>
         </div>
-        
       </div>
     </div>
   </div>
 
-  <th:block th:insert="~{index :: menu-bar}"></th:block>
   <table class="table table-bordered" style="width: 70%;margin-left: auto;margin-right: auto;">
       <caption style="caption-side: top; text-align: center;"><h1>Danh sách loại sảnh</h1></caption>
       <thead class="thead-dark">
@@ -57,22 +75,11 @@
         </tr>
       </thead>
       <tbody id="dsLoaiSanh">
-        <tr>
-          <th scope="row">1</th>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>Otto</td>
-        </tr>
-        <tr>
-          <th scope="row">1</th>
-          <td>Mark</td>
-          <td>Otto</td> 
-          <td style="word-wrap: break-word;min-width: 160px;max-width: 160px;">Ottoadfasdfđsàasfasfsdfasfasfasdfasdfasdfasfadasfasdfsdf</td>
-        </tr>
         
       </tbody>
     </table>
   <script>
+      
       $.get("http://localhost:8080/api/ds-loai-sanh", function(data){
       $("#dsLoaiSanh").empty()
 
@@ -101,7 +108,7 @@
                 click: function(){
                   //alert(d.maCa)
                   $("#mType").html("update")
-                  $("#mTitle").html("Cập nhật loại sảnh")
+                  //$("#mTitle").html("Cập nhật loại sảnh")
                   $.get("http://localhost:8080/api/thong-tin-loai-sanh?lsid=" + d.maLoaiSanh, function(data){
                     
                     $("#tenLoaiSanh").val(data["tenLoaiSanh"])
@@ -110,26 +117,78 @@
                   })
                 }
             }))    
-          $("#action-" + d.maLoaiSanh).append($('<button>', {
-              "style": "margin-left: 3%;",
-              "class": "fa fa-trash btn btn-primary",
-              click: function(){
-                alert("Đợi email của cô")
-              //   $.ajax({
-              //     url: "http://localhost:8080/api/xoa-loai-sanh?lsid=" + d.maLoaiSanh,
-              //     type: 'DELETE',
-              //     success: function(result) {
-              //         // Do something with the result
-              //     }
-              // });   
-              }
-          }))
+          switch($("#roleUser").html()) {
+            case '':
+              break;
+            case 'admin':
+              break;
+            case 'bql':
+              $("#action-" + d.maLoaiSanh).append($('<button>', {
+                "style": "margin-left: 3%;",
+                "class": "fa fa-trash btn btn-primary",
+                click: function(){
+                  $.ajax({
+                    url: "http://localhost:8080/api/xoa-loai-sanh?lsid=" + d.maLoaiSanh,
+                    type: 'DELETE',
+                    success: function(){
+                      alert("Cap nhat thanh cong")
+                      location.reload();
+                    },
+                    error: function(XMLHttpRequest, textStatus, errorThrown) {
+                      //alert(JSON.stringify(XMLHttpRequest["responseJSON"]["errorMessageList"]));
+                      alert("Không thể xóa")
+                      location.reload();
+                      // $.each(Object.keys(XMLHttpRequest["responseJSON"]["errorMessageList"][0]), function(index, d){
+                      //   //alert(d);
+                      //   $("#msg_" + d).html(XMLHttpRequest["responseJSON"]["errorMessageList"][0][d])
+                      //   $("#msg_" + d).addClass("alert alert-danger")
+                      // })
+                    }
+                });   
+                }
+              }))
+              break;
+            case 'nhanvien':
+              break;
+            default:
+              // code block
+          }
+          
+          
       })
-      
-      $("#dsLoaiSanh").append($('<tr>', { 
+
+      switch($("#roleUser").html()) {
+        case '':
+          $("input").prop('readonly', true);
+          $("input").removeClass("form-control")
+          $("input").addClass("form-control-plaintext")
+          alert($("#mTitle").html())
+          break;
+        case 'admin':
+          $("input").removeClass("form-control")
+          $("input").addClass("form-control-plaintext")
+          $("input").prop('readonly', true);
+          break;
+        case 'bql':
+          $("input").removeClass("form-control-plaintext")
+          $("input").addClass("form-control")
+          $("input").prop('readonly', false);
+          //$("#mTitle").html("Cập nhật danh sách loại sảnh")
+          $("#dsLoaiSanh").append($('<tr>', { 
                 "id":  "row-add",
                 "style": " border: 1px solid Transparent!important;"
           }))
+          break;
+        case 'nhanvien':
+          $("input").removeClass("form-control")
+          $("input").addClass("form-control-plaintext")
+          $("input").prop('readonly', true);
+          break;
+        default:
+          // code block
+      }
+      
+      
       $("#row-add").append($('<button>', {
             "type": "button",
             "style": "margin-left: 3%;",
@@ -157,20 +216,22 @@
       data["tenLoaiSanh"] = $("#tenLoaiSanh").val()
       data["donGiaBanToiThieu"] = $("#donGiaBanToiThieu").val()
       
-      //alert(JSON.stringify(data))
+      alert(JSON.stringify(data))
       $.ajax({
           type: "POST",
           contentType: "application/json",
-          url: "http://localhost:8080/api/cap-nhat-loai-sanh?type=" + $("#type").html(),
+          url: "http://localhost:8080/api/cap-nhat-loai-sanh?type=" + $("#mType").html(),
           data: JSON.stringify(data),
           dataType: "json",
-          success: function(){
+          success: function(e){
             alert("Cap nhat thanh cong")
-            location.reload();
+            //location.reload();
           },
           error: function(XMLHttpRequest, textStatus, errorThrown) {
-            //alert(JSON.stringify(XMLHttpRequest["responseJSON"]["errorMessageList"]));
-            location.reload();
+            alert("Fail");
+            alert(JSON.stringify(XMLHttpRequest));
+            alert(JSON.stringify(XMLHttpRequest["responseJSON"]["errorMessageList"]));
+            //location.reload();
             // $.each(Object.keys(XMLHttpRequest["responseJSON"]["errorMessageList"][0]), function(index, d){
             //   //alert(d);
             //   $("#msg_" + d).html(XMLHttpRequest["responseJSON"]["errorMessageList"][0][d])

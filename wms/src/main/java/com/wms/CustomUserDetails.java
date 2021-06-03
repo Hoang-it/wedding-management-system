@@ -40,7 +40,7 @@ public class CustomUserDetails implements UserDetails{
 
     @Override
     public String getUsername() {
-        return nguoiDung.getTenNguoiDung();
+        return nguoiDung.getTenDangNhap();
     }
 
     @Override

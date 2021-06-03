@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,7 +22,7 @@ import lombok.Setter;
 
 @Entity
 @Table(uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"ma_tiec_cuoi", "ma_mon_an"})
+    @UniqueConstraint(columnNames = {"ma_tieccuoi", "ma_monan"})
 })
 @Getter
 @Setter
@@ -33,18 +34,18 @@ public class ChiTietMonAn implements Serializable{
     private Long maChiTietMA;
 
     @ManyToOne
-    @JoinColumn(name = "ma_tiec_cuoi", referencedColumnName = "maTiecCuoi", columnDefinition = "varchar(4)")
+    @JoinColumn(name = "ma_tieccuoi", referencedColumnName = "ma_tieccuoi", columnDefinition = "varchar(4)", foreignKey = @ForeignKey(name ="FK_CTMA_TIECCUOI"))
     private TiecCuoi maTiecCuoi;
     
     @ManyToOne
-    @JoinColumn(name = "ma_mon_an",  referencedColumnName = "maMonAn",  columnDefinition = "varchar(4)")
+    @JoinColumn(name = "ma_monan",  referencedColumnName = "ma_monan",  columnDefinition = "varchar(4)", foreignKey = @ForeignKey(name ="FK_CTMA_MONAN"))
     private MonAn maMonAn;
     
-    @Column
     @Lob
+    @Column(name = "ghi_chu")    
     private String ghiChu;
 
-    @Column(precision = 15, scale = 2)
+    @Column(precision = 15, scale = 2, name = "dongia_monan")
     private BigDecimal donGiaMonAn;
 
     public ChiTietMonAn(TiecCuoi tiecCuoi, MonAn monAn, String ghiChu){

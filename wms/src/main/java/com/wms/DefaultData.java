@@ -12,10 +12,10 @@ import com.wms.entities.Ca;
 import com.wms.entities.ChiTietDichVu;
 import com.wms.entities.ChiTietMonAn;
 import com.wms.entities.ChucNang;
-import com.wms.entities.DanhSachSanh;
+import com.wms.entities.Sanh;
 import com.wms.entities.DichVu;
-import com.wms.entities.DoanhThuThang;
-import com.wms.entities.HoaDonThanhToan;
+import com.wms.entities.BaoCaoDoanhThu;
+import com.wms.entities.HoaDon;
 import com.wms.entities.LoaiSanh;
 import com.wms.entities.MonAn;
 import com.wms.entities.NguoiDung;
@@ -150,10 +150,10 @@ public class DefaultData implements CommandLineRunner{
     }
 
     private void createDefaultDanhSachSanh(){
-        List<DanhSachSanh> dsSanh = new ArrayList<>();
-        dsSanh.add(new DanhSachSanh("SA01", "SANG Alpha", 100l, "", loaiSanhRepository.findById("LS01").get()));
-        dsSanh.add(new DanhSachSanh("SA02", "SANG Alpha", 100l, "", loaiSanhRepository.findById("LS01").get()));
-        dsSanh.add(new DanhSachSanh("SA03", "SANG Alpha", 100l, "", loaiSanhRepository.findById("LS01").get()));
+        List<Sanh> dsSanh = new ArrayList<>();
+        dsSanh.add(new Sanh("SA01", "SANG Alpha", 100l, "", loaiSanhRepository.findById("LS01").get()));
+        dsSanh.add(new Sanh("SA02", "SANG Alpha", 100l, "", loaiSanhRepository.findById("LS01").get()));
+        dsSanh.add(new Sanh("SA03", "SANG Alpha", 100l, "", loaiSanhRepository.findById("LS01").get()));
        
         danhSachSanhRepository.saveAll(dsSanh);
         System.out.println("Đã tạo thành công ds Sảnh");
@@ -321,11 +321,11 @@ public class DefaultData implements CommandLineRunner{
     }
 
     private void createDefaultHoaDonThanhToan(){
-        Set<HoaDonThanhToan> hoaDonThanhToan = new HashSet<HoaDonThanhToan>();
+        Set<HoaDon> hoaDonThanhToan = new HashSet<HoaDon>();
 
-        hoaDonThanhToan.add(new HoaDonThanhToan("HD01", LocalDate.of(2021, 12, 1), new BigDecimal("10000"), 
-                new BigDecimal("10000"),new BigDecimal("10000"),new BigDecimal("10000"),new BigDecimal("10000"),
-                 tiecCuoiRepository.findById("TC01").get(), doanhThuThangRepository.findById(1l).get() ));
+        // hoaDonThanhToan.add(new HoaDon("HD01", LocalDate.of(2021, 12, 1), new BigDecimal("10000"), 
+        //         new BigDecimal("10000"),new BigDecimal("10000"),new BigDecimal("10000"),new BigDecimal("10000"),
+        //          tiecCuoiRepository.findById("TC01").get(), doanhThuThangRepository.findById(1l).get() ));
         
         hoaDonThanhToanRepository.saveAll(hoaDonThanhToan);
         //chiTietMonAnRepository.saveAll(thucDon);
@@ -333,10 +333,10 @@ public class DefaultData implements CommandLineRunner{
     }
 
     private void createDefaultDoanhThuThang(){
-        Set<DoanhThuThang> soLieu = new HashSet<DoanhThuThang>();
+        Set<BaoCaoDoanhThu> soLieu = new HashSet<BaoCaoDoanhThu>();
 
-        soLieu.add(new DoanhThuThang("12", "2021"));
-        soLieu.add(new DoanhThuThang("11", "2021"));
+        // soLieu.add(new BaoCaoDoanhThu("12", "2021"));
+        // soLieu.add(new BaoCaoDoanhThu("11", "2021"));
         
         doanhThuThangRepository.saveAll(soLieu);
         //chiTietMonAnRepository.saveAll(thucDon);
@@ -371,7 +371,7 @@ public class DefaultData implements CommandLineRunner{
         // createDefaultLoaiSanh();
         // createDefaultDanhSachSanh();
 
-        // createDefaultDanhSachMonAn();
+        createDefaultDanhSachMonAn();
 
         // createDefaultDanhSachDichVu();
         // createDefaultTiec();

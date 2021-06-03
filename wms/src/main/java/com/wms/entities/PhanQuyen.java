@@ -24,11 +24,11 @@ public class PhanQuyen {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "maNhom", foreignKey = @ForeignKey(name="FK_PHANQUYEN_NHOMCHUCNANG"), referencedColumnName="maNhom")
+    @JoinColumn(name = "ma_nhom", foreignKey = @ForeignKey(name="FK_PHANQUYEN_NHOMCHUCNANG"), referencedColumnName="ma_nhom")
     private NhomNguoiDung maNhom;
 
     @ManyToOne    
-    @JoinColumn(name = "maChucNang", foreignKey = @ForeignKey(name="FK_PHANQUYEN_CHUCNANG"), referencedColumnName="maChucNang")
+    @JoinColumn(name = "ma_chuc_nang", foreignKey = @ForeignKey(name="FK_PHANQUYEN_CHUCNANG"), referencedColumnName="ma_chucnang")
     private ChucNang maChucNang;
 
     public PhanQuyen(NhomNguoiDung nhom, ChucNang chucNang){

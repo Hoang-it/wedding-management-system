@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface NguoiDungRepository extends PagingAndSortingRepository<NguoiDung, Long> {
-    NguoiDung findByTenNguoiDung(String tenNguoiDung);
+    NguoiDung findByTenDangNhap(String tenDangNhap);
 }

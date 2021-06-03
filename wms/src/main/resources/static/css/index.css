@@ -8,3 +8,7 @@
   border-radius: .75rem;
   margin-right: 10px;
 }
+
+input:disabled {
+  background: #dddddd;
+}
