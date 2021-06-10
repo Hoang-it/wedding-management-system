@@ -33,7 +33,7 @@ public class CustomeLoginSuccessHandler implements AuthenticationSuccessHandler 
         roleTargetUrlMap.put("QuanTriVien", "/quan-tri-vien");
         roleTargetUrlMap.put("BQL", "/bql");
         roleTargetUrlMap.put("NhanVien", "/nhan-vien");
-        roleTargetUrlMap.put("Khac", "/?role=default");
+        roleTargetUrlMap.put("Khac", "/");
     
         final Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         for (final GrantedAuthority grantedAuthority : authorities) {

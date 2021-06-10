@@ -117,6 +117,7 @@ public class DaoService {
         return ds;
     }
 
+
     public void datSanhCuoi(SanhDTO sanhMoi){
         Sanh record = new Sanh();
         Long row = danhSachSanhRepository.count() + 1;
@@ -152,8 +153,26 @@ public class DaoService {
             data = new SanhDTO();
             data.setMaSanh(sanh.getMaSanh());
             data.setTenSanh(sanh.getTenSanh());
+            data.setLoaiSanh(sanh.getMaLoaiSanh().getTenLoaiSanh());
+            data.setDonGiaBanToiThieu(sanh.getMaLoaiSanh().getDonGiaBanToiThieu());
+            data.setSoLuongBanToiDa(sanh.getSoLuongBanToiDa());
             dsSanh.add(data);
         }
+        return dsSanh;
+    }
+
+    public List<SanhDTO> laySanh(String maSanh){
+        List<SanhDTO> dsSanh = new ArrayList<>();
+        SanhDTO data = null;
+        Sanh sanh = danhSachSanhRepository.findById(maSanh).get();
+        data = new SanhDTO();
+        data.setMaSanh(sanh.getMaSanh());
+        data.setTenSanh(sanh.getTenSanh());
+        data.setLoaiSanh(sanh.getMaLoaiSanh().getTenLoaiSanh());
+        data.setDonGiaBanToiThieu(sanh.getMaLoaiSanh().getDonGiaBanToiThieu());
+        data.setSoLuongBanToiDa(sanh.getSoLuongBanToiDa());
+        dsSanh.add(data);
+    
         return dsSanh;
     }
 
@@ -179,6 +198,35 @@ public class DaoService {
             data.setMaDichVu(dichVu.getMaDichVu());
             data.setTenDichVu(dichVu.getTenDichVu());
             data.setDonGia(dichVu.getDonGia());
+            dsDichVu.add(data);
+        }
+        return dsDichVu;
+    }
+
+    public List<MonAnDTO> layDanhSachMonAnTrongBuoiTiec(String maBuoiTiec){
+        TiecCuoi tiec = tiecCuoiRepository.findById(maBuoiTiec).get();
+        List<MonAnDTO> dsMonAn = new ArrayList<>();
+        MonAnDTO data = null;
+        for (ChiTietMonAn monAn : tiec.getChiTietMonAn()) {
+            data = new MonAnDTO();
+            data.setMaMonAn(monAn.getMaMonAn().getMaMonAn());
+            data.setTenMonAn(monAn.getMaMonAn().getTenMonAn());
+            data.setDonGia(monAn.getMaMonAn().getDonGia());
+            
+            dsMonAn.add(data);
+        }
+        return dsMonAn;
+    }
+
+    public List<DichVuDTO> layDanhSachDichVuTrongBuoiTiec(String maBuoiTiec){
+        TiecCuoi tiec = tiecCuoiRepository.findById(maBuoiTiec).get();
+        List<DichVuDTO> dsDichVu = new ArrayList<>();
+        DichVuDTO data = null;
+        for (ChiTietDichVu dichVu : tiec.getChiTietDichVu()){
+            data = new DichVuDTO();
+            data.setMaDichVu(dichVu.getMaDichVu().getMaDichVu());
+            data.setTenDichVu(dichVu.getMaDichVu().getTenDichVu());
+            data.setDonGia(dichVu.getMaDichVu().getDonGia());
             dsDichVu.add(data);
         }
         return dsDichVu;
@@ -270,6 +318,24 @@ public class DaoService {
 
             dsTiecCuoi.add(data);
         }
+        return dsTiecCuoi;
+    }
+
+    public List<TiecDTO> layTiecCuoi(String maTiecCuoi){
+        List<TiecDTO> dsTiecCuoi = new ArrayList<>();
+        TiecDTO data = null;
+        TiecCuoi tiecCuoi = tiecCuoiRepository.findById(maTiecCuoi).get();
+        data = new TiecDTO();
+        data.setMaTiecCuoi(tiecCuoi.getMaTiecCuoi());
+        data.setTenCoDau(tiecCuoi.getTenCoDau());
+        data.setTenChuRe(tiecCuoi.getTenChuRe());
+        data.setSanh(tiecCuoi.getMaSanh().getTenSanh());
+        data.setNgayDaiTiec(tiecCuoi.getNgayDaiTiec());
+        data.setGio(tiecCuoi.getMaCa().getGioBatDau());
+        data.setSoLuongBan(tiecCuoi.getSoLuongBan());
+
+        dsTiecCuoi.add(data);
+        
         return dsTiecCuoi;
     }
 

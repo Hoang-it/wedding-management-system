@@ -69,6 +69,12 @@ public class HomeController implements ErrorController{
         return model;
     }
 
+    @GetMapping(value = {"/ds/sanh"})
+    public ModelAndView chinhSuaSanhPage(ModelAndView model){
+        model.setViewName("/danh-sach-sanh");
+        return model;
+    }
+
     @GetMapping(value = {"/ds/ca"})
     public ModelAndView chinhSuaCaPage(ModelAndView model){
         if (!"bql".equals(role)){

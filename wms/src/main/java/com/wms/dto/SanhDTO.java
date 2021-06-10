@@ -1,5 +1,7 @@
 package com.wms.dto;
 
+import java.math.BigDecimal;
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -28,7 +30,7 @@ public class SanhDTO {
     @Min(0)
     private Long soLuongBanToiDa;
 
-    private double donGiaBanToiThieu;
+    private BigDecimal donGiaBanToiThieu;
     
     private String ghiChu;
 }

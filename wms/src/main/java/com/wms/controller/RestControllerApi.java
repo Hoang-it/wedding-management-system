@@ -62,6 +62,11 @@ public class RestControllerApi {
         return daoService.layDanhSachLoaiSanh();
     } 
 
+    @GetMapping(value = {"/sanh"})
+    public List<SanhDTO> laySanh(@RequestParam("maSanh") String maSanh){        
+        return daoService.laySanh(maSanh);
+    } 
+
     @GetMapping(value = {"/ds-mon-an"})
     public List<MonAnDTO> layToanBoMonAn(){
         return daoService.layToanBoDanhSachMonAn();
@@ -75,6 +80,21 @@ public class RestControllerApi {
     @GetMapping(value = {"/ds-tiec-cuoi"})
     public List<TiecDTO> layToanBoTiecCuoi(){
         return daoService.layToanBoDanhSachTiecCuoi();
+    }
+
+    @GetMapping(value = {"/tiec-cuoi"})
+    public List<TiecDTO> layTiecCuoi(@RequestParam("maTiecCuoi") String maTiecCuoi){
+        return daoService.layTiecCuoi(maTiecCuoi);
+    }
+
+    @GetMapping(value = {"/tiec-cuoi/ds-mon-an"})
+    public List<MonAnDTO> layMonAnTrongBuoiTiec(@RequestParam("maTiecCuoi") String maTiecCuoi){
+        return daoService.layDanhSachMonAnTrongBuoiTiec(maTiecCuoi);
+    } 
+
+    @GetMapping(value = {"/tiec-cuoi/ds-dich-vu"})
+    public List<DichVuDTO> layDichVuTrongBuoiTiec(@RequestParam("maTiecCuoi") String maTiecCuoi){
+        return daoService.layDanhSachDichVuTrongBuoiTiec(maTiecCuoi);
     }
 
     @GetMapping(value = {"/ds-tham-so"})

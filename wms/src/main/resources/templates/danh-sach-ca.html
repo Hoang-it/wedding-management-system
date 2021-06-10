@@ -66,6 +66,12 @@
   
   <table class="table table-bordered" style="width: 70%;margin-left: auto;margin-right: auto;">
       <caption style="caption-side: top; text-align: center;"><h1>Danh sách ca</h1></caption>
+      <caption style="caption-side: top;margin-left: 70%;">
+        <div class="input-group">
+          <input type="text" class="form-control" id="maTiecCuoi" placeholder="Nhập mã sảnh" aria-describedby="timTiecCuoi">
+          <span class="btn btn-primary" id="timTiecCuoi"><i class="fa fa-search" aria-hidden="true"></i></span>
+        </div>
+      </caption> 
       <thead class="thead-dark">
         <tr>
           <th scope="col">STT</th>
@@ -90,6 +96,17 @@
         </tr>
         
       </tbody>
+      <caption>
+        <nav aria-label="Page navigation example">
+          <ul class="pagination">
+            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+          </ul>
+        </nav>
+      </caption>
   </table>
       
   <script>

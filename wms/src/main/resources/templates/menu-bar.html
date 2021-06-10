@@ -14,27 +14,73 @@
     </th:block>
 </head>
 <body>
+
+    <!-- TRANG CHỦ -->
+    <th:block th:fragment="menu-bar-trang-chu">
+        <li class="nav-item">
+            <a class="nav-link" id="link-trang-chu" href="/">Trang chủ <span class="sr-only">(current)</span></a>
+        </li>
+    </th:block>
+
+    <!-- ĐĂNG NHẬP -->
+    <th:block th:fragment="menu-bar-dang-nhap">
+        <li class="nav-item">
+            <a class="nav-link" id="link-lap-bao-cao" href="/login">Đăng nhập</a>
+        </li>
+    </th:block>
+
+    <!-- DANH SÁCH LOẠI SẢNH -->
+    <th:block th:fragment="menu-bar-ds-sanh">
+        <li class="nav-item">
+            <a class="nav-link" id="link-tiep-nhan-sanh" href="/ds/sanh">Danh sách sảnh</a>
+        </li>
+    </th:block>
+
+    <!-- DANH SÁCH LOẠI SẢNH -->
+    <th:block th:fragment="menu-bar-ds-loai-sanh">
+        <li class="nav-item">
+            <a class="nav-link" id="link-tiep-nhan-sanh" href="/ds/loai-sanh">Danh sách loại sảnh</a>
+        </li>
+    </th:block>
+
+    <!-- DANH SÁCH MÓN ĂN -->
+    <th:block th:fragment="menu-bar-ds-mon-an">
+        <li class="nav-item">
+            <a class="nav-link" id="link-dat-tiec-cuoi" href="/ds/mon-an">Danh sách món ăn</a>
+        </li>
+    </th:block>
+
+    <!-- DANH SÁCH DỊCH VỤ -->
+    <th:block th:fragment="menu-bar-ds-dich-vu">
+        <li class="nav-item">
+            <a class="nav-link" id="link-tra-cuu-tiec-cuoi" href="/ds/dich-vu">Danh sách dịch vụ</a>
+        </li>
+    </th:block>
+
+    <!-- TRA CỨU TIỆC CƯỚI -->
+    <th:block th:fragment="menu-bar-tra-cuu-tiec-cuoi">
+        <li class="nav-item">
+            <a class="nav-link" id="link-lap-bao-cao" href="/tra-cuu-tiec-cuoi">Tra cứu tiệc cưới</a>
+        </li>
+    </th:block>
+
     <th:block th:fragment="menu-bar-default">
         <div id="span-navbar" style="width: 25%;"></div>
         <ul class="nav nav-pills">
-            <li class="nav-item">
-                <a class="nav-link" id="link-trang-chu" href="/">Trang chủ <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="link-tiep-nhan-sanh" href="/ds/loai-sanh">Danh sách loại sảnh</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="link-dat-tiec-cuoi" href="/ds/mon-an">Danh sách món ăn</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="link-tra-cuu-tiec-cuoi" href="/ds/dich-vu">Danh sách dịch vụ</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="link-lap-bao-cao" href="/tra-cuu-tiec-cuoi">Tra cứu tiệc cưới</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="link-lap-bao-cao" href="/login">Đăng nhập</a>
-            </li>
+            
+            <th:block th:insert="~{menu-bar :: menu-bar-trang-chu}"></th:block>
+            
+            <th:block th:insert="~{menu-bar :: menu-bar-ds-sanh}"></th:block>
+
+            <th:block th:insert="~{menu-bar :: menu-bar-ds-loai-sanh}"></th:block>
+
+            <th:block th:insert="~{menu-bar :: menu-bar-ds-mon-an}"></th:block>
+
+            <th:block th:insert="~{menu-bar :: menu-bar-ds-dich-vu}"></th:block>
+            
+            <th:block th:insert="~{menu-bar :: menu-bar-tra-cuu-tiec-cuoi}"></th:block>
+            
+            <th:block th:insert="~{menu-bar :: menu-bar-dang-nhap}"></th:block>
         </ul>
     </th:block>
 

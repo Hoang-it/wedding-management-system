@@ -14,77 +14,88 @@
     </th:block>
 </head>
 <body>
+    <!-- XEM DANH SÁCH SẢNH -->
+    <th:block th:fragment="xem-danh-sach-sanh">
+      <div class="col-md-6 d-flex align-items-start">
+        <div>
+          <h2>Xem danh sách sảnh</h2>
+          <p>Lập hóa đơn thanh toán cho buổi tiệc dựa trên thông tin được dùng để đăng ký cho buổi tiệc đó</p>
+          <a href="/ds/sanh" class="btn btn-primary">
+            Explore
+          </a>
+        </div>
+      </div>
+    </th:block>
+
+    <!-- XEM DANH SÁCH LOẠI SẢNH -->
+    <th:block th:fragment="xem-danh-sach-loai-sanh">
+      <div class="col-md-4 d-flex align-items-start">
+        <div>
+          <h2>Xem danh sách loại sảnh</h2>
+          <p>Hiện thị các thông tin của sảnh như tên, loại sảnh, đơn giá tối thiểu,..v.v và cho phép tao một sảnh mới</p>
+          <a href="/ds/loai-sanh" class="btn btn-primary">
+            Explore
+          </a>
+        </div>
+      </div>
+    </th:block>
+
+    <!-- XEM DANH SÁCH MÓN ĂN -->
+    <th:block th:fragment="xem-danh-sach-mon-an">
+      <div class="col-md-4 d-flex align-items-start">
+        <div>
+          <h2>Xem danh sách món ăn</h2>
+          <p>Đắng ký một buổi tiêc cưới dựa trên các thông tin cơ bản như : tên cô dâu, chú rể,..v.v đặt thực đơn, dịch vụ</p>
+          <a href="/ds/mon-an" class="btn btn-primary">
+            Explore
+          </a>
+        </div>
+      </div>           
+    </th:block>
+
+    <!-- XEM DANH SÁCH DỊCH VỤ -->
+    <th:block th:fragment="xem-danh-sach-dich-vu">
+       <div class="col-md-4 d-flex align-items-start">
+        <div>
+          <h2>Xem danh sách dịch vụ</h2>
+          <p>Hiện thị danh sách những buổi tiệc cưới đang diễn ra, sắp diễn ra và đã diễn gia và cho phép tìm buổi tiệc mong muốn</p>
+          <a href="/ds/dich-vu" class="btn btn-primary">
+            Explore
+          </a>
+        </div>
+      </div>          
+    </th:block>
+
+     <!-- TRA CỨU TIỆC CƯỚI -->
+     <th:block th:fragment="xem-danh-sach-tiec-cuoi">
+      <div class="col-md-6 d-flex align-items-start">
+        <div>
+          <h2>Tra cứu tiệc cưới</h2>
+          <p>Lập hóa đơn thanh toán cho buổi tiệc dựa trên thông tin được dùng để đăng ký cho buổi tiệc đó</p>
+          <a href="/tra-cuu-tiec-cuoi" class="btn btn-primary">
+            Explore
+          </a>
+        </div>
+      </div>         
+   </th:block>
+
+
     <th:block th:fragment="chuc-nang-default">
         <h2 style="text-align: center;margin: 3%;"> CÁC CHỨC NĂNG</h2>
         <div class="container-fluid">
           <div class="row g-4 py-5 row-cols-1 row-cols-lg-3" style="margin-left: 5%; margin-right: 5%;">
-            <!-- XEM DANH SÁCH LOẠI SẢNH -->
-            <div class="col-md-4 d-flex align-items-start">
-              <div>
-                <h2>Xem danh sách loại sảnh</h2>
-                <p>Hiện thị các thông tin của sảnh như tên, loại sảnh, đơn giá tối thiểu,..v.v và cho phép tao một sảnh mới</p>
-                <a href="/ds/loai-sanh" class="btn btn-primary">
-                  Explore
-                </a>
-              </div>
-            </div>
-            
-            <!-- XEM DANH SÁCH MÓN ĂN -->
-            <div class="col-md-4 d-flex align-items-start">
-              <div>
-                <h2>Xem danh sách món ăn</h2>
-                <p>Đắng ký một buổi tiêc cưới dựa trên các thông tin cơ bản như : tên cô dâu, chú rể,..v.v đặt thực đơn, dịch vụ</p>
-                <a href="/ds/mon-an" class="btn btn-primary">
-                  Explore
-                </a>
-              </div>
-            </div>
+            <th:block th:insert="~{chuc-nang :: xem-danh-sach-sanh}"></th:block>
 
-            <!-- XEM DANH SÁCH DỊCH VỤ -->
-            <div class="col-md-4 d-flex align-items-start">
-              <div>
-                <h2>Xem danh sách dịch vụ</h2>
-                <p>Hiện thị danh sách những buổi tiệc cưới đang diễn ra, sắp diễn ra và đã diễn gia và cho phép tìm buổi tiệc mong muốn</p>
-                <a href="/ds/dich-vu" class="btn btn-primary">
-                  Explore
-                </a>
-              </div>
-            </div>
+            <th:block th:insert="~{chuc-nang :: xem-danh-sach-loai-sanh}"></th:block>
+            
+
+            <th:block th:insert="~{chuc-nang :: xem-danh-sach-mon-an}"></th:block>
           </div>
 
           <div class="row g-4 py-5 row-cols-1 row-cols-lg-3" style="margin-left: 5%; margin-right: 5%;">
-            <!-- TRA CỨU SẢNH -->
-            <div class="col-md-6 d-flex align-items-start">
-              <div>
-                <h2>Xem danh sách sảnh</h2>
-                <p>Lập hóa đơn thanh toán cho buổi tiệc dựa trên thông tin được dùng để đăng ký cho buổi tiệc đó</p>
-                <a href="/tra-cuu-tiec-cuoi" class="btn btn-primary">
-                  Explore
-                </a>
-              </div>
-            </div>
+            <th:block th:insert="~{chuc-nang :: xem-danh-sach-dich-vu}"></th:block>
 
-            <!-- TRA CỨU TIỆC CƯỚI -->
-            <div class="col-md-6 d-flex align-items-start">
-              <div>
-                <h2>Tra cứu tiệc cưới</h2>
-                <p>Lập hóa đơn thanh toán cho buổi tiệc dựa trên thông tin được dùng để đăng ký cho buổi tiệc đó</p>
-                <a href="/tra-cuu-tiec-cuoi" class="btn btn-primary">
-                  Explore
-                </a>
-              </div>
-            </div>
-            
-            <!-- TRA CỨU PHIẾU MÓN ĂN, DỊCH VỤ -->
-            <div class="col-md-6 d-flex align-items-start">
-              <div>
-                <h2>Tra cứu phiếu món ăn, dịch vụ</h2>
-                <p>Thống kê, tính doanh thu của nhà hang dựa vào các hóa đơn đã được thành lập trong tháng đó</p>
-                <a href="/tra-cuu-tiec-cuoi" class="btn btn-primary">
-                  Explore
-                </a>
-              </div>
-            </div>
+            <th:block th:insert="~{chuc-nang :: xem-danh-sach-tiec-cuoi}"></th:block>
           </div>
         </div>
     </th:block>

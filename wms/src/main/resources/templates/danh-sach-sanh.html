@@ -29,8 +29,8 @@
             <div class="form-group row">
               <label for="tenLoaiSanh" class="col-3 col-form-label">Tên loại sảnh</label>
               <div class="col-9">
-                <input class="form-control" type="hidden" value="" id="maLoaiSanh">
-                <input class="form-control" type="text" value="" id="tenLoaiSanh">
+                <input class="form-control" type="hidden" value="" id="maSanh">
+                <input class="form-control" type="text" value="" id="tenSanh">
               </div>
             </div>
             <div class="form-group row">
@@ -75,12 +75,14 @@
       <thead class="thead-dark">
         <tr>
           <th scope="col">STT</th>
+          <th scope="col">Tên Sảnh</th>
           <th scope="col">Loại Sảnh</th>
           <th scope="col">Đơn giá bàn tối thiểu</th>
+          <th scope="col">Số lượng bàn tối đa</th>
           <th scope="col">Action</th>
         </tr>
       </thead>
-      <tbody id="dsLoaiSanh">
+      <tbody id="dsSanh">
         
       </tbody>
       <caption>
@@ -95,29 +97,34 @@
         </nav>
       </caption>
     </table>
-    
   <script>
       
-      $.get("http://localhost:8080/api/ds-loai-sanh", function(data){
-      $("#dsLoaiSanh").empty()
+      $.get("http://localhost:8080/api/ds-sanh", function(data){
+      $("#dsSanh").empty()
 
       $.each(data, function(index, d){           
-          $("#dsLoaiSanh").append($('<tr>', { 
-                "id":  "row-" + d.maLoaiSanh
+          $("#dsSanh").append($('<tr>', { 
+                "id":  "row-" + d.maSanh
           }))
-          $("#row-" + d.maLoaiSanh).append($('<td>', { 
+          $("#row-" + d.maSanh).append($('<td>', { 
               text: index
           }))
-          $("#row-" + d.maLoaiSanh).append($('<td>', { 
-              text: d.tenLoaiSanh
+          $("#row-" + d.maSanh).append($('<td>', { 
+              text: d.tenSanh
           }))
-          $("#row-" + d.maLoaiSanh).append($('<td>', { 
+          $("#row-" + d.maSanh).append($('<td>', { 
+              text: d.loaiSanh
+          }))
+          $("#row-" + d.maSanh).append($('<td>', { 
               text: d.donGiaBanToiThieu
           }))
-          $("#row-" + d.maLoaiSanh).append($('<td>', { 
-              id: "action-" + d.maLoaiSanh
+          $("#row-" + d.maSanh).append($('<td>', { 
+              text: d.soLuongBanToiDa
+          }))
+          $("#row-" + d.maSanh).append($('<td>', { 
+              id: "action-" + d.maSanh
           }))  
-          $("#action-" + d.maLoaiSanh).append($('<button>', {
+          $("#action-" + d.maSanh).append($('<button>', {
                 "type": "button",
                 "style": "margin-left: 3%;",
                 "class": "fa fa-info btn btn-primary",
@@ -127,15 +134,19 @@
                   //alert(d.maCa)
                   $("#mType").html("update")
                   //$("#mTitle").html("Cập nhật loại sảnh")
-                  $.get("http://localhost:8080/api/thong-tin-loai-sanh?lsid=" + d.maLoaiSanh, function(data){
+                  $.get("http://localhost:8080/api/sanh?maSanh=" + d.maSanh, function(data){
+                    //alert(JSON.stringify(data))
+                    $.each(data, function(index, d){
+                      $("#tenSanh").val(d.tenSanh)
+                      $("#donGiaBanToiThieu").val(d.donGiaBanToiThieu)
+                      $("#maSanh").val(d.maLoaiSanh)
+                    })
                     
-                    $("#tenLoaiSanh").val(data["tenLoaiSanh"])
-                    $("#donGiaBanToiThieu").val(data["donGiaBanToiThieu"])
-                    $("#maLoaiSanh").val(data["maLoaiSanh"])
                   })
                 }
             }))    
-          switch($("#roleUser").html()) {
+          
+            switch($("#roleUser").html()) {
             case '':
               break;
             case 'admin':
@@ -234,7 +245,7 @@
       data["tenLoaiSanh"] = $("#tenLoaiSanh").val()
       data["donGiaBanToiThieu"] = $("#donGiaBanToiThieu").val()
       
-      alert(JSON.stringify(data))
+      //alert(JSON.stringify(data))
       $.ajax({
           type: "POST",
           contentType: "application/json",
