@@ -1,0 +1,268 @@
+<!DOCTYPE HTML>
+<html>
+<head> 
+    <title>Home Page</title> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <th:block th:insert="~{index :: libs}"></th:block>
+</head>
+<body>
+    <th:block th:insert="~{index :: menu-bar}"></th:block>
+
+    <div class="container">
+      <!-- Trigger the modal with a button -->  
+      <!-- Modal -->
+      <div class="modal fade" id="modelMonAn" role="dialog">
+        <div class="modal-dialog">
+        
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title" id="">Danh sách món ăn</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+              <table class="table table-bordered">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">STT</th>
+                    <th scope="col">Tên Món ăn</th>
+                    <th scope="col">Đơn giá</th>
+                    
+                  </tr>
+                </thead>
+                <tbody id="dsMonAn">
+                </tbody>
+            </table>
+            </div>
+            <div class="modal-footer">
+              <!-- PHÂN QUYỀN -->
+              <th:block th:switch="${role}">
+                <th:block th:case="''" >
+                  
+                </th:block>
+                <th:block th:case="'admin'">
+                  
+                </th:block>
+                <th:block th:case="'bql'">
+                  <button type="button" id="capNhat" class="btn btn-default"  data-dismiss="modal">Cập nhât</button>
+                </th:block>
+                <th:block th:case="'nhanvien'">
+                  
+                </th:block>
+              </th:block> 
+          </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- Trigger the modal with a button -->  
+      <!-- Modal -->
+      <div class="modal fade" id="modelDichVu" role="dialog">
+        <div class="modal-dialog">
+        
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title" id="">Danh sách dịch vụ</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+              <table class="table table-bordered">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">STT</th>
+                    <th scope="col">Tên dịch vụ</th>
+                    <th scope="col">Đơn giá</th>
+                  </tr>
+                </thead>
+                <tbody id="dsDichVu">
+          
+                </tbody>
+            </table>
+            </div>
+            <div class="modal-footer">
+              <!-- PHÂN QUYỀN -->
+              <th:block th:switch="${role}">
+                <th:block th:case="''" >
+                  
+                </th:block>
+                <th:block th:case="'admin'">
+                  
+                </th:block>
+                <th:block th:case="'bql'">
+                  <button type="button" id="capNhat" class="btn btn-default"  data-dismiss="modal">Cập nhât</button>
+                </th:block>
+                <th:block th:case="'nhanvien'">
+                  
+                </th:block>
+              </th:block> 
+          </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+    
+    <table class="table table-bordered" style="width: 70%;margin-left: auto;margin-right: auto;">
+        <caption style="caption-side: top; text-align: center;"><h1>Danh sách hóa đơn</h1></caption>
+        <caption style="caption-side: top;margin-left: 70%;">
+          <div class="input-group">
+            <input type="text" class="form-control" id="maTiecCuoi" placeholder="Nhập mã tiệc cưới" aria-describedby="timTiecCuoi">
+            <span class="btn btn-primary" id="timTiecCuoi"><i class="fa fa-search" aria-hidden="true"></i></span>
+          </div>
+        </caption>  
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">STT</th>
+            <th scope="col">Mã hóa đơn</th>
+            <th scope="col">Mã tiệc cưới</th>
+            <th scope="col">Tên chú rể</th>
+            <th scope="col">Tên cô dâu</th>
+            <th scope="col">Ngày đãi tiệc</th>
+            <th scope="col">Ngày thanh toán</th>
+            <th scope="col">Doanh thu</th>
+            <th:block th:switch="${role}">
+              <th:block th:case="''" >
+                <th scope="col">Action</th>
+              </th:block>
+              <th:block th:case="'admin'">
+                
+              </th:block>
+              <th:block th:case="'bql'">
+              </th:block>
+              <th:block th:case="'nhanvien'">
+                <th scope="col">Action</th>
+              </th:block>
+            </th:block> 
+            
+          </tr>
+        </thead>
+        <tbody id="dsHoaDon">          
+        </tbody>
+        <caption>
+          <nav aria-label="Page navigation example">
+            <ul class="pagination">
+              <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+              <li class="page-item"><a class="page-link" href="#">1</a></li>
+              <li class="page-item"><a class="page-link" href="#">2</a></li>
+              <li class="page-item"><a class="page-link" href="#">3</a></li>
+              <li class="page-item"><a class="page-link" href="#">Next</a></li>
+            </ul>
+          </nav>
+        </caption>
+      </table>
+      <script>
+        function createTable(data){
+          $("#dsHoaDon").empty()
+          $.each(data, function(index, d){
+            $("#dsHoaDon").append($("<tr>",{
+              "id": "row-" + d.maHoaDon
+            }))
+            $("#row-" + d.maHoaDon).append($("<td>",{
+              text: index
+            }))
+            $("#row-" + d.maHoaDon).append($("<td>",{
+              text: d.maHoaDon
+            }))
+            $("#row-" + d.maHoaDon).append($("<td>",{
+              text: d.maTiecCuoi
+            }))
+            $("#row-" + d.maHoaDon).append($("<td>",{
+              text: d.tenChuRe
+            }))
+            $("#row-" + d.maHoaDon).append($("<td>",{
+              text: d.tenCoDau
+            }))
+            $("#row-" + d.maHoaDon).append($("<td>",{
+              text: d.ngayDaiTiec
+            }))
+            $("#row-" + d.maHoaDon).append($("<td>",{
+              text: d.ngayThanhToan
+            }))
+            $("#row-" + d.maHoaDon).append($("<td>",{
+              text: d.conLai
+            }))
+            switch($("#roleUser").html()) {
+              case '':
+                break;
+              case 'admin':
+                break;
+              case 'bql':
+                break;
+              case 'nhanvien':
+                $("#row-" + d.maHoaDon).append($("<td>",{
+                  id: "action-" + d.maHoaDon,
+                }))
+                $("#action-" + d.maHoaDon).append($("<a>", {
+                    "class": "fa fa-shopping-basket btn btn-primary mr-3",
+                    "title": "Lập hóa đơn",
+                    "href": "http://localhost:8080/lap-hoa-don-thanh-toan?maTiecCuoi=" + d.maTiecCuoi,
+                }))
+                $("#action-" + d.maHoaDon).append($("<a>", {
+                    "title": "Xóa hóa đơn",
+                    "class": "fa fa-trash btn btn-primary",
+                    click: function(){
+                        $.ajax({
+                        url: "http://localhost:8080/api/hoa-don/xoa?maHoaDon=" + d.maHoaDon,
+                        type: 'DELETE',
+                        success: function(result) {
+                            alert("Xóa thành công")
+                            location.reload();
+
+                        },
+                        error: function(result) {
+                            alert("Xóa thất bại")
+                        }
+                    });
+                  }
+                
+                }))
+                break;
+              default:
+                // code block
+            }
+            
+          })
+        }
+        $.get("http://localhost:8080/api/ds-hoa-don", function(data){
+          alert(JSON.stringify(data))
+          createTable(data)
+        })
+      
+        $("#maTiecCuoi").on('keypress',function(e) {
+            if(e.which == 13) {
+              $("#timTiecCuoi").click()
+            }
+        });
+        $("#timTiecCuoi").click(function(){
+          alert($("#maTiecCuoi").val())
+          if ($("#maTiecCuoi").val() != ""){
+            $.ajax({
+              url: "http://localhost:8080/api/tiec-cuoi?maTiecCuoi=" + $("#maTiecCuoi").val()
+            })
+            .done(function(data){
+              createTable(data)
+            })
+            .fail(function() {
+              alert( "Không tìm thấy tiệc cưới với mã cho trước" );
+            })
+            // $.get("http://localhost:8080/api/tiec-cuoi?maTiecCuoi=" + $("#maTiecCuoi").val(), function(data){
+          
+            //   createTable(data)
+            // })
+          } else{
+            
+            $.get("http://localhost:8080/api/ds-tiec-cuoi", function(data){
+          
+              createTable(data)
+            })
+          }
+          
+        })
+      </script>
+</body>
+</html>

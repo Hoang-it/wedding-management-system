@@ -1,7 +1,5 @@
 package com.wms.controller;
 
-import java.util.Collection;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -9,9 +7,7 @@ import com.wms.CustomUserDetails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.servlet.error.ErrorController;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
@@ -139,17 +135,6 @@ public class HomeController implements ErrorController{
         return model;
     }
 
-    // @RequestMapping(value = { "/logout" })
-    // public ModelAndView logoutPage(ModelAndView model, HttpServletRequest request, HttpServletResponse response) {
-    //     model.setViewName("login");
-    //     role = "";
-    //     System.out.println("Quyen : " + role);
-    //     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    //     if (auth != null) {
-    //         new SecurityContextLogoutHandler().logout(request, response, auth);
-    //     }
-    //     return model;
-    // }
 
     @RequestMapping(value = {"/access-denied"})
     public ModelAndView accessDeniedPage(ModelAndView model){
@@ -172,19 +157,6 @@ public class HomeController implements ErrorController{
         return "/error";
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping(value = { "/admin" })
-    public ModelAndView adminPage(ModelAndView model) {
-        model.setViewName("index-admin");
-        return model;
-    }
-
-    @PreAuthorize("hasRole('USER')")
-    @GetMapping(value = { "/user" })
-    public ModelAndView userPage(ModelAndView model) {
-        model.setViewName("index-user");
-        return model;
-    }
 
     @GetMapping(value = {"/tiep-nhan-sanh"})
     public ModelAndView tiepNhanSanh(ModelAndView model){
@@ -219,6 +191,16 @@ public class HomeController implements ErrorController{
         return model;
     }
 
+    @GetMapping(value = {"/tra-cuu-hoa-don"})
+    public ModelAndView traCuuHoaDon(ModelAndView model){
+        if ("admin".equals(role)){
+            model.setViewName("/access-deny");
+            return model;
+        }
+        model.setViewName("tra-cuu-hoa-don");
+        return model;
+    }
+
     @GetMapping(value = {"/lap-hoa-don-thanh-toan"})
     public ModelAndView lapHoaDonThanhToan(ModelAndView model, @RequestParam("maTiecCuoi") String maTiecCuoi){
         if (!"nhanvien".equals(role)){
@@ -226,6 +208,19 @@ public class HomeController implements ErrorController{
             return model;
         }
         model.setViewName("lap-hoa-don-thanh-toan");
+
+        model.addObject("navActive", "#link-lap-hoa-don");
+        model.addObject("maTiecCuoi", maTiecCuoi);
+        return model;
+    }
+
+    @GetMapping(value = {"/chi-tiet-tiec-cuoi"})
+    public ModelAndView xemChiTietTiecCuoi(ModelAndView model, @RequestParam("maTiecCuoi") String maTiecCuoi){
+        if (!"nhanvien".equals(role)){
+            model.setViewName("/access-deny");
+            return model;
+        }
+        model.setViewName("chi-tiet-tiec-cuoi");
 
         model.addObject("navActive", "#link-lap-hoa-don");
         model.addObject("maTiecCuoi", maTiecCuoi);

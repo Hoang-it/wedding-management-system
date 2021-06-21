@@ -16,11 +16,17 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class HoaDonDTO {
+    private String maHoaDon;
     private String maTiecCuoi;
     private String tenChuRe;
     private String tenCoDau;
+    private String soDienThoai;
+    private String ca;
+    private String sanh;
     private LocalDate ngayThanhToan;
+    private LocalDate ngayDaiTiec;
     private Long soLuongBan;
+    private Long soLuongBanDuTru;
     private Long ngayTreHan;
     private BigDecimal donGiaBan;
     private BigDecimal tongTienBan;

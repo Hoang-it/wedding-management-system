@@ -276,13 +276,34 @@
               case 'bql':
                 break;
               case 'nhanvien':
-                $("#row-" + d.maTiecCuoi).append($("<td>",{
-                  html: $("<a>", {
-                    text: "Lập hóa đơn",
-                    "href": "http://localhost:8080/lap-hoa-don-thanh-toan?maTiecCuoi=" + d.maTiecCuoi,
-                    "class": "btn btn-info"
-                  })
+              $("#row-" + d.maTiecCuoi).append($("<td>",{
+                  id: "action-" + d.maTiecCuoi,
                 }))
+                $("#action-" + d.maTiecCuoi).append($("<a>", {
+                    "class": "fa fa-shopping-basket btn btn-primary mr-3",
+                    "title": "Xem chi tiết tiệc cưới",
+                    "href": "http://localhost:8080/chi-tiet-tiec-cuoi?maTiecCuoi=" + d.maTiecCuoi,
+                }))
+                $("#action-" + d.maTiecCuoi).append($("<a>", {
+                    "title": "Xóa hóa đơn",
+                    "class": "fa fa-trash btn btn-primary",
+                    click: function(){
+                        $.ajax({
+                        url: "http://localhost:8080/api/tiec-cuoi/xoa?maTiecCuoi=" + d.maTiecCuoi,
+                        type: 'DELETE',
+                        success: function(result) {
+                            alert("Xóa thành công")
+                            location.reload();
+
+                        },
+                        error: function(result) {
+                            alert("Xóa thất bại")
+                        }
+                    });
+                  }
+                
+                }))
+                
                 break;
               default:
                 // code block

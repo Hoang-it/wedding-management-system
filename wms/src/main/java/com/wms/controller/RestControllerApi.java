@@ -1,7 +1,6 @@
 package com.wms.controller;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -82,9 +81,24 @@ public class RestControllerApi {
         return daoService.layToanBoDanhSachTiecCuoi();
     }
 
+    @GetMapping(value = {"/ds-hoa-don"})
+    public List<HoaDonDTO> layToanBoHoaDon(){
+        return daoService.layToanBoDanhSachHoaDon();
+    }
+
     @GetMapping(value = {"/tiec-cuoi"})
     public List<TiecDTO> layTiecCuoi(@RequestParam("maTiecCuoi") String maTiecCuoi){
         return daoService.layTiecCuoi(maTiecCuoi);
+    }
+
+    @DeleteMapping(value = {"/tiec-cuoi/xoa"})
+    public void xoaTiecCuoi(@RequestParam("maTiecCuoi") String maTiecCuoi){
+        daoService.xoaTiecCuoi(maTiecCuoi);
+    }
+
+    @DeleteMapping(value = {"/hoa-don/xoa"})
+    public void xoaHoaDon(@RequestParam("maHoaDon") String maHoaDon){
+        daoService.xoaHoaDon(maHoaDon);
     }
 
     @GetMapping(value = {"/tiec-cuoi/ds-mon-an"})
@@ -218,6 +232,11 @@ public class RestControllerApi {
     @GetMapping(value = {"/thong-tin-hoa-don"})
     public HoaDonDTO lapHoaDonThanhToan(@RequestParam("maTiecCuoi") String maTiecCuoi) {
         return daoService.layThongTinHoaDon(maTiecCuoi);
+    }
+
+    @GetMapping(value = {"/thong-tin-tiec-cuoi"})
+    public HoaDonDTO lapThongTinTiecCuoi(@RequestParam("maTiecCuoi") String maTiecCuoi) {
+        return daoService.layThongTinTiecCuoi(maTiecCuoi);
     }
 
     @PostMapping(value = {"/dat-tiec"}, consumes = MediaType.APPLICATION_JSON_VALUE)
