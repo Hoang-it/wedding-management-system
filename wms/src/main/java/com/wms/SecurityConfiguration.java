@@ -34,9 +34,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         String[] allowAll  =  {
-            "/css/**",
-            "/images/**",
-            "/fonts/**",
+            "/build/**/**",
+            "/docs/**/**",
+            "/src/**/**",
+            "/vendors/**/**",
+            "/css/**/**",
+            "/images/**/**",
+            "/fonts/**/**",
             "/scripts/**",
             "/ds/**",
             "/api/**",

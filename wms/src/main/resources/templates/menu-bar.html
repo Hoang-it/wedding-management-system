@@ -4,21 +4,15 @@
     <title>Home Page</title> 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
-    <th:block th:fragment="libs">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link rel="stylesheet" href="/css/index.css">
-    </th:block>
+    <th:block th:insert="~{index :: libs}"></th:block>
+    
 </head>
 <body>
 
     <!-- TRANG CHỦ -->
     <th:block th:fragment="menu-bar-trang-chu">
         <li class="nav-item">
-            <a class="nav-link" id="link-trang-chu" href="/">Trang chủ <span class="sr-only">(current)</span></a>
+            <a class="nav-link" id="link-trang-chu" href="/"><i class="fa fa-home"></i>Trang chủ <span class="sr-only">(current)</span></a>
         </li>
     </th:block>
 
@@ -50,6 +44,13 @@
         </li>
     </th:block>
 
+    <!-- DANH SÁCH CA -->
+    <th:block th:fragment="menu-bar-ds-ca">
+        <li class="nav-item">
+            <a class="nav-link" id="link-tiep-nhan-sanh" href="/ds/ca">Ca</a>
+        </li>
+    </th:block>
+
     <!-- DANH SÁCH MÓN ĂN -->
     <th:block th:fragment="menu-bar-ds-mon-an">
         <li class="nav-item">
@@ -78,6 +79,12 @@
         </li>
     </th:block>
 
+    <!-- TRA CỨU HÓA ĐƠN -->
+    <th:block th:fragment="menu-bar-lap-hoa-don">
+        <li class="nav-item">
+            <a class="nav-link" id="link-lap-bao-cao" href="/lap-bao-cao-thang">Lập báo cáo tháng</a>
+        </li>
+    </th:block>
 
     <!-- ĐẶT TIỆC CƯỚI -->
     <th:block th:fragment="menu-bar-dat-tiec-cuoi">
@@ -86,104 +93,167 @@
         </li>
     </th:block>
 
+    <!-- QUY ĐỊNH PHẠT -->
+    <th:block th:fragment="menu-bar-quy-dinh-phat">
+        <li class="nav-item">
+            <a class="nav-link" id="link-dat-tiec-cuoi" href="/chinh-sua-quy-dinh-phat">Quy định phạt</a>
+        </li>
+    </th:block>
+
+    <!-- QUY ĐỊNH PHẠT -->
+    <th:block th:fragment="menu-bar-phan-quyen">
+        <li class="nav-item">
+            <a id="link-lap-bao-cao" href="/phan-quyen"> Phân quyền </a>
+        </li>
+    </th:block>
+
     <th:block th:fragment="menu-bar-default">
-        <div id="span-navbar" style="width: 25%;"></div>
-        <ul class="nav nav-pills">
+        <div class="container body">
+            <div class="main_container">
+                <div class="col-md-3 left_col">
+                    <div class="left_col scroll-view">
+                        <div class="navbar nav_title" style="border: 0;">
+                            <a id="link-trang-chu" href="/" class="site_title"> <span>QUẢN LÝ TIỆC CƯỚI </span></a>
+                        </div>
+                        <div class="clearfix"></div>
+                        <br />
+                        <!-- sidebar menu -->
+                        <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                            <div class="menu_section">
+                                <h3>NHÀ HÀNG GOLDEN PALACE</h3>
+                                <ul class="nav side-menu">
             
-            <th:block th:insert="~{menu-bar :: menu-bar-trang-chu}"></th:block>
-            
-            <th:block th:insert="~{menu-bar :: menu-bar-ds-sanh}"></th:block>
-
-            <th:block th:insert="~{menu-bar :: menu-bar-ds-loai-sanh}"></th:block>
-
-            <th:block th:insert="~{menu-bar :: menu-bar-ds-mon-an}"></th:block>
-
-            <th:block th:insert="~{menu-bar :: menu-bar-ds-dich-vu}"></th:block>
-            
-            <th:block th:insert="~{menu-bar :: menu-bar-tra-cuu-tiec-cuoi}"></th:block>
-            
-            <th:block th:insert="~{menu-bar :: menu-bar-dang-nhap}"></th:block>
-        </ul>
+                                    <th:block th:insert="~{menu-bar :: menu-bar-trang-chu}"></th:block>
+                                    
+                                    <li>
+                                        <a> Danh sách <span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <th:block th:insert="~{menu-bar :: menu-bar-ds-sanh}"></th:block>
+                        
+                                            <th:block th:insert="~{menu-bar :: menu-bar-ds-loai-sanh}"></th:block>
+                                
+                                            <th:block th:insert="~{menu-bar :: menu-bar-ds-mon-an}"></th:block>
+                                
+                                            <th:block th:insert="~{menu-bar :: menu-bar-ds-dich-vu}"></th:block>
+                                        </ul>                                     
+                                    </li>
+                                    
+                                    <th:block th:insert="~{menu-bar :: menu-bar-tra-cuu-tiec-cuoi}"></th:block>
+                                    
+                                    <th:block th:insert="~{menu-bar :: menu-bar-dang-nhap}"></th:block>
+                                </ul>
+                            </div>
+                        </div>
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+        
     </th:block>
 
     <th:block th:fragment="menu-bar-nhan-vien">
-        <div id="span-navbar" style="width: 35%;"></div>
-        <ul class="nav nav-pills">
-
-            <th:block th:insert="~{menu-bar :: menu-bar-trang-chu}"></th:block>
-
-            <th:block th:insert="~{menu-bar :: menu-bar-dat-tiec-cuoi}"></th:block>
-
-            <th:block th:insert="~{menu-bar :: menu-bar-tra-cuu-tiec-cuoi}"></th:block>
-
-            <th:block th:insert="~{menu-bar :: menu-bar-tra-cuu-hoa-don}"></th:block>
-            
-            <th:block th:insert="~{menu-bar :: menu-bar-dang-xuat}"></th:block>
-        </ul>
+        <div class="container body">
+            <div class="main_container">
+                <div class="col-md-3 left_col">
+                    <div class="left_col scroll-view">
+                        <div class="navbar nav_title" style="border: 0;">
+                            <a id="link-trang-chu" href="/" class="site_title"> <span>QUẢN LÝ TIỆC CƯỚI </span></a>
+                        </div>
+                        <div class="clearfix"></div>
+                        <br />
+                        <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                            <div class="menu_section">
+                                <h3>NHÀ HÀNG GOLDEN PALACE</h3>
+                                
+                                <ul class="nav side-menu">
+        
+                                    <th:block th:insert="~{menu-bar :: menu-bar-trang-chu}"></th:block>
+                        
+                                    <th:block th:insert="~{menu-bar :: menu-bar-dat-tiec-cuoi}"></th:block>
+                        
+                                    <th:block th:insert="~{menu-bar :: menu-bar-tra-cuu-tiec-cuoi}"></th:block>
+                        
+                                    <th:block th:insert="~{menu-bar :: menu-bar-tra-cuu-hoa-don}"></th:block>
+                                    
+                                    <th:block th:insert="~{menu-bar :: menu-bar-dang-xuat}"></th:block>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>        
     </th:block>
 
-    <th:block th:fragment="menu-bar-bql">   
-        <div id="span-navbar" style="width: 15%;"></div>
-        <ul class="nav nav-pills">
-            <li class="nav-item">
-                <a class="nav-link" id="link-trang-chu" href="/">Trang chủ <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="link-tiep-nhan-sanh" href="/ds/loai-sanh">Danh sách loại sảnh</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="link-dat-tiec-cuoi" href="/ds/mon-an">Danh sách món ăn</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="link-tra-cuu-tiec-cuoi" href="/ds/dich-vu">Danh sách dịch vụ</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="link-lap-bao-cao" href="/tra-cuu-tiec-cuoi">Tra cứu tiệc cưới</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="link-lap-bao-cao" href="/lap-bao-cao-thang">Lập báo cáo tháng</a>
-            </li>
-            <li class="nav-item dropdown nav-bql">
-                <div>
-                <a class="nav-link dropdown-toggle" href="#" id="chinhSuaDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Chỉnh sửa
-                </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="chinhSuaDropdown">
-                    <a class="dropdown-item" href="/ds/loai-sanh">Loại sảnh</a>
-                    <a class="dropdown-item" href="/ds/ca">Ca</a>
-                    <a class="dropdown-item" href="/ds/mon-an">Món ăn</a>
-                    <a class="dropdown-item" href="/ds/dich-vu">Dịch vụ</a>
-                    <a class="dropdown-item" href="/chinh-sua-quy-dinh-phat">Quy định phạt</a>
+    <th:block th:fragment="menu-bar-bql">  
+        <div class="container body">
+            <div class="main_container">
+                <div class="col-md-3 left_col">
+                    <div class="left_col scroll-view">
+                        <div class="navbar nav_title" style="border: 0;">
+                            <a id="link-trang-chu" href="/" class="site_title"> <span>QUẢN LÝ TIỆC CƯỚI </span></a>
+                        </div>
+                        <div class="clearfix"></div>
+                        <br />
+                        <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                            <div class="menu_section">
+                                <h3>NHÀ HÀNG GOLDEN PALACE</h3>
+                                <ul class="nav side-menu">
+                                    <th:block th:insert="~{menu-bar :: menu-bar-trang-chu}"></th:block>
+                                    
+                                    <li><a href="#" id="chinhSuaDropdown"> Chỉnh sửa<span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <th:block th:insert="~{menu-bar :: menu-bar-ds-sanh}"></th:block>
+                                            <th:block th:insert="~{menu-bar :: menu-bar-ds-loai-sanh}"></th:block>
+                                            <th:block th:insert="~{menu-bar :: menu-bar-ds-ca}"></th:block>                                            
+                                            <th:block th:insert="~{menu-bar :: menu-bar-ds-mon-an}"></th:block>
+                                            <th:block th:insert="~{menu-bar :: menu-bar-ds-dich-vu}"></th:block>
+                                            <th:block th:insert="~{menu-bar :: menu-bar-quy-dinh-phat}"></th:block>    
+                                        </ul>
+                                    </li>
+                                    <th:block th:insert="~{menu-bar :: menu-bar-tra-cuu-hoa-don}"></th:block>    
+                                    <th:block th:insert="~{menu-bar :: menu-bar-lap-hoa-don}"></th:block>    
+                                    
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="link-lap-bao-cao" href="/lap-bao-cao-thang">Lập báo cáo tháng</a>
+                                    </li>
+                                    <th:block th:insert="~{menu-bar :: menu-bar-dang-xuat}"></th:block>    
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                </div>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Tài khoản
-                </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="/dangXuat">Đăng xuất</a>
-                </div>
-            </li>
-        </ul>
+            </div> 
+        </div>
     </th:block>
 
     <th:block th:fragment="menu-bar-admin">
-        <div id="span-navbar" style="width: 75%;"></div>
-        <ul class="nav nav-pills">   
-            <li class="nav-item">
-                <a class="nav-link" id="link-lap-bao-cao" href="/phan-quyen">Phân quyền</a>
-            </li>         
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Tài khoản
-                </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="/dangXuat">Đăng xuất</a>
+        <div class="container body">
+            <div class="main_container">
+                <div class="col-md-3 left_col">
+                    <div class="left_col scroll-view">
+                        <div class="navbar nav_title" style="border: 0;">
+                            <a id="link-trang-chu" href="/" class="site_title"> <span>QUẢN LÝ TIỆC CƯỚI </span></a>
+                          </div>
+              
+                          <div class="clearfix"></div>
+                          <br />
+                          <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                            <div class="menu_section">
+                                <h3>NHÀ HÀNG GOLDEN PALACE</h3>
+                                <ul class="nav side-menu">
+                                    <th:block th:insert="~{menu-bar :: menu-bar-phan-quyen}"></th:block>    
+                                <th:block th:insert="~{menu-bar :: menu-bar-dang-xuat}"></th:block>        
+                                </ul>
+                                
+                            </div>
+                          </div>
+                    </div>
                 </div>
-            </li>
-        </ul>
+            </div>
+        </div>
     </th:block>
-    
+    <th:block th:insert="~{index :: jsfiles}"></th:block>
 </body>
 </html>

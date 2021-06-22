@@ -1,12 +1,13 @@
 <!DOCTYPE HTML>
 <html>
 <head> 
-    <title>Home Page</title> 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta charset="utf-8">
-    <th:block th:insert="~{index :: libs}"></th:block>
+  <title>DANH SÁCH LOẠI SẢNH</title> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <th:block th:insert="~{index :: libs}"></th:block>
 </head>
-<body>
+<body class="nav-md">
   <th:block th:insert="~{index :: menu-bar}"></th:block>
 
   <!-- MODEL -->
@@ -20,7 +21,7 @@
         <div class="modal-content">
           <!-- HEADER -->
           <div class="modal-header">
-            <p style="display: none; visibility: hidden;" id="mType"></p>
+            <p style="display: none; visibility: hidden;" id="mType">update</p>
             <h4 class="modal-title" id="mTitle">Thông tin sảnh</h4>
             <button type="button" class="close" data-dismiss="modal">&times;</button>
           </div>
@@ -64,116 +65,148 @@
     </div>
   </div>
 
-  <table class="table table-bordered" style="width: 70%;margin-left: auto;margin-right: auto;">
-      <caption style="caption-side: top; text-align: center;"><h1>Danh sách loại sảnh</h1></caption>
-      <caption style="caption-side: top;margin-left: 70%;">
-        <div class="input-group">
-          <input type="text" class="form-control" id="maTiecCuoi" placeholder="Nhập mã sảnh" aria-describedby="timTiecCuoi">
-          <span class="btn btn-primary" id="timTiecCuoi"><i class="fa fa-search" aria-hidden="true"></i></span>
+  <div class="container body">
+    <div class="main_container">
+      <!-- page content -->
+      <div class="right_col" role="main">
+        <div class="">
+          <div class="page-title">
+
+            <!-- TITLE -->
+            <div class="title_left">
+              <h3>DANH SÁCH LOẠI SẢNH</h3>
+            </div>
+
+            <div class="title_right">
+              <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                <div class="input-group">
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="clearfix"></div>
+          <div class="row">
+            <div class="col-md-12 col-sm-12 ">
+              <div class="x_panel">
+                <div class="x_title">
+
+                </div>
+                <div class="x_content">
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="card-box table-responsive">
+                        
+                        <!-- TABLE -->
+                        <table id="table_id" class="table table-striped table-bordered" style="width:100%">                  
+                          <thead>
+                            <tr>
+                              <th scope="col">STT</th>
+                              <th scope="col">Loại Sảnh</th>
+                              <th scope="col">Đơn giá bàn tối thiểu</th>
+                              <th scope="col">Action</th>
+                            </tr>
+                          </thead>
+                          <tbody id="dsLoaiSanh">        
+                          </tbody>                          
+                        </table>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </caption> 
-      <thead class="thead-dark">
-        <tr>
-          <th scope="col">STT</th>
-          <th scope="col">Loại Sảnh</th>
-          <th scope="col">Đơn giá bàn tối thiểu</th>
-          <th scope="col">Action</th>
-        </tr>
-      </thead>
-      <tbody id="dsLoaiSanh">
-        
-      </tbody>
-      <caption>
-        <nav aria-label="Page navigation example">
-          <ul class="pagination">
-            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-          </ul>
-        </nav>
-      </caption>
-    </table>
+      </div>
+    </div>
+  </div>
+  
+  
+  <!-- Datatables -->
+  <script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+  <script src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+  <script src="../vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+  <script src="../vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
+  <script src="../vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
+  <script src="../vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
+  <script src="../vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
+  <script src="../vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+  <script src="../vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+  <script src="../vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+  <script src="../vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+  <script src="../vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
+  <script src="../vendors/jszip/dist/jszip.min.js"></script>
+  <script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
+  <script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
+
+  <!-- Custom Theme Scripts -->
+  <script src="../build/js/custom.min.js"></script>
     
   <script>
-      
-      $.get("http://localhost:8080/api/ds-loai-sanh", function(data){
-      $("#dsLoaiSanh").empty()
+      var table = $('#table_id').DataTable({
+                paging: true,
+                select: true,
+                order: [ [ 1, 'asc' ] ],
+                lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                ajax: {
+                    url: '/api/ds-loai-sanh',
+                    dataSrc: ''
+                    
+                },
+                columns: [     
+                    {
+                      "data": "tenLoaiSanh",
+                      "targets": 0 
+                    },               
+                    { 
+                      "data": "tenLoaiSanh",
+                      "targets": 1 
+                    },
+                    { 
+                      "data": "donGiaBanToiThieu",
+                      "targets": 2
+                    },                    
+                    { 
+                      "data": "maLoaiSanh",
+                      "targets": 4, 
+                      "render": function( data, type){
+                        
 
-      $.each(data, function(index, d){           
-          $("#dsLoaiSanh").append($('<tr>', { 
-                "id":  "row-" + d.maLoaiSanh
-          }))
-          $("#row-" + d.maLoaiSanh).append($('<td>', { 
-              text: index
-          }))
-          $("#row-" + d.maLoaiSanh).append($('<td>', { 
-              text: d.tenLoaiSanh
-          }))
-          $("#row-" + d.maLoaiSanh).append($('<td>', { 
-              text: d.donGiaBanToiThieu
-          }))
-          $("#row-" + d.maLoaiSanh).append($('<td>', { 
-              id: "action-" + d.maLoaiSanh
-          }))  
-          $("#action-" + d.maLoaiSanh).append($('<button>', {
-                "type": "button",
-                "style": "margin-left: 3%;",
-                "class": "fa fa-info btn btn-primary",
-                "data-toggle": "modal",
-                "data-target": "#myModal",
-                click: function(){
-                  //alert(d.maCa)
-                  $("#mType").html("update")
-                  //$("#mTitle").html("Cập nhật loại sảnh")
-                  $.get("http://localhost:8080/api/thong-tin-loai-sanh?lsid=" + d.maLoaiSanh, function(data){
+                        return "<button " 
+                        +  "type='button' "
+                        +  "stype='margin-left: 3%;' "
+                        +  "class='fa fa-info btn btn-primary' "
+                        +  "data-toggle='modal' "
+                        +  "data-target='#myModal' "
+                        
+                        + ">" 
+                        data
+                        + "</button>"
+                      }
+                    }              
+                ],
+                
+            });
+
+            $('#table_id tbody').on( 'click', 'button', function () {
+                var data = table.row( $(this).parents('tr') ).data();
+                
+                $.get("http://localhost:8080/api/thong-tin-loai-sanh?lsid=" + data.maLoaiSanh, function(data){
                     
                     $("#tenLoaiSanh").val(data["tenLoaiSanh"])
                     $("#donGiaBanToiThieu").val(data["donGiaBanToiThieu"])
                     $("#maLoaiSanh").val(data["maLoaiSanh"])
                   })
-                }
-            }))    
-          switch($("#roleUser").html()) {
-            case '':
-              break;
-            case 'admin':
-              break;
-            case 'bql':
-              $("#action-" + d.maLoaiSanh).append($('<button>', {
-                "style": "margin-left: 3%;",
-                "class": "fa fa-trash btn btn-primary",
-                click: function(){
-                  $.ajax({
-                    url: "http://localhost:8080/api/xoa-loai-sanh?lsid=" + d.maLoaiSanh,
-                    type: 'DELETE',
-                    success: function(){
-                      alert("Cap nhat thanh cong")
-                      location.reload();
-                    },
-                    error: function(XMLHttpRequest, textStatus, errorThrown) {
-                      //alert(JSON.stringify(XMLHttpRequest["responseJSON"]["errorMessageList"]));
-                      alert("Không thể xóa")
-                      location.reload();
-                      // $.each(Object.keys(XMLHttpRequest["responseJSON"]["errorMessageList"][0]), function(index, d){
-                      //   //alert(d);
-                      //   $("#msg_" + d).html(XMLHttpRequest["responseJSON"]["errorMessageList"][0][d])
-                      //   $("#msg_" + d).addClass("alert alert-danger")
-                      // })
-                    }
-                });   
-                }
-              }))
-              break;
-            case 'nhanvien':
-              break;
-            default:
-              // code block
-          }
-          
-          
-      })
+            } );
+    
+            table.on( 'order.dt search.dt', function () {
+                table.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+                    cell.innerHTML = i+1;
+                } );
+            } ).draw();
 
       switch($("#roleUser").html()) {
         case '':
@@ -206,22 +239,6 @@
           // code block
       }
       
-      
-      $("#row-add").append($('<button>', {
-            "type": "button",
-            "style": "margin-left: 3%;",
-            "class": "fa fa-plus btn btn-primary",
-            "data-toggle": "modal",
-            "data-target": "#myModal",
-            click: function(){
-                  //alert(d.maCa)
-                  $("#mType").html("add")
-                  $("#mTitle").html("Thêm loại sảnh")
-                  $("#tenLoaiSanh").val("")
-                  $("#donGiaBanToiThieu").val("")
-                  $("#maLoaiSanh").val("")
-            }
-        }))
       
       
       $("#capNhat").click(function(){
@@ -259,7 +276,7 @@
         })
         //location.reload();
     })
-    })
+    
   </script>
 </body>
 </html>

@@ -4,33 +4,29 @@
     <title>Home Page</title> 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
-    <th:block th:fragment="libs">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <link href="../build/css/custom.min.css" rel="stylesheet">
-    </th:block>
+    <th:block th:insert="~{index :: libs}"></th:block>
+    
 </head>
 <body>
     <div class="container body">
-        <div class="main_container">
-          <!-- page content -->
-          <div class="col-md-12">
-            <div class="col-middle">
-              <div class="text-center text-center">
-                <h1 class="error-number">403</h1>
-                <h2>Bạn không có quyền truy cập vào trang web này.</h2>
-                </p>
-                <div>
-                  <a href="/" class="fa fa-home"><strong> Quay lại trang chủ</strong></a>
-                </div>
+      <div class="main_container">
+        <!-- page content -->
+        <div class="col-md-12">
+          <div class="col-middle">
+            <div class="text-center text-center">
+              <h1 class="error-number">403</h1>
+              <h2>Bạn không có quyền truy cập vào trang web này.</h2>
+              </p>
+              <div>
+                <a href="/" class="fa fa-home"><strong> Quay lại trang chủ</strong></a>
               </div>
             </div>
           </div>
-          <!-- /page content -->
         </div>
+        <!-- /page content -->
       </div>
-      <script src="../build/js/custom.min.js"></script>
+    </div>
+    <th:block th:insert="~{index :: jsfiles}"></th:block>
+    
 </body>
 </html>

@@ -12,8 +12,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CaDTO {
-    private String maCa;
     private String tenCa;
     private LocalTime gioBatDau;
     private LocalTime gioKetThuc;    
+    private String maCa;
 }

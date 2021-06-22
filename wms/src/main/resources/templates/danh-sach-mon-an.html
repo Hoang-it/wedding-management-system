@@ -1,12 +1,15 @@
 <!DOCTYPE HTML>
 <html>
 <head> 
-    <title>Home Page</title> 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta charset="utf-8">
-    <th:block th:insert="~{index :: libs}"></th:block>
+  <title>DANH SÁCH MÓN ĂN</title> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <th:block th:insert="~{index :: libs}"></th:block>
 </head>
-<body>
+<body class="nav-md">
+  <th:block th:insert="~{index :: menu-bar}"></th:block>
+
   <div class="container">
     <!-- Trigger the modal with a button -->  
     <!-- Modal -->
@@ -56,88 +59,149 @@
       </div>
     </div>
   </div>
-  <th:block th:insert="~{index :: menu-bar}"></th:block>
-  <table class="table table-bordered" style="width: 70%;margin-left: auto;margin-right: auto;">
-      <caption style="caption-side: top; text-align: center;"><h1>Danh sách món ăn</h1></caption>
-      <caption style="caption-side: top;margin-left: 70%;">
-        <div class="input-group">
-          <input type="text" class="form-control" id="maTiecCuoi" placeholder="Nhập mã sảnh" aria-describedby="timTiecCuoi">
-          <span class="btn btn-primary" id="timTiecCuoi"><i class="fa fa-search" aria-hidden="true"></i></span>
+
+  
+  <div class="container body">
+    <div class="main_container">
+      <!-- page content -->
+      <div class="right_col" role="main">
+        <div class="">
+          <div class="page-title">
+
+            <!-- TITLE -->
+            <div class="title_left">
+              <h3>DANH SÁCH MÓN ĂN</h3>
+            </div>
+
+            <div class="title_right">
+              <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                <div class="input-group">
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="clearfix"></div>
+          <div class="row">
+            <div class="col-md-12 col-sm-12 ">
+              <div class="x_panel">
+                <div class="x_title">
+
+                </div>
+                <div class="x_content">
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="card-box table-responsive">
+                        
+                        <!-- TABLE -->
+                        <table id="table_id" class="table table-striped table-bordered" style="width:100%">                  
+                          <thead>
+                            <tr>
+                              <th scope="col">STT</th>
+                              <th scope="col">Tên Món ăn</th>
+                              <th scope="col">Đơn giá</th>
+                              <th scope="col">Action</th>
+                            </tr>
+                          </thead>
+                          <tbody id="dsMonAn">       
+                          </tbody>                          
+                        </table>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </caption> 
-      <thead class="thead-dark">
-        <tr>
-          <th scope="col">STT</th>
-          <th scope="col">Tên Món ăn</th>
-          <th scope="col">Đơn giá</th>
-          <th scope="col">Action</th>
-        </tr>
-      </thead>
-      <tbody id="dsMonAn">
-        <tr>
-          <th scope="row">1</th>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>Otto</td>
-        </tr>
-        <tr>
-          <th scope="row">1</th>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td style="word-wrap: break-word;min-width: 160px;max-width: 160px;">Ottoadfasdfđsàasfasfsdfasfasfasdfasdfasdfasfadasfasdfsdf</td>
-        </tr>
-      </tbody>
-      <caption>
-        <nav aria-label="Page navigation example">
-          <ul class="pagination">
-            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-          </ul>
-        </nav>
-      </caption>
-  </table>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Datatables -->
+  <script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+  <script src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+  <script src="../vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+  <script src="../vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
+  <script src="../vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
+  <script src="../vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
+  <script src="../vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
+  <script src="../vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+  <script src="../vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+  <script src="../vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+  <script src="../vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+  <script src="../vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
+  <script src="../vendors/jszip/dist/jszip.min.js"></script>
+  <script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
+  <script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
+
+  <!-- Custom Theme Scripts -->
+  <script src="../build/js/custom.min.js"></script>
+
   <script>
-    $.get( "http://localhost:8080/api/ds-mon-an", function( data ) {
-        //alert(JSON.stringify(data));
-        $("#dsMonAn").empty()
-        $.each(data, function(index, d){
-            //alert(JSON.stringify(d))
-            $("#dsMonAn").append($('<tr>', { 
-                id: "row-" + d.maMonAn                    
-            }))
-            $("#row-" + d.maMonAn).append($('<td>',{
-                text: index
-            }))
-            $("#row-" + d.maMonAn).append($('<td>',{
-                text: d.tenMonAn
-            }))
-            $("#row-" + d.maMonAn).append($('<td>',{
-                text: d.donGia
-            }))
-            $("#row-" + d.maMonAn).append($('<td>', { 
-              id: "action-" + d.maMonAn
-            }))  
-            $("#action-" + d.maMonAn).append($('<button>', {
-              "type": "button",
-              "style": "margin-left: 3%;",
-              "class": "fa fa-info btn btn-primary",
-              "data-toggle": "modal",
-              "data-target": "#myModal",
-              click: function(){
-              //alert(d.maCa)
-              $.get("http://localhost:8080/api/thong-tin-mon-an?maid=" + d.maMonAn, function(data){
-                $("#maMonAn").val(data["maMonAn"])
-                $("#tenMonAn").val(data["tenMonAn"])
-                $("#donGia").val(data["donGia"])
+    var table = $('#table_id').DataTable({
+                paging: true,
+                select: true,
+                order: [ [ 1, 'asc' ] ],
+                lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                ajax: {
+                    url: '/api/ds-mon-an',
+                    dataSrc: ''
+                    
+                },
+                columns: [     
+                    {
+                      "data": "tenMonAn",
+                      "targets": 0 
+                    },               
+                    { 
+                      "data": "tenMonAn",
+                      "targets": 1 
+                    },
+                    { 
+                      "data": "donGia",
+                      "targets": 2
+                    },                    
+                    { 
+                      "data": "maMonAn",
+                      "targets": 4, 
+                      "render": function( data, type){
+                        
+
+                        return "<button " 
+                        +  "type='button' "
+                        +  "stype='margin-left: 3%;' "
+                        +  "class='fa fa-info btn btn-primary' "
+                        +  "data-toggle='modal' "
+                        +  "data-target='#myModal' "
+                        
+                        + ">" 
+                        data
+                        + "</button>"
+                      }
+                    }              
+                ],
                 
-              })
-            }
-            })) 
-        })
-    });
+            });
+
+            $('#table_id tbody').on( 'click', 'button', function () {
+                var data = table.row( $(this).parents('tr') ).data();
+                
+                $.get("http://localhost:8080/api/thong-tin-mon-an?maid=" + data.maMonAn, function(data){
+                  // alert(JSON.stringify(data))
+                  $("#maMonAn").val(data["maMonAn"])
+                  $("#tenMonAn").val(data["tenMonAn"])
+                  $("#donGia").val(data["donGia"])
+                })
+            } );
+    
+            table.on( 'order.dt search.dt', function () {
+                table.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+                    cell.innerHTML = i+1;
+                } );
+            } ).draw();
     
     switch($("#roleUser").html()) {
       case '':
