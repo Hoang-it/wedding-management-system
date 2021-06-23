@@ -2,142 +2,172 @@
 <html>
 
 <head>
-    <title>Home Page</title>
+    <title>TRA CỨU HÓA ĐƠN</title> 
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <th:block th:insert="~{index :: libs}"></th:block>
+
 </head>
 
-<body>
+<body class="nav-md">
     <th:block th:insert="~{index :: menu-bar}"></th:block>
 
-    <form style="width: 75%;margin-left: auto;margin-right: auto;">
-        <div id="thong-tin-co-ban">
-            <h1>Đặt tiệc cưới</h1>
-            <div class="row">
-                <div class="col">
-                    <label for="tenChuRe">Tên chú rể</label>
-                    <input type="text" class="form-control" id="tenChuRe" name="tenChuRe" placeholder="Tên chú rể" required
-                        oninvalid="this.setCustomValidity('Hãy điền tên chú rể')"
-                        oninput="this.setCustomValidity('')">
-                </div>
-                <div class="col">
-                    <label for="tenCoDau">Tên cô dâu</label>
-                    <input type="text" class="form-control" id="tenCoDau" name="tenCoDau" placeholder="Tên cô dâu" required
-                        oninvalid="this.setCustomValidity('Hãy điền tên cô dâu')"
-                        oninput="this.setCustomValidity('')">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <label for="sdt">Số điện thoại</label>
-                    <input type="text" class="form-control" id="sdt" name="sdt" placeholder="Số điện thoại" required
-                        oninvalid="this.setCustomValidity('Hãy điền số điện thoại')"
-                        oninput="this.setCustomValidity('')">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <label for="ngayDaiTiec">Ngày Đãi tiệc</label>
-                    <input type="date" class="form-control datepicker" id="ngayDaiTiec" name="ngayDaiTiec" required
-                        data-date-format="DD MMMM YYYY"   
-                        oninvalid="this.setCustomValidity('Hãy chọn ngày đãi tiệc')"
-                        oninput="this.setCustomValidity('')">
-                </div>
-                <div class="col">
-                    <label for="dsCa">Ca</label>
-                    <select class="form-control" id="dsCa" required
-                        oninvalid="this.setCustomValidity('Hãy chọn ca')"
-                        oninput="this.setCustomValidity('')">
-                        <option>Sáng</option>
-                    </select>
-                </div>
-                <div class="col">
-                    <label for="dsSanh">Sảnh</label>
-                    <select class="form-control" id="dsSanh" required
-                        oninvalid="this.setCustomValidity('Hãy chọn sảnh')"
-                        oninput="this.setCustomValidity('')">
-                        <option>Sáng</option>
-                    </select>
-                </div>
-            </div>
-            <div class="row" style="margin-top: 1%;">
-                <div class="col">
-                    <label for="soLuongBan">Số lượng bàn</label>
-                </div>
-                <div class="col-4">
-                    <input type="number" class="form-control" id="soLuongBan" name="soLuongBan"
-                        placeholder="Số lượng bàn" required
-                        oninvalid="this.setCustomValidity('Hãy nhập số lượng bàn')"
-                        oninput="this.setCustomValidity('')">
-                </div>
-                <div class="col">
-                    <label for="soLuongBanDuTru">Số lượng bàn dự trữ</label>
-                </div>
-                <div class="col-5">
-                    <input type="number" class="form-control" id="soLuongBanDuTru" name="soLuongBan"
-                        placeholder="Số lượng bàn dự trữ" required
-                        oninvalid="this.setCustomValidity('Hãy nhập số lượng bàn dự trữ')"
-                        oninput="this.setCustomValidity('')">
-                </div>
-
-            </div>
-            <div class="row">
-                <div class="col">
-                    <label for="example-text-input">Tiền đặt cọc</label>
-                </div>
-                <div class="col-11">
-                    <input class="form-control" type="text" id="tienDatCoc" placeholder="Tiền đặt cọc" required
-                    oninvalid="this.setCustomValidity('Hãy nhập tiền đặt cọc')"
-                    oninput="this.setCustomValidity('')">
-                </div>
-            </div>
-        </div>
-
-        <div id="chon-mon-an" style="display: none; visibility: hidden;">
-            <table class="table table-bordered">
-                <caption style="caption-side: top; text-align: center;">
-                    <h1>Danh sách món ăn</h1>
-                </caption>
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">STT</th>
-                        <th scope="col">Tên Món</th>
-                        <th scope="col">Đơn giá</th>
-                        <th scope="col">Ghi chú</th>
-                        <th scope="col">ACtion</th>
-                    </tr>
-                </thead>
-                <tbody id="dsMonAn">
-                    
-                </tbody>
-            </table>
-        </div>
+    <div class="container body">
+        <div class="main_container">
+            <div class="right_col" role="main">
+                <div class="">
+                    <div class="page-title">
+                        <div class="title_left">
+                            <h3>ĐẶT TIỆC CƯỚI</h3>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <form style="width: 75%;margin-left: auto;margin-right: auto;">
+                        <div id="thong-tin-co-ban">
+                            <div class="row" style="margin: 2%">
+                                <div class="col">
+                                    <label for="tenChuRe">Tên chú rể</label>
+                                    <input type="text" class="form-control" id="tenChuRe" name="tenChuRe" placeholder="Tên chú rể" value="Hoang" required
+                                        oninvalid="this.setCustomValidity('Hãy điền tên chú rể')"
+                                        oninput="this.setCustomValidity('')">
+                                </div>
+                            </div>
+                            <div class="row" style="margin: 2%">
+                                <div class="col">
+                                    <label for="tenCoDau">Tên cô dâu</label>
+                                    <input type="text" class="form-control" id="tenCoDau" name="tenCoDau" placeholder="Tên cô dâu" value="Tran" required
+                                        oninvalid="this.setCustomValidity('Hãy điền tên cô dâu')"
+                                        oninput="this.setCustomValidity('')">
+                                </div>
+                            </div>
+                            <div class="row" style="margin: 2%">
+                                <div class="col">
+                                    <label for="sdt">Số điện thoại</label>
+                                    <input type="text" class="form-control" id="sdt" name="sdt" placeholder="Số điện thoại" value="0392261419" required
+                                        oninvalid="this.setCustomValidity('Hãy điền số điện thoại')"
+                                        oninput="this.setCustomValidity('')">
+                                </div>
+                            </div>
+                            <div class="row" style="margin: 2%">
+                                <div class="col">
+                                    <label for="ngayDaiTiec">Ngày Đãi tiệc</label>
+                                    <input type="date" class="form-control datepicker" id="ngayDaiTiec" name="ngayDaiTiec" value="2021-06-23" required
+                                        data-date-format="DD MMMM YYYY"   
+                                        oninvalid="this.setCustomValidity('Hãy chọn ngày đãi tiệc')"
+                                        oninput="this.setCustomValidity('')">
+                                </div>
+                                <div class="col">
+                                    <label for="dsCa">Ca</label>
+                                    <select class="form-control" id="dsCa" required
+                                        oninvalid="this.setCustomValidity('Hãy chọn ca')"
+                                        oninput="this.setCustomValidity('')">
+                                        
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <label for="dsSanh">Sảnh</label>
+                                    <select class="form-control" id="dsSanh" required
+                                        oninvalid="this.setCustomValidity('Hãy chọn sảnh')"
+                                        oninput="this.setCustomValidity('')">
+                                        <option>Sáng</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row" style="margin: 2%">
+                                <div class="col">
+                                    <label for="soLuongBan">Số lượng bàn</label>
+                                    <input type="number" class="form-control" id="soLuongBan" name="soLuongBan" value="100"
+                                        placeholder="Số lượng bàn" required
+                                        oninvalid="this.setCustomValidity('Hãy nhập số lượng bàn')"
+                                        oninput="this.setCustomValidity('')">
+                                </div>
+                            </div>
+                            <div class = "row" style="margin: 2%">
+                                <div class="col">
+                                    <label for="soLuongBanDuTru">Số lượng bàn dự trữ</label>
+                                    <input type="number" class="form-control" id="soLuongBanDuTru" name="soLuongBan" value="10"
+                                        placeholder="Số lượng bàn dự trữ" required
+                                        oninvalid="this.setCustomValidity('Hãy nhập số lượng bàn dự trữ')"
+                                        oninput="this.setCustomValidity('')">
+                                </div>
         
-        <div id="chon-dich-vu"  style="display: none; visibility: hidden;">
-            <table class="table table-bordered">
-                <caption style="caption-side: top; text-align: center;">
-                    <h1>Danh sách các dịch vụ</h1>
-                </caption>
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">STT</th>
-                        <th scope="col">Tên Dịch vụ</th>                        
-                        <th scope="col">Đơn giá</th>
-                        <th scope="col">Số lượng</th>
-                        <th scope="col">ACtion</th>
-                    </tr>
-                </thead>
-                <tbody id="dsDichVu">
-                    
-                </tbody>
-            </table>
-        </div>
-        <button type="button" id="btn-quay-lai" class="btn btn-primary" style="display: none; visibility: hidden;">Quay lại</button>
-        <button type="submit" id="btn-dat-tiec" class="btn btn-primary">Đặt tiệc</button>
+                            </div>
+                            <div class="row" style="margin: 2%">
+                                <div class="col">
+                                    <label for="example-text-input">Tiền đặt cọc</label>
+                                    <input class="form-control" type="text" id="tienDatCoc" placeholder="Tiền đặt cọc" value="1000000" required
+                                    oninvalid="this.setCustomValidity('Hãy nhập tiền đặt cọc')"
+                                    oninput="this.setCustomValidity('')">
+                                </div>
+                            </div>
+                        </div>
         
-    </form>
+                        <div id="chon-mon-an" style="display: none; visibility: hidden;">
+                            <table id="table_ma" class="table table-striped table-bordered" style="width:100%">
+                                <caption style="caption-side: top; text-align: center;">
+                                    <h4>DANH SÁCH MÓN ĂN</h4>
+                                </caption>
+                                <thead >
+                                    <tr>
+                                        <th scope="col">STT</th>
+                                        <th scope="col">Tên Món</th>
+                                        <th scope="col">Đơn giá</th>
+                                        <th scope="col">Ghi chú</th>
+                                        <th scope="col">Chọn</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="dsMonAn">                                    
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div id="chon-dich-vu"  style="display: none; visibility: hidden;">
+                            <table id="table_dv" class="table table-striped table-bordered" style="width:100%">
+                                <caption style="caption-side: top; text-align: center;">
+                                    <h4>DANH SÁCH DỊCH VỤ</h4>
+                                </caption>
+                                <thead>
+                                    <tr>
+                                        <th scope="col">STT</th>
+                                        <th scope="col">Tên Dịch vụ</th>                        
+                                        <th scope="col">Đơn giá</th>
+                                        <th scope="col">Số lượng</th>
+                                        <th scope="col">Chọn</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="dsDichVu">                                    
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="btn" style="margin:2%">
+                            <button type="button" id="btn-quay-lai" class="btn btn-success" style="display: none; visibility: hidden;">Quay lại</button>
+                            <button type="submit" id="btn-dat-tiec" class="btn btn-success">Tiếp theo</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <th:block th:insert="~{index :: jsfiles}"></th:block>
 
+    <!-- Datatables -->
+    <script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script src="../vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="../vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
+    <script src="../vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
+    <script src="../vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="../vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="../vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+    <script src="../vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+    <script src="../vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="../vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+    <script src="../vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
+    <script src="../vendors/jszip/dist/jszip.min.js"></script>
+    <script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
+    <script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
     <script>
         current = "#thong-tin-co-ban";
         data = {}
@@ -241,7 +271,110 @@
             }
 
         })
-    
+        
+        var table_ma = $('#table_ma').DataTable({
+                paging: true,
+                select: true,
+                order: [ [ 1, 'asc' ] ],
+                lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                ajax: {
+                    url: '/api/ds-mon-an',
+                    dataSrc: ''
+                    
+                },
+                columns: [     
+                    {
+                      "data": null,                      
+                    },               
+                    { 
+                      "data": "tenMonAn",                      
+                    },                    
+                    { "data": "donGia",                      
+                    },
+                    { 
+                      'data': 'maMonAn',
+                      "targets": 4, 
+                      "render": function( data, type){
+                        return '<textarea ' 
+                            + 'id="ghichu-"' + data + " "                         
+                            + 'style="border-style: none;width: 100%;" '                            
+                            + '</textarea> ' 
+                           ;
+                        
+                      }
+                    },
+                    { 
+                      'data': 'maMonAn',
+                      "targets": 4, 
+                      "render": function( data, type){
+                        return '<input ' 
+                            + 'type="checkbox" '                                                      
+                            + 'value="' + data + '" />'
+                        
+                      }
+                    }              
+                ],
+                
+            })            
+
+        table_ma.on( 'order.dt search.dt', function () {
+            table_ma.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+                cell.innerHTML = i+1;
+            } );
+        } ).draw(); 
+
+        var table_dv = $('#table_dv').DataTable({
+                paging: true,
+                select: true,
+                order: [ [ 1, 'asc' ] ],
+                lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                ajax: {
+                    url: '/api/ds-dich-vu',
+                    dataSrc: ''
+                    
+                },
+                columns: [     
+                    {
+                      "data": null,                      
+                    },               
+                    { 
+                      "data": "tenDichVu",                      
+                    },                    
+                    { "data": "donGia",                      
+                    },
+                    { 
+                      'data': 'maDichVu',
+                      "targets": 4, 
+                      "render": function( data, type){
+                        return '<input ' 
+                            + 'type="number" ' 
+                            + 'id="soluong-' + data + '" '                         
+                            + 'style="border-style: none;width: 100%;" '   
+                            + 'value="1" '                            
+                            + '/> ' 
+                           ;
+                        
+                      }
+                    },
+                    { 
+                      'data': 'maDichVu',
+                      "targets": 4, 
+                      "render": function( data, type){
+                        return '<input ' 
+                            + 'type="checkbox" '                                                      
+                            + 'value="' + data + '" />'
+                        
+                      }
+                    }              
+                ],
+                
+            })
+        table_ma.on( 'order.dt search.dt', function () {
+        table_ma.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        } );
+        } ).draw(); 
+        
         $.get( "http://localhost:8080/api/ds-sanh", function( data ) {
             //alert(JSON.stringify(data));
             $("#dsSanh").empty()
@@ -257,67 +390,7 @@
                 }))
             })
         });
-        $.get( "http://localhost:8080/api/ds-mon-an", function( data ) {
-            //alert(JSON.stringify(data));
-            $("#dsMonAn").empty()
-            $.each(data, function(index, d){
-                //alert(JSON.stringify(d))
-                $("#dsMonAn").append($('<tr>', { 
-                    id: "row-" + d.maMonAn                    
-                }))
-                $("#row-" + d.maMonAn).append($('<td>',{
-                    text: index
-                }))
-                $("#row-" + d.maMonAn).append($('<td>',{
-                    text: d.tenMonAn
-                }))
-                $("#row-" + d.maMonAn).append($('<td>',{
-                    text: d.donGia
-                }))
-                $("#row-" + d.maMonAn).append($('<td>',{
-                    "style": "padding: 0%",
-                    text: d.ghiChu,
-                    html: $('<textarea >', {"id": "ghichu-" + d.maMonAn, "style" : "border-style: none;width: 100%;"})
-                }))
-                $("#row-" + d.maMonAn).append($('<td>',{
-                    html: $('<input>',{"type": "checkbox", "value": d.maMonAn}) 
-                }))
-               
-            })
-        });
-        
-        $.get( "http://localhost:8080/api/ds-dich-vu", function( data ) {
-            //alert(JSON.stringify(data));
-            $("#dsDichVu").empty()
-            $.each(data, function(index, d){
-                //alert(JSON.stringify(d))
-                $("#dsDichVu").append($('<tr>', { 
-                    id: "row-" + d.maDichVu                   
-                }))
-                $("#row-" + d.maDichVu).append($('<td>',{
-                    text: index
-                }))
-                $("#row-" + d.maDichVu).append($('<td>',{
-                    text: d.tenDichVu
-                }))
-                $("#row-" + d.maDichVu).append($('<td>',{
-                    text: d.donGia
-                }))
-                $("#row-" + d.maDichVu).append($('<td>',{
-                    "style": "padding: 0%",
-                    html: $('<input>',{
-                        "type": "number",
-                         "id": "soluong-" + d.maDichVu, 
-                         "style" : "border-style: none;width: 100%;",
-                         val: 1
-                    }) 
-                }))
-                $("#row-" + d.maDichVu).append($('<td>',{
-                    html: $('<input>',{"type": "checkbox", "value": d.maDichVu}) 
-                }))
-            })
-        });
-
+       
         $.get( "http://localhost:8080/api/ds-ca", function( data ) {
             //alert(JSON.stringify(data));
             $("#dsCa").empty()

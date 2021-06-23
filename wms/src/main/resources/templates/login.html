@@ -6,27 +6,47 @@
     <meta charset="utf-8">
     <th:block th:insert="~{index :: libs}"></th:block>
 </head>
-<body>
-  <th:block th:insert="~{index :: menu-bar}"></th:block>
-    <form th:action = "@{/login}" method="post" style="width: 50%; margin-left: auto; margin-right: auto; margin-top: 5%;">
-      <h1>Đăng nhập</h1>  
-      <p th:if="${loginError}" class="error">Wrong user or password</p>
-      <div class="form-group">
-          <label for="username">Username</label>
-          <input type="text" name="username" class="form-control" id="username" aria-describedby="emailValidate" placeholder="Enter email">
-          <small id="emailValidate" class="form-text text-muted">We'll never share your email with anyone else.</small>
-        </div>
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input type="password" name="password" class="form-control" id="password" aria-describedby="passValidate" placeholder="Password">
-          <small id="emailValidate" class="form-text text-muted">We'll protect your password</small>
-        </div>
-        <div class="form-group form-check">
-          <input type="checkbox" class="form-check-input" id="remember" name="remember">
-          <label class="form-check-label" for="remember">Remember me!</label>
-        </div>
-        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </form>
+<body  class="login">
+  <div>
+    <a class="hiddenanchor" id="signup"></a>
+    <a class="hiddenanchor" id="signin"></a>
+
+    <div class="login_wrapper">
+      <div class="animate form login_form">
+        <section class="login_content">
+          <form th:action = "@{/login}" method="post" >
+            <h1>Đăng Nhập</h1>
+            <p th:if="${loginError}" class="error">Vui lòng nhập lại tên đăng nhập hoặc mật khẩu</p>
+            <div>
+              <input type="text" name="username" id="username" class="form-control" aria-describedby="emailValidate" placeholder="Tên đăng nhập" required="" />
+              <small id="emailValidate" class="form-text text-muted"></small>
+            </div>
+            <div>
+              <input type="password" name="password" id="password" aria-describedby="passValidate" class="form-control" placeholder="Mật khẩu" required="" />
+              <small id="emailValidate" class="form-text text-muted"></small>
+            </div>
+            <div class="form-group form-check">
+              <input type="checkbox" class="form-check-input" id="remember" name="remember">
+              <label class="form-check-label" for="remember">Nhớ mật khẩu!</label>
+            </div>
+            <div>
+              <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+              <button class="btn btn-success" type="submit" >Đăng nhập</button>
+            </div>
+            <div>
+              <a href="/" class="fa fa-home"><strong> Quay lại trang chủ</strong></a>
+            </div>
+            <div class="clearfix"></div>
+            <div class="separator"> 
+              <div class="clearfix"></div>
+              <br />
+              <div>   
+              </div>
+            </div>
+          </form>
+        </section>
+      </div>
+    </div>
+  </div>
 </body>
 </html>

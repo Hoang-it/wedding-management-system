@@ -6,130 +6,213 @@
     <meta charset="utf-8">
     <th:block th:insert="~{index :: libs}"></th:block>
 </head>
-<body>
+<body class="nav-md">
     <th:block th:insert="~{index :: menu-bar}"></th:block>
-    <div style="width: 70%;margin-left: auto;margin-right: auto;">
-        <h1 style="text-align: center;">Hóa Đơn cho Tiệc Cưới <span id="maTiec" th:text="${maTiecCuoi}"></span></h1>
-        <div class="row">
-            <div class="col">
-                <p>Tên chú rể : <span id="tenChuRe"></span></p>                
-            </div>
-            <div class="col">
-                <p >Tên cô dâu : <span id="tenCoDau"></span></p>                
-            </div>
-            <div class="col">
-                <p>Ngày thanh toán : <span id="ngayThanhToan"></span></p>
-                
-            </div>
-          
-        </div>
-        <div class="row">
-            <div class="col">
-                <p>Số lượng bàn : <span id="soLuongBan"></span></p>                
-            </div>
-            <div class="col">
-                <p>Đơn giá bàn: <span id="donGiaBan"></span></p>                
-            </div>
-            <div class="col">
-                <p>Tổng tiền bàn : <span id="tongTienBan"></span></p>                
-            </div>
-            
-        </div>
-        <div class="row">
-          <div class="col">
-              <p>Số ngày trễ hạn : <span id="soNgayTreHan"></span></p>                
-          </div>
-        </div>
-    </div>
 
-    <div style="width: 100%;margin-left: auto;margin-right: auto;">
-          <div class="row">
-            <div class="col">
-                <table class="table table-bordered" style="width: 80%;margin-left: auto;margin-right: auto;">
-                    <caption style="caption-side: top; text-align: center;"><h1>Danh sách dịch vụ</h1></caption>
-                    <thead class="thead-dark">
-                      <tr>
-                        <th scope="col">STT</th>
-                        <th scope="col">Tên Dịch vụ</th>
-                        <th scope="col">Số lượng</th>
-                        <th scope="col">Đơn giá</th>
-                        <th scope="col">Thành tiền</th>
-                      </tr>
-                    </thead>
-                    <tbody id="dsDichVu">
-                      <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                        <td>Mark</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                        <td style="word-wrap: break-word;min-width: 160px;max-width: 160px;">Ottoadfasdfđsàasfasfsdfasfasfasdfasdfasdfasfadasfasdfsdf</td>
-                      </tr>
-                      
-                    </tbody>
-                    <caption><p>Tổng tiền dịch vụ : <span  id="tongTienDichVu"></span></p></caption>
-                  </table>              
-            </div>
-            <div class="col">
-                <table class="table table-bordered" style="width: 80%;margin-left: auto;margin-right: auto;">
-                    <caption style="caption-side: top; text-align: center;"><h1>Danh sách món ăn</h1></caption>
-                    
-                    <thead class="thead-dark">
-                      <tr>
-                        <th scope="col">STT</th>
-                        <th scope="col">Tên Món ăn</th>
-                        <th scope="col">Đơn giá</th>
-                      </tr>
-                    </thead>
-                    <tbody id="dsMonAn">
-                      <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td style="word-wrap: break-word;min-width: 160px;max-width: 160px;">Ottoadfasdfđsàasfasfsdfasfasfasdfasdfasdfasfadasfasdfsdf</td>
-                      </tr>
-                      
-                    </tbody>
-                    <caption><p>Tổng tiền món ăn (trên 1 bàn): <span  id="tongTienMonAn"></span></span> </p></caption>
-                  </table>              
-            </div>
-        </div>        
-    </div>
-    <div style="width: 50%;margin-left: auto;margin-right: auto;">
-      <div class="row">
-        <div class="col">
-          <div class="row">
-            <div class="col">
-                <p>Tổng tiền hóa đơn : <span id="tongTienHoaDon"></span> </p>                
-            </div>
-            <div class="col">
-                <p>Tiền đặt cọc : <span id="tienDatCoc"></span> </p>                
-            </div>
-        </div>
-          <div class="row">
-              <div class="col">
-                  <p>Còn lại : <span  id="conLai"></span> </p>
+    <div class="container body" id='DivIdToPrint'>
+      <div class="main_container">        
+        <div class="right_col" role="main">
+          <div class="">                     
+            <div class="col-md-12 col-sm-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h1 style="color:black">HÓA ĐƠN TIỆC CƯỚI <span id="maTiec" th:text="${maTiecCuoi}" style="visibility: hidden; display: none;"></span></h1>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="row">
+                        <div class="col">
+                            <h4 style="color:black">Tên chú rể : <span id="tenChuRe"></span></h4>                
+                        </div>
+                        <div class="col">
+                            <h4 style="color:black">Tên cô dâu : <span id="tenCoDau"></span></h4>                
+                        </div>
+                        <div class="col">
+                            <h4 style="color:black">Ngày thanh toán : <span id="ngayThanhToan"></span></h4> 
+                        </div> 
+                      </div>
+                      <div class="row">
+                        <div class="col">
+                            <h4 style="color:black">Số lượng bàn : <span id="soLuongBan"></span></h4>                
+                        </div>
+                        <div class="col">
+                            <h4 style="color:black">Đơn giá bàn: <span id="donGiaBan"></span></h4>                
+                        </div>
+                        <div class="col">
+                            <h4 style="color:black">Tổng tiền bàn : <span id="tongTienBan"></span></h4>                
+                        </div> 
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                        <h4 style="color:black">Số ngày trễ hạn : <span id="soNgayTreHan"></span></h4>                
+                    </div>
+                  </div>
+                </div>
               </div>
-          </div>
-        </div>
-        <div class="col">
-          <button type="submit" id="xacNhan" class="btn btn-primary btn-lg">Xác nhận</button>
-        </div>
-      </div> 
-    </div>
+            </div>                 
 
+            <!---->
+            <div class="row" style="display: block;">
+              <div class="col-md-6 col-sm-6  ">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2 style="color:black">DANH SÁCH MÓN ĂN</h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <table id="table_ma" class="table table-bordered" style="width:100%">
+                      <caption><h5 style="color:black">Tổng tiền món ăn (trên 1 bàn): <span  id="tongTienMonAn"></span></span> </h5></caption>
+                      <thead style="color:black">
+                        <tr>
+                          <th>STT</th>
+                          <th>Tên Món Ăn</th>
+                          <th>Đơn giá</th>
+                        </tr>
+                      </thead>
+                      <tbody id="dsMonAn" style="color:black" >                         
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+              
+              
+            <div class="row" style="display: block;">
+              <div class="col-md-6 col-sm-6  ">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2 style="color:black">DANH SÁCH DỊCH VỤ</h2>                       
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <table id="table_dv" class="table table-bordered" style="width:100%">
+                      <caption><h5 style="color:black">Tổng tiền dịch vụ : <span  id="tongTienDichVu"></span></h5></caption>
+                      <thead>
+                        <tr>
+                          <th>STT</th>
+                          <th>Tên Dịch vụ</th>
+                          <th>Số lượng</th>
+                          <th>Đơn giá</th>
+                          <th>Thành tiền</th>
+                        </tr>
+                      </thead>
+                      <tbody id="dsDichVu">
+                        <tr>
+                          <td ></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>    
+                      </tbody>  
+                    </table>  
+                  </div>
+                </div>
+              </div>
+            </div>
+                
+            <!-- -->
+            <div class="col-md-12 col-sm-12 ">
+              <div class="x_panel">
+                <div class="x_content">
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="row">
+                        <div class="col">
+                            <h4 style="color:black">Tổng tiền hóa đơn : <span id="tongTienHoaDon"></span> </h4>                
+                        </div>
+                      </div>
+                      <div class = row>
+                        <div class="col">
+                            <h4 style="color:black">Tiền đặt cọc : <span id="tienDatCoc"></span> </h4>                
+                        </div>
+                      </div>
+                      <div class="row">
+                          <div class="col">
+                              <h4 style="color:black">Còn lại : <span  id="conLai"></span> </h4>
+                          </div>
+                      </div>
+                      <div class="row">
+                        <button type="submit" id="xacNhan" class="btn btn-success btn-lg" style="margin-left:40%">Xác nhận</button>
+                        <input type='button' id='btn' value='Print' onclick='openPrintDialogue();'>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>   
+          </div>        
+        </div>
+      </div>  
+    </div>  
+      <!-- footer content -->
+    <footer>
+      <div class="clearfix"></div>
+    </footer>
+    <!-- /footer content -->
+
+    <th:block th:insert="~{index :: jsfiles}"></th:block>
+
+    <!-- Datatables -->
+    <script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script src="../vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="../vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
+    <script src="../vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
+    <script src="../vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="../vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="../vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+    <script src="../vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+    <script src="../vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="../vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+    <script src="../vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
+    <script src="../vendors/jszip/dist/jszip.min.js"></script>
+    <script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
+    <script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
+    
     <script>
       //alert($("#maTiec").text())
+      function openPrintDialogue(){
+        $('<iframe>', {
+          name: 'myiframe',
+          class: 'printFrame'
+        })
+        .appendTo('body')
+        .contents().find('body')
+        .append(`
+          <h1>Our Amazing Offer</h1>
+          <img src='coupon.png' />
+          <table id="table_dv" class="table table-bordered" style="width:100%">
+            <caption><h5 style="color:black">Tổng tiền dịch vụ : <span  id="tongTienDichVu"></span></h5></caption>
+            <thead>
+              <tr>
+                <th>STT</th>
+                <th>Tên Dịch vụ</th>
+                <th>Số lượng</th>
+                <th>Đơn giá</th>
+                <th>Thành tiền</th>
+              </tr>
+            </thead>
+            <tbody id="dsDichVu">
+              <tr>
+                <td ></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>    
+            </tbody>  
+          </table>  
+        `);
+
+        window.frames['myiframe'].focus();
+        window.frames['myiframe'].print();
+
+        setTimeout(() => { $(".printFrame").remove(); }, 1000);
+      };
       dichVu = []
       $.get("http://localhost:8080/api/thong-tin-hoa-don?maTiecCuoi=" + $("#maTiec").text(), function(data){
         //alert("GEt Success")
@@ -151,42 +234,77 @@
         $("#dsDichVu").empty()
 
         alert(JSON.stringify(data["monAn"]))
-        $.each(data["monAn"], function(index, d){
-          $("#dsMonAn").append($("<tr>", {
-            "id": "row-" + d.maMonAn
-          }))
-          $("#row-" + d.maMonAn).append($("<td>", {
-            text: index
-          }))
-          $("#row-" + d.maMonAn).append($("<td>", {
-            text: d.tenMonAn
-          }))
-          $("#row-" + d.maMonAn).append($("<td>", {
-            text: d.donGia
-          }))
-        })
+        var table_ma = $('#table_ma').DataTable({
+          paging: true,
+          select: true,
+          order: [ [ 1, 'asc' ] ],
+          lengthMenu: [ [3, 25, 50, -1], [3, 25, 50, "All"] ],
+          data: data["monAn"],
+          columns: [     
+                    {
+                      "data": null,
+                      
+                    },                                   
+                    { 
+                      "data": "tenMonAn",
+                      
+                    },
+                    { "data": "donGia",
+                      
+                    },
+                                
+                ],
+        })            
 
-        $.each(data["dichVu"], function(index, d){
-          dichVu = data["dichVu"]
-          $("#dsDichVu").append($("<tr>", {
-            "id": "row-" + d.maDichVu
-          }))
-          $("#row-" + d.maDichVu).append($("<td>", {
-            text: index
-          }))
-          $("#row-" + d.maDichVu).append($("<td>", {
-            text: d.tenDichVu
-          }))
-          $("#row-" + d.maDichVu).append($("<td>", {
-            text: d.soLuong
-          }))
-          $("#row-" + d.maDichVu).append($("<td>", {
-            text: d.donGia
-          }))
-          $("#row-" + d.maDichVu).append($("<td>", {
-            text: d.thanhTien 
-          }))
+        var table_dv = $('#table_dv').DataTable({
+          paging: true,
+          select: true,
+          order: [ [ 1, 'asc' ] ],
+          lengthMenu: [ [3, 25, 50, -1], [3, 25, 50, "All"] ],
+          data: data["dichVu"],
+          columns: [     
+                    {
+                      "data": null,
+                      
+                    },                                   
+                    { 
+                      "data": "tenDichVu",
+                      
+                    },
+                    { 
+                      "data": "soLuong",                      
+                    },
+                    { 
+                      "data": "donGia",                      
+                    },
+                    { 
+                      "data": "thanhTien",                      
+                    },
+                                
+                ],
         })
+        // alert(JSON.stringify(data["monAn"]))
+        // $.each(data["monAn"], function(index, d){
+        //   table_ma.clear()
+        //   alert(JSON.stringify(d))
+        //       table_ma.row.add( [
+        //           null,
+        //           d.tenMonAn,
+        //           d.donGia,                        
+        //   ] ).draw( false );          
+         
+        // })
+        table_ma.on( 'order.dt search.dt', function () {
+            table_ma.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+                cell.innerHTML = i+1;
+            } );
+          } ).draw();
+       
+        table_dv.on( 'order.dt search.dt', function () {
+            table_dv.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+                cell.innerHTML = i+1;
+            } );
+          } ).draw();
       })
    
       $("#xacNhan").click(function(e){

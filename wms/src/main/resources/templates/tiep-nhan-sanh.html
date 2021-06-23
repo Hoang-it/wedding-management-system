@@ -1,57 +1,99 @@
 <!DOCTYPE HTML>
 <html>
 <head> 
-    <title>Home Page</title> 
+    <title>TRA CỨU HÓA ĐƠN</title> 
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <th:block th:insert="~{index :: libs}"></th:block>
-    
 </head>
-<body>
+<body class="nav-md">
     <th:block th:insert="~{index :: menu-bar}"></th:block>
     
-    <form class="mx-auto" style="width: 700px;" id="formTiepNhanSanh">
-      <h1>Tiếp nhận sảnh</h1>
-      <div class="row g-3">
-        <div class="col-sm-6">
-          <label for="tenSanh" class="form-label">Tên sảnh</label>
-          <input type="text" class="form-control" id="tenSanh" placeholder="Nhập tên sảnh" value="" required>
-          <div id="msg_tenSanh"></div>
-        </div>
+    <div class="container body">
+      <div class="main_container">
+       
+        <!-- page content -->
+        <div class="right_col" role="main" id="formTiepNhanSanh">
+          <div class="">
+            <div class="page-title">
+              <div class="title_left">
+                <h3 style="color:black">TIẾP NHẬN SẢNH</h3>
+              </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="row" style="color:black">
+              <div class="col-md-12 col-sm-12 ">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <br />
+                    <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+  
+                      <div class="item form-group">
+                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="tenSanh">Tên sảnh <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 ">
+                          <input type="text" class="form-control" id="tenSanh" placeholder="Nhập tên sảnh" value="" required>
+                          <div id="msg_tenSanh"></div>
+                        </div>
+                      </div>
+                      <div class="item form-group"> 
+                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="loaiSanh"  >Loại sảnh <span class="required">*</span></label>
+                        <div class="col-md-6 col-sm-6 ">
+                          <select class="form-select form-control" id="loaiSanh" required>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                          </select> 
+                        </div>
+                      </div>
+                      <div class="item form-group">
+                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="soLuongBanToiDa" style="color:black">Số bàn tối đa <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 ">
+                          <input type="text" class="form-control" id="soLuongBanToiDa" placeholder="Nhập số lượng bàn tối đa" style="color:black" required>
+                          <div id="msg_soLuongBanToiDa"></div>
+                        </div>
+                      </div>
+                      <div class="item form-group">
+                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="donGiaToiThieu" style="color:black">Đơn giá tối thiểu</label>
+                        <div class="col-md-6 col-sm-6 ">
+                          <input type="text" class="form-control" id="donGiaToiThieu" placeholder="" required="" readonly>
+                        </div>
+                      </div>
+                      <div class="item form-group">
+                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="message" style="color:black">Ghi chú</label>
+                        <div class="col-md-6 col-sm-6 ">
+                          <textarea  class="form-control" id="ghiChu" ></textarea>
+                        </div>
+                      </div>
+  
+                      <div class="item form-group">
+                      </div>
+                      <div class="ln_solid"></div>
+                      <div class="item form-group">
+                        <div class="col-md-6 col-sm-6 offset-md-3">
+                          <button class="btn btn-success btn-lg" type="submit" >Đăng ký</button>
+                        </div>
+                      </div>
+  
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-
-        <div class="col-12">
-          <label for="loaiSanh" class="form-label">Loại sảnh</label>
-          <select class="form-select form-control" id="loaiSanh" required>
-            
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
-          </select>
-        </div>
-
-        <div class="col-md-4">
-          <label for="soLuongBanToiDa" class="form-label">Số bàn tối đa</label>
-          <input type="text" class="form-control" id="soLuongBanToiDa" placeholder="Nhập số lượng bàn tối đa" required>
-          <div id="msg_soLuongBanToiDa"></div>
-        </div>
-
-        <div class="col-md-3">
-          <label for="donGiaToiThieu" class="form-label">Đơn giá tối thiểu</label>
-          <input type="text" class="form-control" id="donGiaToiThieu" style="background-color: white;" placeholder="" required="" readonly>
+          </div>
         </div>
       </div>
+    </div>
 
-      <hr class="my-4">
-
-      <h4 class="mb-3">Ghi chú</h4>
-      <textarea class="form-control" id="ghiChu" style="height: 100px;"></textarea>
-
-      <hr class="my-4">
-
-      <button class="btn btn-primary btn-lg" type="submit" >Đăng ký</button>
-    </form>
-
+    <footer>
+      <div class="clearfix"></div>
+    </footer>
     <script>
       data = {}
       dsLoaiSanhData = {}

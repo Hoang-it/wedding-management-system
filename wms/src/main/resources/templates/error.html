@@ -7,8 +7,24 @@
     <th:block th:insert="~{index :: libs}"></th:block>
 </head>
 <body>
-    Page not found!
-    <p th:text="${statusCode}"></p>
-    <a href="/">Go home</a>
+    <div class="container body">
+        <div class="main_container">
+          <!-- page content -->
+          <div class="col-md-12">
+            <div class="col-middle">
+              <div class="text-center text-center">
+                <h1 class="error-number" th:text="${statusCode}">403</h1>
+                <h2>Không thể tìm thấy trang này.</h2>
+                </p>
+                <div>
+                  <a href="/" class="fa fa-home"><strong> Quay lại trang chủ</strong></a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /page content -->
+        </div>
+      </div>
+    <th:block th:insert="~{index :: jsfiles}"></th:block>
 </body>
 </html>

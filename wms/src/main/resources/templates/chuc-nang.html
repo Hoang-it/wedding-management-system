@@ -4,237 +4,151 @@
     <title>Home Page</title> 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
-    <th:block th:insert="~{index :: libs}"></th:block>
+    <th:block th:fragment="libs">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/css/index.css">
+        <!-- NProgress -->
+        <link href="../vendors/nprogress/nprogress.css" rel="stylesheet">
+        <!-- iCheck -->
+        <link href="../vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+
+        <!-- Custom Theme Style -->
+        <link href="../build/css/custom.min.css" rel="stylesheet">
+    </th:block>
 </head>
-<body>
-    <!-- XEM DANH SÁCH SẢNH -->
-    <th:block th:fragment="xem-danh-sach-sanh">
-      <div class="col-md-4 col-sm-4  profile_details">
-        <div class="well profile_view">
-          <div class="col-sm-12" >
-              <h2><strong>Danh Sách Sảnh</strong></h2>
-              <p>Lập hóa đơn thanh toán cho buổi tiệc dựa trên thông tin được dùng để đăng ký cho buổi tiệc đó</p>
-          </div>
-          <div class=" bottom text-center">
-            <div class=" col-sm-3 emphasis">
-              <a href="/ds/sanh" class="btn btn-success">
-                Xem
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </th:block>
-
-    <!-- XEM DANH SÁCH LOẠI SẢNH -->
-    <th:block th:fragment="xem-danh-sach-loai-sanh">
-      <div class="col-md-4 col-sm-4  profile_details">
-        <div class="well profile_view">
-          <div class="col-sm-12" >
-              <h2><strong>Xem danh sách loại sảnh</strong></h2>
-              <p>Hiện thị các thông tin của sảnh như tên, loại sảnh, đơn giá tối thiểu,..v.v và cho phép tao một sảnh mới</p>
-          </div>
-          <div class=" bottom text-center">
-            <div class=" col-sm-3 emphasis">
-              <a href="/ds/loai-sanh" class="btn btn-success">
-                Xem
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </th:block>
-
-    <!-- XEM DANH SÁCH MÓN ĂN -->
-    <th:block th:fragment="xem-danh-sach-mon-an">
-      <div class="col-md-4 col-sm-4  profile_details">
-        <div class="well profile_view">
-          <div class="col-sm-12" >
-              <h2><strong>Xem danh sách món ăn</strong></h2>
-              <p>Đắng ký một buổi tiêc cưới dựa trên các thông tin cơ bản như : tên cô dâu, chú rể,..v.v đặt thực đơn, dịch vụ</p>
-          </div>
-          <div class=" bottom text-center">
-            <div class=" col-sm-3 emphasis">
-              <a href="/ds/mon-an" class="btn btn-success">
-                Xem
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>                
-    </th:block>
-
-    <!-- XEM DANH SÁCH DỊCH VỤ -->
-    <th:block th:fragment="xem-danh-sach-dich-vu">
-      <div class="col-md-4 col-sm-4  profile_details">
-        <div class="well profile_view">
-          <div class="col-sm-12" >
-              <h2><strong>Xem danh sách dịch vụ</strong></h2>
-              <p>Hiện thị danh sách những buổi tiệc cưới đang diễn ra, sắp diễn ra và đã diễn gia và cho phép tìm buổi tiệc mong muốn</p>
-          </div>
-          <div class=" bottom text-center">
-            <div class=" col-sm-3 emphasis">
-              <a href="/ds/dich-vu" class="btn btn-success">
-                Xem
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>                 
-    </th:block>
-
-     <!-- TRA CỨU TIỆC CƯỚI -->
-    <th:block th:fragment="xem-danh-sach-tiec-cuoi">
-      <div class="col-md-4 col-sm-4  profile_details">
-        <div class="well profile_view">
-          <div class="col-sm-12" >
-              <h2><strong>Tra cứu tiệc cưới</strong></h2>
-              <p>Lập hóa đơn thanh toán cho buổi tiệc dựa trên thông tin được dùng để đăng ký cho buổi tiệc đó</p>
-          </div>
-          <div class=" bottom text-center">
-            <div class=" col-sm-3 emphasis">
-              <a href="/tra-cuu-tiec-cuoi" class="btn btn-success">
-                Xem
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>                
-    </th:block>
-
-    <!-- ĐẶT TIỆC CƯỚI -->
-    <th:block th:fragment="dat-tiec-cuoi">
-      <div class="col-md-4 col-sm-4  profile_details">
-        <div class="well profile_view">
-          <div class="col-sm-12" >
-              <h2><strong>Đặt tiệc cưới</strong></h2>
-              <p>Đắng ký một buổi tiêc cưới dựa trên các thông tin cơ bản như : tên cô dâu, chú rể,..v.v đặt thực đơn, dịch vụ</p>
-          </div>
-          <div class=" bottom text-center">
-            <div class=" col-sm-3 emphasis">
-              <a href="/nhan-dat-tiec-cuoi" class="btn btn-success">
-                Xem
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>                
-    </th:block>
-
-    <!-- TIẾP NHẬN SẢNH -->
-    <th:block th:fragment="tiep-nhan-sanh">
-      <div class="col-md-4 col-sm-4  profile_details">
-        <div class="well profile_view">
-          <div class="col-sm-12" >
-              <h2><strong>Tiếp nhận sảnh</strong></h2>
-              <p>Hiện thị các thông tin của sảnh như tên, loại sảnh, đơn giá tối thiểu,..v.v và cho phép tao một sảnh mới</p>
-          </div>
-          <div class=" bottom text-center">
-            <div class=" col-sm-3 emphasis">
-              <a href="/tiep-nhan-sanh" class="btn btn-success">
-                Xem
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>           
-    </th:block>
-
-    <!-- TRA CỨU HÓA ĐƠN -->
-    <th:block th:fragment="tra-cuu-hoa-don">
-      <div class="col-md-4 col-sm-4  profile_details">
-        <div class="well profile_view">
-          <div class="col-sm-12" >
-              <h2><strong>Tra cứu hóa đơn</strong></h2>
-              <p>Thống kê, tính doanh thu của nhà hang dựa vào các hóa đơn đã được thành lập trong tháng đó</p>
-          </div>
-          <div class=" bottom text-center">
-            <div class=" col-sm-3 emphasis">
-              <a href="/tra-cuu-hoa-don" class="btn btn-success">
-                Xem
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>             
-    </th:block>
-
-    <!-- LẬP BÁO CÁO THÁNG -->
-    <th:block th:fragment="lap-bao-cao-thang">
-      <div class="col-md-4 col-sm-4  profile_details">
-        <div class="well profile_view">
-          <div class="col-sm-12" >
-              <h2><strong>Lập báo cáo tháng</strong></h2>
-              <p>Thống kê, tính doanh thu của nhà hang dựa vào các hóa đơn đã được thành lập trong tháng đó</p>
-          </div>
-          <div class=" bottom text-center">
-            <div class=" col-sm-3 emphasis">
-              <a href="/lap-bao-cao-thang" class="btn btn-success">
-                Xem
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>             
-    </th:block>
-
-    <!-- PHÂN QUYỀN -->
-    <th:block th:fragment="phan-quyen">
-      <div class="col-md-4 col-sm-4  profile_details">
-        <div class="well profile_view">
-          <div class="col-sm-12" >
-              <h2><strong>Phân quyền</strong></h2>
-              <p>Hiện thị các thông tin của sảnh như tên, loại sảnh, đơn giá tối thiểu,..v.v và cho phép tao một sảnh mới</p>
-          </div>
-          <div class=" bottom text-center">
-            <div class=" col-sm-3 emphasis">
-              <a href="/phan-quyen" class="btn btn-primary">
-                Xem
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>          
-    </th:block>
-
+<body class="nav-md">
     <th:block th:fragment="chuc-nang-default">
-      <div class="container body">
-        <div class="main_container">
-          <div class="right_col" role="main">
-            <div class="">
-              <div class="page-title">
-                <h3 style="text-align: center;margin: auto; color:black;"> <strong>CHỨC NĂNG</strong></h3>  
-              </div>
-            </div>
-
-            <div class="clearfix"></div>
-
-            <div class="row" style="color:black;">
-              <div class="x_panel">
-                <div class="x_content">
-                  <div class="col-md-12 col-sm-12  text-center">
-                  </div>
-                  <div class="clearfix"></div>
-                  <th:block th:insert="~{chuc-nang :: xem-danh-sach-sanh}"></th:block>
-
-                    <th:block th:insert="~{chuc-nang :: xem-danh-sach-loai-sanh}"></th:block>
-                    
-
-                    <th:block th:insert="~{chuc-nang :: xem-danh-sach-mon-an}"></th:block>
-                    <th:block th:insert="~{chuc-nang :: xem-danh-sach-dich-vu}"></th:block>
-
-                    <th:block th:insert="~{chuc-nang :: xem-danh-sach-tiec-cuoi}"></th:block>
-                  
-                </div>
-              </div>
-            </div>
-              
+    <div class="container body">
+    <div class="main_container">
+      <div class="right_col" role="main">
+        <div class="">
+          <div class="page-title">
+            <h3 style="text-align: center;margin: auto; color:black;"> <strong>CHỨC NĂNG</strong></h3>  
           </div>
-        </div>
+          </div>
+  
+              <div class="clearfix"></div>
+  
+              <div class="row" style="color:black;">
+                  <div class="x_panel">
+                    <div class="x_content">
+                        <div class="col-md-12 col-sm-12  text-center">
+                        </div>
+                        <div class="clearfix"></div>
+                        <!-- XEM DANH SÁCH LOẠI SẢNH -->
+                        <div class="col-md-4 col-sm-4  profile_details">
+                          <div class="well profile_view">
+                            <div class="col-sm-12" >
+                                <h2><strong>Danh Sách Loại Sảnh</strong></h2>
+                                <p> Hiển thị danh sách các loại sảnh tại nhà hàng chứa thông tin như: tên loại sảnh, đơn giá tối thiểu,...  </p>
+                            </div>
+                            <div class=" bottom text-center">
+                              <div class=" col-sm-3 emphasis">
+                                <a href="/ds/loai-sanh" class="btn btn-success">
+                                  Xem
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- XEM DANH SÁCH MÓN ĂN -->
+                        <div class="col-md-4 col-sm-4  profile_details">
+                          <div class="well profile_view">
+                            <div class="col-sm-12">
+                              <h2><strong> Danh Sách Món Ăn</strong></h2>
+                                <p> Hiển thị danh sách những món ăn được nhà hàng cung cấp chứa thông tin như : tên món ăn, đơn giá </p>
+                            </div>
+                            <div class=" bottom text-center">
+                              <div class=" col-sm-3 emphasis">
+                                <a href="/ds/mon-an" class="btn btn-success">
+                                  Xem
+                                </a>
+                              </div>
+
+                            </div>
+                          </div>
+                        </div>
+                        <!-- XEM DANH SÁCH DỊCH VỤ -->
+                        <div class="col-md-4 col-sm-4  profile_details">
+                          <div class="well profile_view">
+                            <div class="col-sm-12" >
+                            <h2><strong>Danh Sách Dịch Vụ</strong></h2>
+                              <p> Hiển thị danh sách những dịch vụ dành cho tiệc cưới được nhà hàng cung cấp chứa thông tin như : tên dịch vụ, đơn giá,.. </p>
+                            </div>
+                            <div class=" bottom text-center">
+                              <div class=" col-sm-3 emphasis">
+                                <a href="/ds/dich-vu" class="btn btn-success">
+                                  Xem
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- XEM DANH SÁCH SẢNH -->
+                        <div class="col-md-4 col-sm-4  profile_details">
+                          <div class="well profile_view">
+                            <div class="col-sm-12" >
+                            <h2><strong>Danh Sách Sảnh</strong></h2>
+                              <p>Hiển thị các thông tin của sảnh như tên, loại sảnh, đơn giá tối thiểu,..v.v và cho phép tạo một sảnh mới</p>
+                            </div>
+                            <div class=" bottom text-center">
+                              <div class=" col-sm-3 emphasis">
+                                <a href="/tra-cuu-tiec-cuoi" class="btn btn-success">
+                                  Xem
+                                </a>
+                              </div>
+
+                            </div>
+                          </div>
+                        </div>
+                        <!-- TRA CỨU TIỆC CƯỚI -->
+                        <div class="col-md-4 col-sm-4  profile_details">
+                          <div class="well profile_view">
+                            <div class="col-sm-12" >
+                            <h2><strong>Tra Cứu Tiệc Cưới</strong></h2>
+                              <p> Hiển thị danh sách những buổi tiệc cưới đã, đang, hay sắp diễn gia và cho phép tìm buổi tiệc mong muốn</p>
+                            </div>
+                            <div class=" bottom text-center">
+                              <div class=" col-sm-3 emphasis">
+                                <a href="/tra-cuu-tiec-cuoi" class="btn btn-success">
+                                  Xem
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- TRA CỨU PHIẾU MÓN ĂN, DỊCH VỤ -->
+                        <div class="col-md-4 col-sm-4  profile_details">
+                          <div class="well profile_view">
+                            <div class="col-sm-12" >
+                              <h2><strong>Tra Cứu Phiếu Món Ăn, Dịch Vụ</strong></h2>
+                              <p>Hiển thị danh sách những món ăn và dịch vụ mà người dùng đã đặt cho tiệc cưới.</p>
+                            </div>
+                            <div class=" bottom text-center">
+                              <div class=" col-sm-3 emphasis">
+                                <a href="/tra-cuu-tiec-cuoi" class="btn btn-success">
+                                  Xem
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+       </div>
       </div>
+    </div>
+    </div>
+        
     </th:block>
     
-
     <th:block th:fragment="chuc-nang-nhan-vien">
       <div class="container body">
         <div class="main_container">
@@ -249,52 +163,196 @@
               <div class="x_panel">
                 <div class="x_content">
                   <div class="col-md-12 col-sm-12  text-center"></div>
-                  <div class="clearfix"></div>
-                  <th:block th:insert="~{chuc-nang :: xem-danh-sach-tiec-cuoi}"></th:block>
+                    <div class="clearfix"></div>
+                     <!-- XEM DANH SÁCH LOẠI SẢNH -->
+                    <div class="col-md-4 col-sm-4  profile_details">
+                      <div class="well profile_view">
+                        <div class="col-sm-12">
+                            <h2><strong>Danh Sách Loại Sảnh</strong></h2>
+                            <p> Hiển thị danh sách các loại sảnh tại nhà hàng chứa thông tin như: tên loại sảnh, đơn giá tối thiểu,...  </p>
+                        </div>
+                        <div class=" bottom text-center">
+                          <div class=" col-sm-3 emphasis">
+                            <a href="/ds/loai-sanh" class="btn btn-success">
+                              Xem
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                     
-                  <th:block th:insert="~{chuc-nang :: dat-tiec-cuoi}"></th:block>
-                    
-                  <th:block th:insert="~{chuc-nang :: tra-cuu-hoa-don}"></th:block>
-                  
+                    <!-- XEM DANH SÁCH MÓN ĂN -->
+                    <div class="col-md-4 col-sm-4  profile_details">
+                      <div class="well profile_view">
+                        <div class="col-sm-12">
+                          <h2><strong> Danh Sách Món Ăn</strong></h2>
+                          <p> Hiển thị danh sách những món ăn được nhà hàng cung cấp chứa thông tin như : tên món ăn, đơn giá </p>
+                        </div>
+                        <div class=" bottom text-center">
+                          <div class=" col-sm-3 emphasis">
+                            <a href="/ds/mon-an" class="btn btn-success">
+                              Xem
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+            
+                    <!-- XEM DANH SÁCH DỊCH VỤ -->
+                    <div class="col-md-4 col-sm-4  profile_details">
+                      <div class="well profile_view">
+                        <div class="col-sm-12">
+                        <h2><strong>Danh Sách Dịch Vụ</strong></h2>
+                        <p> Hiển thị danh sách những dịch vụ dành cho tiệc cưới được nhà hàng cung cấp chứa thông tin như : tên dịch vụ, đơn giá,.. </p>
+                        </div>
+                        <div class=" bottom text-center">
+                          <div class=" col-sm-3 emphasis">
+                            <a href="/ds/dich-vu" class="btn btn-success">
+                              Xem
+                            </a>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+                    <!-- TRA CỨU TIỆC CƯỚI -->
+                    <div class="col-md-4 col-sm-4  profile_details">
+                      <div class="well profile_view">
+                        <div class="col-sm-12">
+                        <h2><strong>Tra Cứu Tiệc Cưới</strong></h2>
+                        <p> Hiển thị danh sách những buổi tiệc cưới đã, đang, hay sắp diễn gia và cho phép tìm buổi tiệc mong muốn</p>
+                        </div>
+                        <div class=" bottom text-center">
+                          <div class=" col-sm-3 emphasis">
+                            <a href="/tra-cuu-tiec-cuoi" class="btn btn-success">
+                              Xem
+                            </a>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+                  <!-- ĐẶT TIỆC CƯỚI -->
+                  <div class="col-md-4 col-sm-4  profile_details">
+                    <div class="well profile_view">
+                      <div class="col-sm-12">
+                        <h2><strong>Đặt tiệc cưới</strong></h2>
+                        <p>Đăng ký một buổi tiệc cưới dựa trên các thông tin cơ bản như : tên cô dâu, chú rể,..v.v đặt thực đơn, dịch vụ</p>
+                      </div>
+                      <div class=" bottom text-center">
+                        <div class=" col-sm-3 emphasis">
+                          <a href="/nhan-dat-tiec-cuoi" class="btn btn-success">
+                            Xem
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div> 
+                  <!-- TRA CỨU HÓA ĐƠN -->
+                  <div class="col-md-4 col-sm-4  profile_details">
+                    <div class="well profile_view">
+                      <div class="col-sm-12">
+                        <h2><strong>Tra Cứu Hóa Đơn</strong></h2>
+                        <p>Thống kê, tính doanh thu của nhà hàng dựa vào các hóa đơn đã được thành lập trong tháng đó</p>
+                      </div>
+                      <div class=" bottom text-center">
+                        <div class=" col-sm-3 emphasis">
+                          <a href="/tra-cuu-hoa-don" class="btn btn-success">
+                            Xem
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
           </div>
         </div>
       </div>
-        
+   </div>
+  </div>
+</div>
+</div> 
+              
     </th:block>
 
-    <th:block th:fragment="chuc-nang-bql">      
-      <div class="container body">
-        <div class="main_container">
-          <div class="right_col" role="main">
-            <div class="">
-              <div class="page-title">
-                <h3 style="text-align: center;margin: auto; color:black;"> <strong>CHỨC NĂNG</strong></h3>  
-              </div>
-            </div>
-            <div class="clearfix"></div>
-            <div class="row" style="color:black;">
-              <div class="x_panel">
-                <div class="x_content">
-                  <div class="col-md-12 col-sm-12  text-center"></div>
-                  <div class="clearfix"></div>
-
-                  <th:block th:insert="~{chuc-nang :: tiep-nhan-sanh}"></th:block>
-
-                  <th:block th:insert="~{chuc-nang :: lap-bao-cao-thang}"></th:block>
-
-                  <th:block th:insert="~{chuc-nang :: xem-danh-sach-tiec-cuoi}"></th:block>                
+    <th:block th:fragment="chuc-nang-bql">
+        <div class="container body">
+          <div class="main_container">
+            <div class="right_col" role="main">
+              <div class="">
+                <div class="page-title">
+                  <h3 style="text-align: center;margin: auto; color:black;"> <strong>CHỨC NĂNG</strong></h3>  
+                </div>
+                </div>
+        
+                    <div class="clearfix"></div>
+        
+                    <div class="row" style="color:black;">
+                        <div class="x_panel">
+                          <div class="x_content">
+                              <div class="col-md-12 col-sm-12  text-center">
+                              </div>
+        
+                              <div class="clearfix"></div>
+                              <div class="bottom text-center">
+                                <div class="col-sm-12 col-sm-12  profile_details">
+                                <div class="well profile_view">
+                                  <div class="col-sm-12" style="text-align: center;">
+                                      <h2><strong>Tiếp Nhận Sảnh</strong></h2>
+                                      <p>Hiển thị các thông tin của sảnh như tên, loại sảnh, đơn giá tối thiểu,..v.v và cho phép tạo một sảnh mới</p>
+                                  </div>
+                                  <div class=" bottom text-center" style="text-align: center;">
+                                    <div class=" col-sm-12 emphasis">
+                                      <a href="/tiep-nhan-sanh" class="btn btn-success">
+                                        Xem
+                                      </a>
+                                    </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="bottom text-center">
+                                  <div class="col-sm-12 col-sm-12  profile_details">
+                                  <div class="well profile_view">
+                                    <div class="col-sm-12" style="text-align: center;">
+                                        <h2><strong>Lập Báo Cáo Tháng</strong></h2>
+                                        <p>Thống kê và tính toán doanh thu của nhà hàng dựa vào các hóa đơn đã được thành lập trong tháng đó</p>
+                                    </div>
+                                    <div class=" bottom text-center" style="text-align: center;">
+                                      <div class=" col-sm-12 emphasis">
+                                        <a href="/lap-bao-cao-thang" class="btn btn-success">
+                                          Xem
+                                        </a>
+                                      </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="bottom text-center">
+                                    <div class="col-sm-12 col-sm-12  profile_details">
+                                    <div class="well profile_view">
+                                      <div class="col-sm-12" style="text-align: center;">
+                                          <h2><strong>Tra Cứu Tiệc Cưới</strong></h2>
+                                          <p>Hiển thị danh sách những buổi tiệc cưới đã, đang, hay sắp diễn ra và cho phép tìm buổi tiệc mong muốn</p>
+                                      </div>
+                                      <div class=" bottom text-center" style="text-align: center;">
+                                        <div class=" col-sm-12 emphasis">
+                                          <a href="/tra-cuu-tiec-cuoi" class="btn btn-success">
+                                            Xem
+                                          </a>
+                                        </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                          </div>
+                        </div>
+                    </div>
                   </div>
+                </div>   
               </div>
             </div>
           </div>
-        </div>
-      </div>
-        
+          </div>
     </th:block>
-    
     <th:block th:fragment="chuc-nang-admin">
       <div class="container body">
         <div class="main_container">
@@ -309,17 +367,34 @@
               <div class="x_panel">
                 <div class="x_content">
                   <div class="col-md-12 col-sm-12  text-center"></div>
-                  <div class="clearfix"></div>
-                  <th:block th:insert="~{chuc-nang :: phan-quyen}"></th:block>                    
+                    <div class="clearfix"></div>
+                     <!-- PHÂN QUYỀN -->
+                     <div class="bottom text-center">
+                      <div class="col-sm-12 col-sm-12 profile_details">
+                      <div class="well profile_view">
+                        <div class="col-sm-12" style="text-align: center;">
+                            <h2><strong>Phân Quyền</strong></h2>
+                            <p>Hiển thị thông tin các tài khoản người dùng của nhà hàng</p>
+                        </div>
+                        <div class=" bottom text-center" style="text-align: center;">
+                          <div class=" col-sm-12 emphasis">
+                            <a href="/phan-quyen" class="btn btn-success">
+                              Xem
+                            </a>
+                          </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-              </div>
+                </div>
             </div>
           </div>
         </div>
-      </div>
-        
+     </div>
+    </div>
+  </div>
+  </div> 
     </th:block>
-
-    <th:block th:insert="~{index :: jsfiles}"></th:block>
 </body>
 </html>
