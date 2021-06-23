@@ -107,6 +107,13 @@
         </li>
     </th:block>
 
+     <!-- TIẾP NHẬN SẢNH -->
+     <th:block th:fragment="menu-bar-tiep-nhan-sanh">
+        <li class="nav-item">
+            <a id="link-lap-bao-cao" href="/tiep-nhan-sanh"> Tiếp nhận sảnh </a>
+        </li>
+    </th:block>
+
     <th:block th:fragment="menu-bar-default">
         <div class="container body">
             <div class="main_container">
@@ -211,13 +218,12 @@
                                             <th:block th:insert="~{menu-bar :: menu-bar-ds-dich-vu}"></th:block>
                                             <th:block th:insert="~{menu-bar :: menu-bar-quy-dinh-phat}"></th:block>    
                                         </ul>
+                                    
                                     </li>
+                                    <th:block th:insert="~{menu-bar :: menu-bar-tiep-nhan-sanh}"></th:block> 
                                     <th:block th:insert="~{menu-bar :: menu-bar-tra-cuu-hoa-don}"></th:block>    
                                     <th:block th:insert="~{menu-bar :: menu-bar-lap-hoa-don}"></th:block>    
-                                    
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="link-lap-bao-cao" href="/lap-bao-cao-thang">Lập báo cáo tháng</a>
-                                    </li>
+                                                                        
                                     <th:block th:insert="~{menu-bar :: menu-bar-dang-xuat}"></th:block>    
                                 </ul>
                             </div>

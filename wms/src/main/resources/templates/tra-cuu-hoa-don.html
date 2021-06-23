@@ -113,8 +113,9 @@
         <div class="right_col" role="main">
           <div class="">
             <div class="page-title">
-              <div class="title_left">
-                <h3 style="color:black">DANH SÁCH TIỆC CƯỚI</h3>
+              <div class="title_left fa">
+                <!-- <h3 style="color:black">DANH SÁCH TIỆC CƯỚI</h3> -->
+                <h3>DANH SÁCH HÓA ĐƠN</h3>
               </div>
     
               <div class="title_right">
@@ -210,6 +211,16 @@
                 paging: true,
                 select: true,
                 order: [ [ 1, 'asc' ] ],
+                "oLanguage": {  
+                  "sSearch": "Tìm kiếm : _INPUT_",                
+                  "sLengthMenu": "Hiện thị  _MENU_ dữ liệu",
+                  "sInfo": "Nhận _TOTAL_ dữ liệu, hiện thị (_START_ tới _END_)",
+                  "oPaginate": {
+                    "sNext": "Sau",
+                    "sPrevious": "Trước"
+                  }
+
+                },
                 lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
                 ajax: {
                     url: '/api/ds-hoa-don',
