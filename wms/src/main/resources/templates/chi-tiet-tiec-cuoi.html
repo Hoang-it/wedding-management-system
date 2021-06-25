@@ -18,8 +18,9 @@
                 <div class="x_title fa">
                   <h1 style="color:black">CHI TIẾT TIỆC CƯỚI <span id="maTiec" th:text="${maTiecCuoi}" style="visibility: hidden; display: none;"></span></h1>
                   <div class="clearfix"></div>
+                  
                 </div>
-               
+                <button type="submit" id="xoa" class="btn btn-success btn-lg" style="margin-left:55%">Xóa</button>
               </div>
             </div>                     
             <div class="col-md-12 col-sm-12">
@@ -163,9 +164,10 @@
                   <div class="row">
                     <div class="col-sm-12">                                           
                       <div class="row">
-                        <button type="submit" id="xacNhan" class="btn btn-success btn-lg" style="margin-left:35%">Thêm dịch vụ</button>
+                        <!-- <button type="submit" id="xacNhan" class="btn btn-success btn-lg" style="margin-left:35%">Thêm dịch vụ</button>
                         <button type="submit" id="xacNhan" class="btn btn-success btn-lg">Thêm món ăn</button>
-                        <button type="submit" id="xacNhan" class="btn btn-success btn-lg" >Cập nhật</button>
+                        <button type="submit" id="xacNhan" class="btn btn-success btn-lg" >Cập nhật</button> -->
+                        
                       </div>                      
                     </div>
                   </div>
@@ -229,7 +231,7 @@
           select: true,
           order: [ [ 1, 'asc' ] ],
           "oLanguage": {  
-                  "sSearch": "Tìm kiếm : _INPUT_",                
+                  "sSearch": "Tìm : _INPUT_",                
                   "sLengthMenu": "Hiện thị  _MENU_ dữ liệu",
                   "sInfo": "Nhận _TOTAL_ dữ liệu, hiện thị (_START_ tới _END_)",
                   "oPaginate": {
@@ -261,7 +263,7 @@
           select: true,
           order: [ [ 1, 'asc' ] ],
           "oLanguage": {  
-                  "sSearch": "Tìm kiếm : _INPUT_",                
+                  "sSearch": "Tìm : _INPUT_",                
                   "sLengthMenu": "Hiện thị  _MENU_ dữ liệu",
                   "sInfo": "Nhận _TOTAL_ dữ liệu, hiện thị (_START_ tới _END_)",
                   "oPaginate": {
@@ -316,7 +318,21 @@
             } );
           } ).draw();
       })
-   
+      
+      $("#xoa").click(function(e){
+        // alert($("#maTiec").text())
+        $.ajax({
+            url: '/api/tiec-cuoi/xoa?maTiecCuoi=' + $("#maTiec").text(),
+            type: 'DELETE',
+            success: function(result) {
+               alert("Xóa thành công")
+            },
+            error: function(){
+              alert("Xóa thất bại")
+            }
+
+        });
+      })
       $("#xacNhan").click(function(e){
         e.preventDefault()
         alert("Xac nhan hoa don!" + $("#maTiec").html())

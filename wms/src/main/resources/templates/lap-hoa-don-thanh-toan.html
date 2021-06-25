@@ -18,10 +18,17 @@
           <div class="">                     
             <div class="col-md-12 col-sm-12">
               <div class="x_panel">
-                <div class="x_title">
+                <div class="x_title fa">
                   <h1 style="color:black">HÓA ĐƠN TIỆC CƯỚI <span id="maTiec" th:text="${maTiecCuoi}" style="visibility: hidden; display: none;"></span></h1>
                   <div class="clearfix"></div>
+                  
                 </div>
+                <button type="submit" id="xoa" class="btn btn-success btn-lg" style="margin-left:55%">Xóa</button>
+              </div>
+            </div>                     
+            <div class="col-md-12 col-sm-12">
+              <div class="x_panel">
+                
                 <div class="x_content">
                   <div class="row">
                     <div class="col-sm-12">
@@ -44,7 +51,7 @@
                             <h4 style="color:black">Đơn giá bàn: <span id="donGiaBan"></span></h4>                
                         </div>
                         <div class="col">
-                            <h4 style="color:black">Tổng tiền bàn : <span id="tongTienBan"></span></h4>                
+                          <h4 style="color:black">Số lượng bàn dự trữ : <span id="soLuongBanDuTru"></span></h4>           
                         </div> 
                       </div>
                     </div>
@@ -53,11 +60,17 @@
                     <div class="col">
                         <h4 style="color:black">Số ngày trễ hạn : <span id="soNgayTreHan"></span></h4>                
                     </div>
+                    <div class="col">
+                      <h4 style="color:black">Tổng tiền bàn : <span id="tongTienBan"></span></h4>               
+                    </div>
+                    <div class="col">
+                                    
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>                 
-
+            </div>               
+            
             <!---->
             <div class="row" style="display: block;">
               <div class="col-md-6 col-sm-6  ">
@@ -124,6 +137,11 @@
                 <div class="x_content">
                   <div class="row">
                     <div class="col-sm-12">
+                      <div class="row">
+                        <div class="col">
+                            <h4 style="color:black">Tiền phạt : <span id="tienPhat"></span> </h4>                
+                        </div>
+                      </div>
                       <div class="row">
                         <div class="col">
                             <h4 style="color:black">Tổng tiền hóa đơn : <span id="tongTienHoaDon"></span> </h4>                
@@ -226,11 +244,13 @@
         $("#tenCoDau").text(data["tenCoDau"])
         $("#ngayThanhToan").text(data["ngayThanhToan"])
         $("#soLuongBan").text(data["soLuongBan"])
+        $("#soLuongBanDuTru").text(data["soLuongBanDuTru"])
         $("#soNgayTreHan").text(data["ngayTreHan"])
         $("#donGiaBan").text(data["donGiaBan"])
         $("#tongTienBan").text(data["tongTienBan"])
         $("#tongTienDichVu").text(data["tongTienDichVu"])
         $("#tongTienMonAn").text(data["tongTienMonAn"])
+        $("#tienPhat").text(data["tienPhat"])
         $("#tongTienHoaDon").text(data["tongTienHoaDon"])
         $("#tienDatCoc").text(data["tienDatCoc"])
         $("#conLai").text(data["conLai"])
@@ -331,7 +351,19 @@
             } );
           } ).draw();
       })
-      
+      $("#xoa").click(function(e){
+        $.ajax({
+            url: '/api/hoa-don/xoa?maTiecCuoi=' + $("#maTiec").text(),
+            type: 'DELETE',
+            success: function(result) {
+               alert("Xóa thành công")
+            },
+            error: function(){
+              alert("Xóa thất bại")
+            }
+
+        });
+      })
       $('input[type="search"]').css({ 'width': '50px'});
       $("#xacNhan").click(function(e){
         e.preventDefault()

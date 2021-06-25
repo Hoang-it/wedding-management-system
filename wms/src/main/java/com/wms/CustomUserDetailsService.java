@@ -2,8 +2,8 @@ package com.wms;
 
 import java.util.Set;
 
+import com.wms.entities.ChucNang;
 import com.wms.entities.NguoiDung;
-import com.wms.entities.PhanQuyen;
 import com.wms.repositories.NguoiDungRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         NguoiDung nguoiDung = nguoiDungRepository.findByTenDangNhap(username);
-        Set<PhanQuyen> phanQuyen = nguoiDung.getMaNhom().getPhanQuyenIds();
+        ChucNang phanQuyen = nguoiDung.getMaNhom().getChucNang();
         return new CustomUserDetails(nguoiDung, phanQuyen);
     }
 

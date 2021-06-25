@@ -7,12 +7,17 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,6 +27,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class NhomNguoiDung implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,11 +42,12 @@ public class NhomNguoiDung implements Serializable {
     @OneToMany(mappedBy = "maNhom")
     Set<NguoiDung> dsNguoiDung;
 
-    @OneToMany(mappedBy = "maNhom", fetch = FetchType.EAGER)
-    Set<PhanQuyen> phanQuyenIds = new HashSet<>();
+    @ManyToOne
+    ChucNang chucNang;
 
-    public NhomNguoiDung(String maNhom, String tenNhom){
+    public NhomNguoiDung(String maNhom, String tenNhom, ChucNang chucNang){
         this.maNhom = maNhom;
         this.tenNhom = tenNhom;
+        this.chucNang = chucNang;
     }
 }

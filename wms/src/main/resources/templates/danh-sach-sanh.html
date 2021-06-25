@@ -22,7 +22,7 @@
           <!-- HEADER -->
           <div class="modal-header ">
             <p style="display: none; visibility: hidden;" id="mType">update</p>
-            <h4 class="modal-title" id="mTitle">THÔNG TIN SẢNH</h4>
+            <h4 class="modal-title" id="mTitle">CẬP NHẬT SẢNH</h4>
             <button type="button" class="close" data-dismiss="modal">&times;</button>
           </div>
           <!-- BODY -->
@@ -52,7 +52,8 @@
                 
               </th:block>
               <th:block th:case="'bql'">
-                <button type="button" id="capNhat" class="btn btn-default"  data-dismiss="modal">Cập nhât</button>
+                <button type="button" id="capNhat" class="btn btn-success"  data-dismiss="modal">Cập nhât</button>
+                
               </th:block>
               <th:block th:case="'nhanvien'">
                 
@@ -78,9 +79,9 @@
             </div>
 
             <div class="title_right">
-              <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+              <div class="col-md-3 col-sm-6 col-xs-12 form-group pull-right">
                 <div class="input-group">
-                  
+                  <button class="btn btn-success">Thêm sảnh</button>
                 </div>
               </div>
             </div>
@@ -108,7 +109,23 @@
                               <th scope="col" >Loại Sảnh</th>
                               <th scope="col">Đơn giá bàn tối thiểu</th>
                               <th scope="col">Số lượng bàn tối đa</th>
-                              <th scope="col">Tùy chọn</th>
+                              <th:block th:switch="${role}">
+                                <th:block th:case="''" >
+                                  
+                                </th:block>
+                                <th:block th:case="'admin'">
+                                  
+                                </th:block>
+                                <th:block th:case="'bql'">
+                                  <th scope="col">
+                                    Tùy chọn
+                                    
+                                  </th>
+                                </th:block>
+                                <th:block th:case="'nhanvien'">
+                                  
+                                </th:block>
+                              </th:block> 
                             </tr>
                           </thead>
                           <tbody id="dsSanh">      
@@ -129,6 +146,7 @@
 
   
   <!-- Datatables -->
+  <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.25/datatables.min.js"></script>
   <script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>
   <script src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
   <script src="../vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
@@ -148,21 +166,56 @@
   <!-- Custom Theme Scripts -->
   <script src="../build/js/custom.min.js"></script>
   <script>
-    var table = $('#table_id').DataTable({
+    switch ($("#roleUser").html()){
+        case '':
+          var table = $('#table_id').DataTable({
                 paging: true,
                 select: true,
+                
                 searching: true,
                 order: [ [ 1, 'asc' ] ],
-                "oLanguage": {  
-                  "sSearch": "Tìm kiếm : _INPUT_",                
-                  "sLengthMenu": "Hiện thị  _MENU_ dữ liệu",
-                  "sInfo": "Nhận _TOTAL_ dữ liệu, hiện thị (_START_ tới _END_)",
-                  "oPaginate": {
-                    "sNext": "Sau",
-                    "sPrevious": "Trước"
-                  }
-
+                language: {
+                  url: "/json/language.json"
                 },
+                lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                ajax: {
+                    url: '/api/ds-sanh',
+                    dataSrc: ''
+                    
+                },
+                columns: [     
+                    {
+                      "data": null,                      
+                    },               
+                    { 
+                      "data": "tenSanh",                       
+                    },
+                    { 
+                      "data": "loaiSanh",                      
+                    },
+                    {
+                      "data": "donGiaBanToiThieu",                      
+                    },
+                    { 
+                      "data": "soLuongBanToiDa",                      
+                    }                            
+                ],
+                buttons: [                   
+                ]
+                
+                
+            });
+
+          break;        
+        case 'admin':
+          break;
+        case 'bql':  
+          var table = $('#table_id').DataTable({
+                paging: true,
+                select: true,
+                dom: 'Bfrtip',
+                searching: true,
+                order: [ [ 1, 'asc' ] ],                
                 lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
                 ajax: {
                     url: '/api/ds-sanh',
@@ -186,30 +239,69 @@
                       "data": "soLuongBanToiDa",                      
                     }, 
                     { 
-                      "data": "maSanh",                      
-                      "render": function( data, type){                        
+                      "data": "maSanh",  
+                      "width": "20%",                    
+                      "render": function( data, type){ 
                         return "<button " 
-                        +  "type='button' "
-                        +  "stype='margin-left: 3%;' "
-                        +  "class='fa btn btn-success' "
-                        +  "data-toggle='modal' "
-                        +  "data-target='#myModal' "
+                            +  "type='button' "
+                            +  "id='chi-tiet-sanh' "
+                            +  "stype='margin-left: 3%;' "
+                            +  "class='fa btn btn-success' "
+                            +  "data-toggle='modal' "
+                            +  "data-target='#myModal' "                            
+                            + ">" 
+                            + "Cập nhật sảnh"
+                            + "</button>"
+                            + "<button " 
+                            +  "type='button' "
+                            +  "id='xoa-sanh' "
+                            +  "stype='margin-left: 3%;' "
+                            +  "class='fa btn btn-success' "                                               
+                            + ">" 
+                            + "Xóa sảnh"
+                            + "</button>"
                         
-                        + ">" 
-                        + "Xem chi tiết"
-                        + "</button>"
                       }
                     }              
                 ],
                 
-                
-            });
+                buttons: [
+                    'pageLength',                    
+                    {
+                        extend: 'print',
+                        exportOptions: {
+                            columns: '.can-print'
+                        },
+                        title: '',
+                        customize: function ( win ) {
+                          // $(win.document.body).empty()
+                          
+                          $(win.document.body).prepend($("<h1>", {
+                            text: "Báo cáo tháng " + $("#thang").val()
+                          })); //before the table             
 
+                          $(win.document.body).append('<h3>Người lập Hoàng</h3>'); //after the table
+                          
+                          
+                        }
+                    }
+                ],
+                language: {
+                  url: "/json/language.json"
+                },
+            });
+             
+          break;
+        case 'nhanvien': 
+        
+        break;
+      }
+    
 
       $('#table_id tbody').on( 'click', 'button', function () {
           var data = table.row( $(this).parents('tr') ).data();
-          
-          $.get("http://localhost:8080/api/sanh?maSanh=" + data.maSanh, function(data){
+          if ($(this).attr("id") == "chi-tiet-sanh"){
+            $.get("http://localhost:8080/api/sanh?maSanh=" + data.maSanh, function(data){
               //alert(JSON.stringify(data))
               $.each(data, function(index, d){
                 $("#tenSanh").val(d.tenSanh)
@@ -218,6 +310,21 @@
               })
               
             })
+          }
+          if ($(this).attr("id") == "xoa-sanh"){
+            $.ajax({
+                url: '/api/xoa-sanh?sid=' + data.maSanh,
+                type: 'DELETE',
+                success: function(result) {
+                  alert("Xóa thành công")
+                },
+                error: function(){
+                  alert("Xóa thất bại")
+                }
+
+            });
+          }
+          
       } );
 
       
@@ -238,14 +345,14 @@
           //alert($("#mTitle").html())
           break;
         case 'admin':
-          $("input").removeClass("form-control")
-          $("input").addClass("form-control-plaintext")
-          $("input").prop('readonly', true);
+          $("#myModal input").removeClass("form-control")
+          $("#myModal input").addClass("form-control-plaintext")
+          $("#myModal input").prop('readonly', true);
           break;
         case 'bql':
-          $("input").removeClass("form-control-plaintext")
-          $("input").addClass("form-control")
-          $("input").prop('readonly', false);
+          $("#myModal input").removeClass("form-control-plaintext")
+          $("#myModal input").addClass("form-control")
+          $("#myModal input").prop('readonly', false);
           //$("#mTitle").html("Cập nhật danh sách loại sảnh")
           $("#dsLoaiSanh").append($('<tr>', { 
                 "id":  "row-add",
@@ -253,9 +360,9 @@
           }))
           break;
         case 'nhanvien':
-          $("input").removeClass("form-control")
-          $("input").addClass("form-control-plaintext")
-          $("input").prop('readonly', true);
+          $("#myModal input").removeClass("form-control")
+          $("#myModal input").addClass("form-control-plaintext")
+          $("#myModal input").prop('readonly', true);
           break;
         default:
           // code block

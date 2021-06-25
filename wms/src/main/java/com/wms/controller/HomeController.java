@@ -1,5 +1,7 @@
 package com.wms.controller;
 
+import java.time.LocalDateTime;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -234,7 +236,10 @@ public class HomeController implements ErrorController{
             model.setViewName("/access-deny");
             return model;
         }
+        LocalDateTime now = LocalDateTime.now();
         model.setViewName("lap-bao-cao-thang");
+        model.addObject("thang", now.getMonth().getValue());
+        model.addObject("nam", now.getYear());
         model.addObject("navActive", "#link-lap-bao-cao");
         return model;
     }

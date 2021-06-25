@@ -55,9 +55,14 @@ public class HoaDonService {
         return tongTienDichVu;
     }
 
-    public BigDecimal tinhTongTienHoaDon(BigDecimal tienBan, BigDecimal tienDichVu){
+    public BigDecimal tinhTienPhat(BigDecimal tienBan, BigDecimal tienDichVu, BigDecimal phanTramPhat){
         BigDecimal tongTienHoaDon = tienBan.add(tienDichVu);
-        return tongTienHoaDon;
+        return tongTienHoaDon.multiply(phanTramPhat);
+    }
+
+    public BigDecimal tinhTongTienHoaDon(BigDecimal tienBan, BigDecimal tienDichVu, BigDecimal phanTramPhat){
+        BigDecimal tongTienHoaDon = tienBan.add(tienDichVu);
+        return tongTienHoaDon.add(tongTienHoaDon.multiply(phanTramPhat));
     }
 
     public BigDecimal tinhTienConLai(BigDecimal tienHoaDon, BigDecimal tienDatCoc){

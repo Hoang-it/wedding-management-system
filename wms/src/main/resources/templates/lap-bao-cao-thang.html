@@ -6,6 +6,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
   <th:block th:insert="~{index :: libs}"></th:block>
 	<title>BÁO CÁO DOANH SỐ </title>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.25/datatables.min.css"/>
+  <link rel="stylesheet" type="text/css" href="https://cdnout.com/pdfmake/"/>
+ 
+  
+  
 </head>
 <body class="nav-md">
     <th:block th:insert="~{index :: menu-bar}"></th:block>
@@ -36,14 +41,14 @@
                       <label class="col-form-label col-md-3 col-sm-3 label-align" for="thang" >Tháng <span class="required">*</span>
                       </label> 
                       <div class="col-md-6 col-sm-6 ">
-                        <input type="number" class="form-control" id="thang" placeholder="Nhập tháng" required="required"> 
+                        <input type="number" class="form-control" id="thang" th:value="${thang}" placeholder="Nhập tháng" required="required"> 
                       </div>
                     </div>
                     <div class="item form-group">
                       <label class="col-form-label col-md-3 col-sm-3 label-align" for="nam">Năm <span class="required">*</span>
-                      </label>
+                      </label>  
                       <div class="col-md-6 col-sm-6 ">
-                        <input type="number" class="form-control" id="nam" placeholder="Nhập năm" required="required"> 
+                        <input type="number" class="form-control" id="nam" th:value="${nam}" placeholder="Nhập năm" required="required"> 
                       </div>
                     </div>
                     <div class="ln_solid"></div>
@@ -70,7 +75,7 @@
                       <div class="row">
                         <div class="col-sm-12">
                           <div class="card-box table-responsive">
-                        <table id="table_id" class="table table-striped table-bordered" style="width:100%">
+                        <table id="table_id" class="table table-bordered" style="width:100%">
                           <caption><h5 style="color:black">Tổng doanh thu : <span id="tongDoanhThu"></span></h5></caption>
                           <thead class="thead-dark">
                             <tr>
@@ -104,6 +109,7 @@
             <th:block th:insert="~{index :: jsfiles}"></th:block>
 
             <!-- Datatables -->
+            <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.25/datatables.min.js"></script>
             <script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>
             <script src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
             <script src="../vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
@@ -121,66 +127,72 @@
             <script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
     <script>
       var table = $('#table_id').DataTable({
-                order: [ [ 1, 'asc' ] ],
-                "oLanguage": {  
-                  "sSearch": "Tìm kiếm : _INPUT_",                
-                  "sLengthMenu": "Hiện thị  _MENU_ dữ liệu",
-                  "sInfo": "Nhận _TOTAL_ dữ liệu, hiện thị (_START_ tới _END_)",
-                  "oPaginate": {
-                    "sNext": "Sau",
-                    "sPrevious": "Trước"
-                  }
+                dom: 'Bfrtip',
+                order: [ [ 1, 'asc' ] ], 
+                pagingType: "simple_numbers",               
+                lengthMenu: [
+                   [10, 25, 50, -1], 
+                   [10, 25, 50, "All"] 
+                ],
+                
+                buttons: [
+                    'pageLength',
+                    {
+                        extend: 'print',
+                        title: '',
+                        customize: function ( win ) {
+                          // $(win.document.body).empty()
+                          
+                          $(win.document.body).prepend($("<h1>", {
+                            text: "Báo cáo tháng " + $("#thang").val()
+                          })); //before the table                                                    
 
+                          $(win.document.body).append('<h3>Người lập Hoàng</h3>'); //after the table
+                          
+                          
+                        }
+                    }
+                ],
+                language: {
+                  url: "/json/language.json"
                 },
-                lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
       })
+      
       $("#xem").click(function(){
-        alert("http://localhost:8080/api/ds-doanh-thu-ngay?thang=" + $("#thang").val() + "&nam=" + $("#nam").val())
-        $.get("http://localhost:8080/api/ds-doanh-thu-ngay?thang=" + $("#thang").val() + "&nam=" + $("#nam").val(), function(data){
-          table.clear()
-          $.each(data, function(index, d){
-              //alert(JSON.stringify(d))
-              table.row.add( [
-                  null,
-                  d.ngay,
-                  d.soLuongTiecCuoi,  
-                  d.doanhThuNgay,
-                  (d.tiLe * 100 ) + "%"                                        
-              ] ).draw( false );
-                              
-          }) 
-          table.on( 'order.dt search.dt', function () {
-            table.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
-                cell.innerHTML = i+1;
-            } );
-          } ).draw();  
-          // $("#dsDoanhThuNgay").empty()
-          // $.each(data, function(index, d){
-          //   $("#dsDoanhThuNgay").append($("<tr>", {
-          //     "id": "row-" + index
-          //   }))
-          //   $("#row-" + index).append($("<td>", {
-          //     text: index
-          //   }))
-          //   $("#row-" + index).append($("<td>", {
-          //     text: d.ngay
-          //   }))
-          //   $("#row-" + index).append($("<td>", {
-          //     text: d.soLuongTiecCuoi
-          //   }))
-          //   $("#row-" + index).append($("<td>", {
-          //     text: d.doanhThuNgay
-          //   }))
-          //   $("#row-" + index).append($("<td>", {
-          //     text: (d.tiLe * 100 ) + "%"
-          //   }))
-          // })
+        //alert("http://localhost:8080/api/ds-doanh-thu-ngay?thang=" + $("#thang").val() + "&nam=" + $("#nam").val())
+        $.ajax("http://localhost:8080/api/ds-doanh-thu-ngay?thang=" + $("#thang").val() + "&nam=" + $("#nam").val())
+          .done(function(data){
+            table.clear()
+            $.each(data, function(index, d){
+                //alert(JSON.stringify(d))
+                table.row.add( [
+                    null,
+                    d.ngay,
+                    d.soLuongTiecCuoi,  
+                    new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(d.doanhThuNgay),
+                    (d.tiLe * 100 ) + "%"                                        
+                ] ).draw( false );
+                                
+            }) 
+            table.on( 'order.dt search.dt', function () {
+              table.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+                  cell.innerHTML = i+1;
+              } );
+            } ).draw();  
+          
 
-          $.get("http://localhost:8080/api/tong-doanh-thu?thang=" + $("#thang").val() + "&nam=" + $("#nam").val(), function(data){
-            $("#tongDoanhThu").text(data)
+            $.get("http://localhost:8080/api/tong-doanh-thu?thang=" + $("#thang").val() + "&nam=" + $("#nam").val(), function(data){
+              $("#tongDoanhThu").text(new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(data))
+            })
           })
-        })
+          .fail(function(){
+            alert("Error")
+            table.clear().draw()
+          })
       })
+      $("#xem").click()
+      
+      console.log(new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(1000));
     </script>
     </div>
 

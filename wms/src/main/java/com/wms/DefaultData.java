@@ -20,7 +20,6 @@ import com.wms.entities.LoaiSanh;
 import com.wms.entities.MonAn;
 import com.wms.entities.NguoiDung;
 import com.wms.entities.NhomNguoiDung;
-import com.wms.entities.PhanQuyen;
 import com.wms.entities.ThamSo;
 import com.wms.entities.TiecCuoi;
 import com.wms.repositories.CaRepository;
@@ -33,7 +32,6 @@ import com.wms.repositories.LoaiSanhRepository;
 import com.wms.repositories.MonAnRepository;
 import com.wms.repositories.NguoiDungRepository;
 import com.wms.repositories.NhomNguoiDungRepository;
-import com.wms.repositories.PhanQuyenRepository;
 import com.wms.repositories.ThamSoRepository;
 import com.wms.repositories.TiecCuoiRepository;
 
@@ -52,9 +50,6 @@ public class DefaultData implements CommandLineRunner{
 
     @Autowired
     private NhomNguoiDungRepository nhomNguoiDungRepository;
-
-    @Autowired
-    private PhanQuyenRepository phanQuyenRepository;
 
     @Autowired
     private CaRepository caRepository;
@@ -90,8 +85,7 @@ public class DefaultData implements CommandLineRunner{
         List<ChucNang> cacLoaiChucNang = new ArrayList<>();
         cacLoaiChucNang.add(new ChucNang("CN1", "QuanTriVien", ""));
         cacLoaiChucNang.add(new ChucNang("CN2", "BQL", ""));
-        cacLoaiChucNang.add(new ChucNang("CN3", "NhanVien", ""));
-        cacLoaiChucNang.add(new ChucNang("CN4", "Khac", ""));
+        cacLoaiChucNang.add(new ChucNang("CN3", "NhanVien", ""));        
         chucNangRepository.saveAll(cacLoaiChucNang);
         System.out.println("Đã tạo thành công các loại chức năng!");
     }
@@ -100,30 +94,28 @@ public class DefaultData implements CommandLineRunner{
         List<NguoiDung> cacNguoiDung = new ArrayList<>();
         cacNguoiDung.add(new NguoiDung("user1", passwordEncoder.encode("1"), nhomNguoiDungRepository.findByMaNhom("NND1")));
         cacNguoiDung.add(new NguoiDung("user2", passwordEncoder.encode("1"), nhomNguoiDungRepository.findByMaNhom("NND2")));
-        cacNguoiDung.add(new NguoiDung("user3", passwordEncoder.encode("1"), nhomNguoiDungRepository.findByMaNhom("NND3")));
-        cacNguoiDung.add(new NguoiDung("user4", passwordEncoder.encode("1"), nhomNguoiDungRepository.findByMaNhom("NND4")));
+        cacNguoiDung.add(new NguoiDung("user3", passwordEncoder.encode("1"), nhomNguoiDungRepository.findByMaNhom("NND3")));        
         nguoiDungRepository.saveAll(cacNguoiDung);
         System.out.println("Đã tạo thành công danh sách người dùng!");
     }
 
     private void createDefaultCacNhomNguoiDung(){
         List<NhomNguoiDung> cacNhomNguoiDung = new ArrayList<>();
-        cacNhomNguoiDung.add(new NhomNguoiDung("NND1", "NhomQuanLy"));
-        cacNhomNguoiDung.add(new NhomNguoiDung("NND2", "NhomQuanTri"));
-        cacNhomNguoiDung.add(new NhomNguoiDung("NND3", "NhomNhanVien"));
-        cacNhomNguoiDung.add(new NhomNguoiDung("NND4", "NhomTuDo"));
+        cacNhomNguoiDung.add(new NhomNguoiDung("NND1", "NhomQuanLy", chucNangRepository.findByMaChucNang("CN2")));
+        cacNhomNguoiDung.add(new NhomNguoiDung("NND2", "NhomQuanTriVien", chucNangRepository.findByMaChucNang("CN1")));
+        cacNhomNguoiDung.add(new NhomNguoiDung("NND3", "NhomNhanVien", chucNangRepository.findByMaChucNang("CN3")));        
         nhomNguoiDungRepository.saveAll(cacNhomNguoiDung);
         System.out.println("Đã tạo thành công các nhóm người dùng!");
     }
 
     private void createDefaultPhanQuyen(){      
-        List<PhanQuyen> cacQuyen = new ArrayList<>();
-        cacQuyen.add(new PhanQuyen(nhomNguoiDungRepository.findByMaNhom("NND1"), chucNangRepository.findByMaChucNang("CN2")));
-        cacQuyen.add(new PhanQuyen(nhomNguoiDungRepository.findByMaNhom("NND2"), chucNangRepository.findByMaChucNang("CN1")));
-        cacQuyen.add(new PhanQuyen(nhomNguoiDungRepository.findByMaNhom("NND3"), chucNangRepository.findByMaChucNang("CN3")));
-        cacQuyen.add(new PhanQuyen(nhomNguoiDungRepository.findByMaNhom("NND4"), chucNangRepository.findByMaChucNang("CN4")));
-        phanQuyenRepository.saveAll(cacQuyen);
-        System.out.println("Đã tạo thành công phân quyền");
+        // List<PhanQuyen> cacQuyen = new ArrayList<>();
+        // cacQuyen.add(new PhanQuyen(nhomNguoiDungRepository.findByMaNhom("NND1"), chucNangRepository.findByMaChucNang("CN2")));
+        // cacQuyen.add(new PhanQuyen(nhomNguoiDungRepository.findByMaNhom("NND2"), chucNangRepository.findByMaChucNang("CN1")));
+        // cacQuyen.add(new PhanQuyen(nhomNguoiDungRepository.findByMaNhom("NND3"), chucNangRepository.findByMaChucNang("CN3")));
+        // cacQuyen.add(new PhanQuyen(nhomNguoiDungRepository.findByMaNhom("NND4"), chucNangRepository.findByMaChucNang("CN4")));
+        // phanQuyenRepository.saveAll(cacQuyen);
+        // System.out.println("Đã tạo thành công phân quyền");
     }
 
     
@@ -362,9 +354,9 @@ public class DefaultData implements CommandLineRunner{
 
 
         // createDefaultCacLoaiChucNang();
-        // createDefaultCacNhomNguoiDung();
-        // createDefaultPhanQuyen();
+        // createDefaultCacNhomNguoiDung();        
         // createDefaultDanhSachNguoiDung();
+
   
         // createDefaultDanhSachCa();
 
@@ -378,6 +370,7 @@ public class DefaultData implements CommandLineRunner{
         // createDefaultDoanhThuThang();
         // createDefaultHoaDonThanhToan();
         // createDefaultThamSo();
+
 
         // NguoiDung nguoiDung = nguoiDungRepository.findByTenNguoiDung("user1");
         // for (PhanQuyen phanQuyen : nguoiDung.getMaNhom().getPhanQuyenIds()) {

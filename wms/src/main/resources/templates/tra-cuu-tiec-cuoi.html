@@ -172,12 +172,12 @@
                                 <th scope="col">Tên chú rể</th>
                                 <th scope="col">Tên cô dâu</th>
                                 <th scope="col">Sảnh</th>
-                                <th scope="col">Ngày</th>
+                                <th scope="col">Ngày đãi tiệc</th>
                                 <th scope="col">Giờ</th>
                                 <th scope="col">Số lượng bàn</th>
                                 <th:block th:switch="${role}">
                                   <th:block th:case="''" >
-                                    <th scope="col">Action</th>
+                                    <th scope="col">Tùy chọn</th>
                                   </th:block>
                                   <th:block th:case="'admin'">
                                     
@@ -185,7 +185,7 @@
                                   <th:block th:case="'bql'">
                                   </th:block>
                                   <th:block th:case="'nhanvien'">
-                                    <th scope="col">Action</th>
+                                    <th scope="col">Tùy chọn</th>
                                   </th:block>
                                 </th:block> 
                                 
@@ -212,6 +212,7 @@
     <th:block th:insert="~{index :: jsfiles}"></th:block>
 
     <!-- Datatables -->
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.25/datatables.min.js"></script>
     <script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
     <script src="../vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
@@ -228,20 +229,102 @@
     <script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
     <script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
     <script>
-      var table = $('#table_id').DataTable({
+          switch ($("#roleUser").html()){
+        case '':
+        var table = $('#table_id').DataTable({
                 paging: true,
                 select: true,
-                order: [ [ 1, 'asc' ] ],
-                "oLanguage": {  
-                  "sSearch": "Tìm kiếm : _INPUT_",                
-                  "sLengthMenu": "Hiện thị  _MENU_ dữ liệu",
-                  "sInfo": "Nhận _TOTAL_ dữ liệu, hiện thị (_START_ tới _END_)",
-                  "oPaginate": {
-                    "sNext": "Sau",
-                    "sPrevious": "Trước"
-                  }
-
+                order: [ [ 1, 'asc' ] ],                
+                lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                ajax: {
+                    url: '/api/ds-tiec-cuoi',
+                    dataSrc: ''
+                    
                 },
+                columns: [     
+                    {
+                      "data": null,
+                      "targets": 0 
+                    },               
+                    { 
+                      "data": "maTiecCuoi",
+                      "targets": 1 
+                    },
+                    { 
+                      "data": "tenChuRe",
+                      "targets": 2
+                    },
+                    { "data": "tenCoDau",
+                      "targets": 3
+                    }, 
+                    { 
+                      "data": "sanh",
+                      "targets": 4
+                    },
+                    { "data": "ngayDaiTiec",
+                      "targets": 5
+                    },
+                    { 
+                      "data": "gio",
+                      "targets": 6
+                    },
+                    { "data": "soLuongBan",
+                      "targets": 7
+                    },
+                    { 
+                      'data': 'maTiecCuoi',
+                      "targets": 4, 
+                      "render": function( data, type){
+                        switch($("#roleUser").html()){
+                          case '':
+                          return '<input ' 
+                            + 'type="button" '                         
+                            + 'class= "fa btn btn-primary mr-3" '
+                            + 'title= "Xem danh sách món ăn" '
+                            + 'data-toggle= "modal" '
+                            + 'data-target= "#modelMonAn" '
+                            + 'id=xem-' + 'mon-an' + ' ' 
+                            + 'value="Xem món ăn"/>'
+                            + '<input ' 
+                            + 'type="button" '                         
+                            + 'class= "fa btn btn-primary mr-3" '
+                            + 'title= "Xem danh sách dịch vụ" '
+                            + 'data-toggle= "modal" '
+                            + 'data-target= "#modelDichVu" '
+                            + 'id=xem-' + 'dich-vu'+ ' ' 
+                            + 'value="Xem dịch vụ"/>';
+                          case 'admin':
+                            break;
+                          case 'bql':
+                            break;
+                          case 'nhanvien':
+                            return '<a ' 
+                              + 'class="fa btn btn-primary" '
+                              + 'href=http://localhost:8080/chi-tiet-tiec-cuoi?maTiecCuoi=' + data + ' '
+                              + '>'
+                              + "Chi tiết tiệc cưới"
+                              + '</a>'
+                            break;
+                        }
+                        
+                      }
+                    }              
+                ],                
+                buttons: [                    
+                ],
+                language: {
+                  url: "/json/language.json"
+                },
+            });
+      
+          break;        
+        case 'admin':
+          break;
+        case 'bql':  
+        var table = $('#table_id').DataTable({
+                paging: true,
+                select: true,
+                order: [ [ 1, 'asc' ] ],                
                 lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
                 ajax: {
                     url: '/api/ds-tiec-cuoi',
@@ -317,8 +400,145 @@
                       }
                     }              
                 ],
-                
+                dom: 'Bfrtip',
+                buttons: [
+                    'pageLength',                    
+                    {
+                        extend: 'print',
+                        exportOptions: {
+                            columns: '.can-print'
+                        },
+                        title: '',
+                        customize: function ( win ) {
+                          // $(win.document.body).empty()
+                          
+                          $(win.document.body).prepend($("<h1>", {
+                            text: "Báo cáo tháng " + $("#thang").val()
+                          })); //before the table             
+
+                          $(win.document.body).append('<h3>Người lập Hoàng</h3>'); //after the table
+                          
+                          
+                        }
+                    }
+                ],
+                language: {
+                  url: "/json/language.json"
+                },
             });
+       
+          break;
+        case 'nhanvien': 
+           var table = $('#table_id').DataTable({
+                paging: true,
+                select: true,
+                order: [ [ 1, 'asc' ] ],                
+                lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                ajax: {
+                    url: '/api/ds-tiec-cuoi',
+                    dataSrc: ''
+                    
+                },
+                columns: [     
+                    {
+                      "data": null,
+                      "targets": 0 
+                    },               
+                    { 
+                      "data": "maTiecCuoi",
+                      "targets": 1 
+                    },
+                    { 
+                      "data": "tenChuRe",
+                      "targets": 2
+                    },
+                    { "data": "tenCoDau",
+                      "targets": 3
+                    }, 
+                    { 
+                      "data": "sanh",
+                      "targets": 4
+                    },
+                    { "data": "ngayDaiTiec",
+                      "targets": 5
+                    },
+                    { 
+                      "data": "gio",
+                      "targets": 6
+                    },
+                    { "data": "soLuongBan",
+                      "targets": 7
+                    },
+                    { 
+                      'data': 'maTiecCuoi',
+                      "targets": 4, 
+                      "render": function( data, type){
+                        switch($("#roleUser").html()){
+                          case '':
+                          return '<input ' 
+                            + 'type="button" '                         
+                            + 'class= "fa btn btn-primary mr-3" '
+                            + 'title= "Xem danh sách món ăn" '
+                            + 'data-toggle= "modal" '
+                            + 'data-target= "#modelMonAn" '
+                            + 'id=xem-' + 'mon-an' + ' ' 
+                            + 'value="Xem món ăn"/>'
+                            + '<input ' 
+                            + 'type="button" '                         
+                            + 'class= "fa btn btn-primary mr-3" '
+                            + 'title= "Xem danh sách dịch vụ" '
+                            + 'data-toggle= "modal" '
+                            + 'data-target= "#modelDichVu" '
+                            + 'id=xem-' + 'dich-vu'+ ' ' 
+                            + 'value="Xem dịch vụ"/>';
+                          case 'admin':
+                            break;
+                          case 'bql':
+                            break;
+                          case 'nhanvien':
+                            return '<a ' 
+                              + 'class="fa btn btn-primary" '
+                              + 'href=http://localhost:8080/chi-tiet-tiec-cuoi?maTiecCuoi=' + data + ' '
+                              + '>'
+                              + "Chi tiết tiệc cưới"
+                              + '</a>'
+                            break;
+                        }
+                        
+                      }
+                    }              
+                ],
+                dom: 'Bfrtip',
+                buttons: [
+                    'pageLength',                    
+                    {
+                        extend: 'print',
+                        exportOptions: {
+                            columns: '.can-print'
+                        },
+                        title: '',
+                        customize: function ( win ) {
+                          // $(win.document.body).empty()
+                          
+                          $(win.document.body).prepend($("<h1>", {
+                            text: "Báo cáo tháng " + $("#thang").val()
+                          })); //before the table             
+
+                          $(win.document.body).append('<h3>Người lập Hoàng</h3>'); //after the table
+                          
+                          
+                        }
+                    }
+                ],
+                language: {
+                  url: "/json/language.json"
+                },
+            });
+      
+          break;
+      }
+    
+
       
       table.on( 'order.dt search.dt', function () {
         table.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
@@ -326,9 +546,33 @@
         } );
       } ).draw();
 
-      var table_ma = $('#table_ma').DataTable()            
+      var table_ma = $('#table_ma').DataTable({
+        paging: true,
+                select: true,
+                order: [ [ 1, 'asc' ] ],
+                
+                lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],                
+                language: {
+                  url: "/json/language.json"
+                },
+      })            
 
-      var table_dv = $('#table_dv').DataTable()
+      var table_dv = $('#table_dv').DataTable({
+        paging: true,
+                select: true,
+                order: [ [ 1, 'asc' ] ],
+                "oLanguage": {  
+                  "sSearch": "Tìm kiếm : _INPUT_",                
+                  "sLengthMenu": "Hiện thị  _MENU_ dữ liệu",
+                  "sInfo": "Nhận _TOTAL_ dữ liệu, hiện thị (_START_ tới _END_)",
+                  "oPaginate": {
+                    "sNext": "Sau",
+                    "sPrevious": "Trước"
+                  }
+
+                },
+                lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+      })
       
       
       $('#table_id tbody').on( 'click', 'input', function () {

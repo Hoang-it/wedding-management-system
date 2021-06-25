@@ -14,6 +14,7 @@ import com.wms.dto.DoanhThuNgayDTO;
 import com.wms.dto.HoaDonDTO;
 import com.wms.dto.LoaiSanhDTO;
 import com.wms.dto.MonAnDTO;
+import com.wms.dto.NhomNguoiDungDTO;
 import com.wms.dto.SanhDTO;
 import com.wms.dto.TiecDTO;
 import com.wms.dto.UserDTO;
@@ -97,8 +98,8 @@ public class RestControllerApi {
     }
 
     @DeleteMapping(value = {"/hoa-don/xoa"})
-    public void xoaHoaDon(@RequestParam("maHoaDon") String maHoaDon){
-        daoService.xoaHoaDon(maHoaDon);
+    public void xoaHoaDon(@RequestParam("maTiecCuoi") String maTiecCuoi){
+        daoService.xoaHoaDon(maTiecCuoi);
     }
 
     @GetMapping(value = {"/tiec-cuoi/ds-mon-an"})
@@ -121,11 +122,28 @@ public class RestControllerApi {
         return daoService.layToanBoDanhSachNguoiDung();
     }
 
+    @GetMapping(value = {"/ds-nhom-tai-khoan"})
+    public List<NhomNguoiDungDTO> layToanNhomTaiKhoan(){
+        return daoService.layToanBoDanhSachNhomNguoiDung();
+    }
+
+    @GetMapping(value = {"/ds-nguoi-dung"})
+    public List<UserDTO> layNguoiDungTrongNhom(@RequestParam("maNhom") String maNhom){
+        return daoService.layDanhSachNguoiDungTrongNhom(maNhom);
+    }
+
     @PostMapping(value = {"/cap-nhat-tai-khoan"})
     public ResponseEntity<ValidationResponse> capNhatTaiKhoan(@RequestBody UserDTO taiKhoan) {
         daoService.capNhatTaiKhoan(taiKhoan);
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
+
+    @PostMapping(value = {"/cap-nhat-nhom-tai-khoan"})
+    public ResponseEntity<ValidationResponse> capNhatNhomTaiKhoan(@RequestBody NhomNguoiDungDTO nhom) {
+        daoService.capNhatNhomTaiKhoan(nhom);
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+
 
     @GetMapping(value = {"/ds-doanh-thu-ngay"})
     public List<DoanhThuNgayDTO> layToanBoDoanhThuThang(@RequestParam("thang") String thang, @RequestParam("nam") String nam){        
@@ -210,6 +228,30 @@ public class RestControllerApi {
         }
         
         
+    }
+
+    @DeleteMapping(value = {"/xoa-sanh"})
+    public ResponseEntity<ValidationResponse> xoaThongTinSanh(@RequestParam("sid") String maSanh) {
+        daoService.xoaThongTinSanh(maSanh);
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = {"/xoa-ca"})
+    public ResponseEntity<ValidationResponse> xoaThongTinCa(@RequestParam("maCa") String maCa) {
+        daoService.xoaThongTinCa(maCa);
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = {"/xoa-mon-an"})
+    public ResponseEntity<ValidationResponse> xoaThongTinMonAn(@RequestParam("maMonAn") String maMonAn) {
+        daoService.xoaThongTinMonAn(maMonAn);
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = {"/xoa-dich-vu"})
+    public ResponseEntity<ValidationResponse> xoaThongTinDichVu(@RequestParam("maDichVu") String maDichVu) {
+        daoService.xoaThongTinDichVu(maDichVu);
+        return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
     @DeleteMapping(value = {"/xoa-loai-sanh"})

@@ -30,6 +30,7 @@ public class HoaDonDTO {
     private Long ngayTreHan;
     private BigDecimal donGiaBan;
     private BigDecimal tongTienBan;
+    private BigDecimal tienPhat;
     private BigDecimal tongTienHoaDon;
     private BigDecimal tongTienDichVu;
     private BigDecimal tongTienMonAn;

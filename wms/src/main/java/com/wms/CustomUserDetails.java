@@ -5,8 +5,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import com.wms.entities.ChucNang;
 import com.wms.entities.NguoiDung;
-import com.wms.entities.PhanQuyen;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -22,14 +22,12 @@ import lombok.NoArgsConstructor;
 public class CustomUserDetails implements UserDetails{
     
     private NguoiDung nguoiDung;
-    private Set<PhanQuyen> phanQuyens;
+    private ChucNang chucNang;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> roles = new ArrayList<>();
-        for (PhanQuyen phanQuyen : phanQuyens) {
-            roles.add(new SimpleGrantedAuthority(phanQuyen.getMaChucNang().getTenChucNang()));
-        }
+        roles.add(new SimpleGrantedAuthority(chucNang.getTenChucNang()));
         return roles;
     }
 

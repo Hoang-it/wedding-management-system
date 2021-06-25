@@ -1,6 +1,7 @@
 package com.wms.service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -18,6 +19,7 @@ import com.wms.dto.DoanhThuNgayDTO;
 import com.wms.dto.HoaDonDTO;
 import com.wms.dto.LoaiSanhDTO;
 import com.wms.dto.MonAnDTO;
+import com.wms.dto.NhomNguoiDungDTO;
 import com.wms.dto.SanhDTO;
 import com.wms.dto.TiecDTO;
 import com.wms.dto.UserDTO;
@@ -34,7 +36,6 @@ import com.wms.entities.LoaiSanh;
 import com.wms.entities.MonAn;
 import com.wms.entities.NguoiDung;
 import com.wms.entities.NhomNguoiDung;
-import com.wms.entities.PhanQuyen;
 import com.wms.entities.ThamSo;
 import com.wms.entities.TiecCuoi;
 import com.wms.repositories.BaoCaoDoanhThuRepository;
@@ -49,6 +50,7 @@ import com.wms.repositories.LoaiSanhRepository;
 import com.wms.repositories.MonAnRepository;
 import com.wms.repositories.NguoiDungRepository;
 import com.wms.repositories.NhomNguoiDungRepository;
+import com.wms.repositories.SanhRepository;
 import com.wms.repositories.ThamSoRepository;
 import com.wms.repositories.TiecCuoiRepository;
 
@@ -102,6 +104,10 @@ public class DaoService {
 
     @Autowired
     BaoCaoService baoCaoService;
+
+    @Autowired
+    SanhRepository sanhRepository;
+
     
     public List<LoaiSanhDTO> layDanhSachLoaiSanh(){
         List<LoaiSanhDTO> ds = new ArrayList<LoaiSanhDTO>();
@@ -333,8 +339,9 @@ public class DaoService {
             data.setNgayDaiTiec(hoaDon.getMaTiecCuoi().getNgayDaiTiec());
             if (hoaDon.getNgayThanhToan() != null){
                 data.setNgayThanhToan(hoaDon.getNgayThanhToan().getNgayThanhToan());
-            }            
-            data.setConLai(hoaDon.getConLai());
+            }
+            data.setTongTienHoaDon(hoaDon.getTongTienHoaDon());            
+            // data.setConLai(hoaDon.getConLai());
 
             dsHoaDon.add(data);
         }
@@ -360,66 +367,93 @@ public class DaoService {
     }
 
     public void xoaTiecCuoi(String maTiecCuoi){
+        TiecCuoi tiecCuoi = tiecCuoiRepository.findById(maTiecCuoi).get();
+        if (tiecCuoi.getHoaDonThanhToan().getNgayThanhToan() == null){
+            hoaDonThanhToanRepository.delete(tiecCuoi.getHoaDonThanhToan());            
+                    
+        }
         tiecCuoiRepository.deleteById(maTiecCuoi);
         
     }
 
-    public void xoaHoaDon(String maHoaDon){
-        hoaDonThanhToanRepository.deleteById(maHoaDon);
+    public void xoaHoaDon(String maTiecCuoi){
+        TiecCuoi tiecCuoi = tiecCuoiRepository.findById(maTiecCuoi).get();        
+        if (tiecCuoi.getHoaDonThanhToan().getNgayThanhToan() == null){
+            hoaDonThanhToanRepository.delete(tiecCuoi.getHoaDonThanhToan());            
+                    
+        }
+        tiecCuoiRepository.deleteById(maTiecCuoi);
     }
 
     public List<UserDTO> layToanBoDanhSachNguoiDung(){
         List<UserDTO> dsNguoiDung = new ArrayList<>();
         UserDTO data = null;
-        Iterator iter = null;
-        PhanQuyen quyen = null;
+        ChucNang chucNang = null;
+        
         for (NguoiDung nguoiDung : nguoiDungRepository.findAll()) {
             data = new UserDTO();  
-            iter = nguoiDung.getMaNhom().getPhanQuyenIds().iterator(); 
-            quyen = (PhanQuyen) iter.next();  
+            chucNang = nguoiDung.getMaNhom().getChucNang(); 
+              
             data.setMaTaiKhoan(nguoiDung.getId());
             data.setTenTaiKhoan(nguoiDung.getTenDangNhap());
-            data.setQuyen(quyen.getMaChucNang().getTenChucNang());
+            data.setQuyen(chucNang.getTenChucNang());
+            dsNguoiDung.add(data);
+        }
+        return dsNguoiDung;
+    }
+
+    public List<NhomNguoiDungDTO> layToanBoDanhSachNhomNguoiDung(){
+        List<NhomNguoiDungDTO> dsNhomNguoiDung = new ArrayList<>();
+        NhomNguoiDungDTO data = null;
+       
+        for (NhomNguoiDung nhomNguoiDung : nhomNguoiDungRepository.findAll()) {
+            data = new NhomNguoiDungDTO();  
+            data.setId(nhomNguoiDung.getId());
+            data.setMaNhom(nhomNguoiDung.getMaNhom());
+            // data.setDsNguoiDung(nhomNguoiDung.getDsNguoiDung());
+            // data.setPhanQuyenIds(nhomNguoiDung.getPhanQuyenIds());
+            data.setQuyen(nhomNguoiDung.getChucNang().getTenChucNang());
+            data.setTenNhom(nhomNguoiDung.getTenNhom());
+            dsNhomNguoiDung.add(data);
+        }
+        return dsNhomNguoiDung;
+    }
+
+    public List<UserDTO> layDanhSachNguoiDungTrongNhom(String maNhom){
+        List<UserDTO> dsNguoiDung = new ArrayList<>();
+        NhomNguoiDung nhom = nhomNguoiDungRepository.findByMaNhom(maNhom);
+        UserDTO data = null;
+       
+        for (NguoiDung nguoiDung : nhom.getDsNguoiDung()) {
+            data = new UserDTO();  
+            data.setMaTaiKhoan(nguoiDung.getId());
+            data.setTenTaiKhoan(nguoiDung.getTenDangNhap());
             dsNguoiDung.add(data);
         }
         return dsNguoiDung;
     }
 
     public void capNhatTaiKhoan(UserDTO model){
-        NguoiDung record = nguoiDungRepository.findById(model.getMaTaiKhoan()).get();
-        System.out.println("Phan quyen");
-        Iterator dsNhom = nhomNguoiDungRepository.findAll().iterator();
-        NhomNguoiDung nhomMoi = null;
-        NhomNguoiDung temp = null;
-        while (dsNhom.hasNext()){
-            temp = (NhomNguoiDung) dsNhom.next();
-            System.out.println(temp.getTenNhom());
-            PhanQuyen quyen = null;
-            Iterator dsQuyen = temp.getPhanQuyenIds().iterator();
-            while (dsQuyen.hasNext()){
-                quyen = (PhanQuyen) dsQuyen.next();
-                if (quyen.getMaChucNang().getTenChucNang().equals(model.getQuyen())){
-                    nhomMoi = temp;
-                    record.setMaNhom(nhomMoi);
-                    System.out.println(nhomMoi.getTenNhom());
-                    nguoiDungRepository.save(record);
-                    return;
-                }
-            }
-
-        }
         
+        
+    }
+
+    public void capNhatNhomTaiKhoan(NhomNguoiDungDTO model){
+        NhomNguoiDung nhom = nhomNguoiDungRepository.findByMaNhom(model.getMaNhom());
+        nhom.setTenNhom(model.getTenNhom());
+        nhom.setChucNang(chucNangRepository.findByTenChucNang(model.getQuyen()));
+        nhomNguoiDungRepository.save(nhom);
     }
 
     public UserDTO layThongTinTaiKhoan(Long maTaiKhoan){
         UserDTO model = new UserDTO();
         NguoiDung data = nguoiDungRepository.findById(maTaiKhoan).get();
-        Iterator iter = data.getMaNhom().getPhanQuyenIds().iterator();
-        PhanQuyen quyen = (PhanQuyen) iter.next();
+        ChucNang chucNang = data.getMaNhom().getChucNang();
+        
 
         model.setMaTaiKhoan(data.getId());
         model.setTenTaiKhoan(data.getTenDangNhap());
-        model.setQuyen(quyen.getMaChucNang().getTenChucNang());
+        model.setQuyen(chucNang.getTenChucNang());
         return model;
     }
 
@@ -445,13 +479,20 @@ public class DaoService {
         List<DoanhThuNgayDTO> dsDoanhThuNgay = new ArrayList<>();
         BaoCaoDoanhThu doanhThuThang = baoCaoDoanhThuRepository.findById("BC" + thang + nam).get();
         DoanhThuNgayDTO temp = null;
+        BigDecimal tile;
         for (ChiTietBaoCao doanhThuNgay : doanhThuThang.getChiTietBaoCao()) {
             temp = new DoanhThuNgayDTO();
+            tile = doanhThuNgay.getDoanhThu().divide(doanhThuThang.getTongDoanhThu(), 4, RoundingMode.HALF_UP);
+
             temp.setDoanhThuNgay(doanhThuNgay.getDoanhThu().doubleValue());
             temp.setSoLuongTiecCuoi(doanhThuNgay.getSoLuongTiecCuoi());
-            temp.setTiLe(doanhThuNgay.getTiLe());
+            temp.setTiLe(tile.doubleValue());
             temp.setNgay(doanhThuNgay.getNgayThanhToan().getDayOfMonth());
             dsDoanhThuNgay.add(temp);
+
+            doanhThuNgay.setTiLe(tile.doubleValue());
+            chiTietBaoCaoRepository.save(doanhThuNgay);
+            
         }
         return dsDoanhThuNgay;
     }
@@ -535,6 +576,22 @@ public class DaoService {
         loaiSanhRepository.deleteById(maLoaiSanh);
     }
 
+    public void xoaThongTinSanh(String maSanh){
+        sanhRepository.deleteById(maSanh);
+    }
+
+    public void xoaThongTinCa(String maCa){
+        caRepository.deleteById(maCa);
+    }
+
+    public void xoaThongTinMonAn(String maMonAn){
+        monAnRepository.deleteById(maMonAn);
+    }
+
+    public void xoaThongTinDichVu(String maDichVu){
+        dichVuRepository.deleteById(maDichVu);
+    }
+
     public void capNhatThongTinCa(CaDTO ca){
         Ca record = caRepository.findById(ca.getMaCa()).get();
         record.setTenCa(ca.getTenCa());
@@ -562,7 +619,7 @@ public class DaoService {
         data.setTenChuRe(tiecCuoi.getTenChuRe());
         data.setSoLuongBan(tiecCuoi.getSoLuongBan());
         data.setNgayThanhToan(tiecCuoi.getNgayDaiTiec());
-
+        data.setSoLuongBanDuTru(tiecCuoi.getSoLuongBanDuTru());
         data.setTienDatCoc(tiecCuoi.getTienDatCoc());
         data.setNgayThanhToan(LocalDate.now());
 
@@ -572,7 +629,13 @@ public class DaoService {
         System.out.println("Phần trăm phạt : " + mucPhat.doubleValue());
         System.out.println("ngày trễ hạn : " + ngayTreHan);
         System.out.println("Tiền phạt : " + mucPhat.multiply(new BigDecimal(ngayTreHan)));
-
+        
+        if ("true".equals(apDungQuyDinh.getGiaTri().toLowerCase())){
+            mucPhat = mucPhat.multiply(new BigDecimal(ngayTreHan));
+        } else{
+            mucPhat = new BigDecimal(0);
+        }
+        
         for (ChiTietDichVu ctDichVu : tiecCuoi.getChiTietDichVu()) {
             dichVu = new DichVuDTO();
             dichVu.setMaDichVu(ctDichVu.getMaDichVu().getMaDichVu());
@@ -580,7 +643,7 @@ public class DaoService {
             dichVu.setSoLuong(ctDichVu.getSoLuong());
             dichVu.setDonGia(ctDichVu.getDonGiaDichVu());
                 
-            dichVu.setThanhTien(ctDichVu.getDonGiaDichVu().add(ctDichVu.getDonGiaDichVu().multiply(mucPhat.multiply(new BigDecimal(ngayTreHan)))));
+            dichVu.setThanhTien(ctDichVu.getDonGiaDichVu().multiply(new BigDecimal(ctDichVu.getSoLuong())));
             dsDichVu.add(dichVu);
         }
         data.setDichVu(dsDichVu);
@@ -597,7 +660,8 @@ public class DaoService {
         data.setDonGiaBan(hoaDonService.tinhDonGiaBan(tiecCuoi.getChiTietMonAn()));
         data.setTongTienBan(hoaDonService.tinhTongTienBan(data.getDonGiaBan(), tiecCuoi.getSoLuongBan(), tiecCuoi.getSoLuongBanDuTru()));
         data.setTongTienDichVu(hoaDonService.tinhTongTienDichVu(tiecCuoi.getChiTietDichVu(), ngayTreHan));
-        data.setTongTienHoaDon(hoaDonService.tinhTongTienHoaDon(data.getTongTienBan(), data.getTongTienDichVu()));
+        data.setTienPhat(hoaDonService.tinhTienPhat(data.getTongTienBan(), data.getTongTienDichVu(), mucPhat));
+        data.setTongTienHoaDon(hoaDonService.tinhTongTienHoaDon(data.getTongTienBan(), data.getTongTienDichVu(), mucPhat));
         data.setTongTienMonAn(data.getDonGiaBan());
         data.setConLai(hoaDonService.tinhTienConLai(data.getTongTienHoaDon(), tiecCuoi.getTienDatCoc()));
         
@@ -639,6 +703,12 @@ public class DaoService {
         System.out.println("ngày trễ hạn : " + ngayTreHan);
         System.out.println("Tiền phạt : " + mucPhat.multiply(new BigDecimal(ngayTreHan)));
 
+        if ("true".equals(apDungQuyDinh.getGiaTri().toLowerCase())){
+            mucPhat = mucPhat.multiply(new BigDecimal(ngayTreHan));
+        } else{
+            mucPhat = new BigDecimal(0);
+        }
+        
         for (ChiTietDichVu ctDichVu : tiecCuoi.getChiTietDichVu()) {
             dichVu = new DichVuDTO();
             dichVu.setMaDichVu(ctDichVu.getMaDichVu().getMaDichVu());
@@ -646,8 +716,8 @@ public class DaoService {
             dichVu.setSoLuong(ctDichVu.getSoLuong());
             dichVu.setDonGia(ctDichVu.getDonGiaDichVu());
                 
-            dichVu.setThanhTien(ctDichVu.getDonGiaDichVu().add(ctDichVu.getDonGiaDichVu().multiply(mucPhat.multiply(new BigDecimal(ngayTreHan)))));
-            dsDichVu.add(dichVu);
+            dichVu.setThanhTien(ctDichVu.getDonGiaDichVu().multiply(new BigDecimal(ctDichVu.getSoLuong())));
+            dsDichVu.add(dichVu);   
         }
         data.setDichVu(dsDichVu);
 
@@ -663,7 +733,7 @@ public class DaoService {
         data.setDonGiaBan(hoaDonService.tinhDonGiaBan(tiecCuoi.getChiTietMonAn()));
         data.setTongTienBan(hoaDonService.tinhTongTienBan(data.getDonGiaBan(), tiecCuoi.getSoLuongBan(), tiecCuoi.getSoLuongBanDuTru()));
         data.setTongTienDichVu(hoaDonService.tinhTongTienDichVu(tiecCuoi.getChiTietDichVu(), ngayTreHan));
-        data.setTongTienHoaDon(hoaDonService.tinhTongTienHoaDon(data.getTongTienBan(), data.getTongTienDichVu()));
+        data.setTongTienHoaDon(hoaDonService.tinhTongTienHoaDon(data.getTongTienBan(), data.getTongTienDichVu(), mucPhat));
         data.setTongTienMonAn(data.getDonGiaBan());
         data.setConLai(hoaDonService.tinhTienConLai(data.getTongTienHoaDon(), tiecCuoi.getTienDatCoc()));
         

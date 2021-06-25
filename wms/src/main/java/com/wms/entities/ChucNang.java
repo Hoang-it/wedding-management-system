@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -37,8 +38,8 @@ public class ChucNang implements Serializable {
     @Column(name = "ten_manhinh_duocload")
     private String tenManHinhDuocLoad;
 
-    @OneToMany(mappedBy = "maChucNang", fetch = FetchType.EAGER)
-    Set<PhanQuyen> phanQuyenIds = new HashSet<>();
+    @OneToMany(mappedBy = "chucNang")    
+    Set<NhomNguoiDung> nhomNguoiDung;
 
     public ChucNang(String maChucNang, String tenChucNang, String tenManHinhDuocLoad){
         this.maChucNang = maChucNang;
