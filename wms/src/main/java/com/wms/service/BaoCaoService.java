@@ -36,7 +36,7 @@ public class BaoCaoService {
     public BigDecimal tinhDoanhThuTheoNgayTrongThang(Set<HoaDon> dsHoaDon){
         BigDecimal doanhThu = new BigDecimal("0");
         for (HoaDon hoaDon : dsHoaDon) {
-            doanhThu = doanhThu.add(hoaDon.getConLai());
+            doanhThu = doanhThu.add(hoaDon.getTongTienHoaDon());
         }
         return doanhThu;
     }

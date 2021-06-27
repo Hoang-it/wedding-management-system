@@ -209,108 +209,9 @@
     <script>
         current = "#thong-tin-co-ban";
         data = {}
+        // dsDichVu = []
+        // dsMonAn = []
 
-        $("form").submit(function(e){
-            e.preventDefault();
-            
-            switch(current) {
-                case "#thong-tin-co-ban":
-                    $("#thong-tin-co-ban").css({"display": "none", "visibility" : "hidden"});
-                    $("#chon-mon-an").css({"display": "block", "visibility" : "visible"});
-                    $("#chon-dich-vu").css({"display": "none", "visibility" : "hidden"});
-                    $("#btn-quay-lai").css({"display": "inline", "visibility" : "visible"})
-                    current = "#chon-mon-an"
-                    data["tenChuRe"] = $("#tenChuRe").val()
-                    data["tenCoDau"] = $("#tenCoDau").val()
-                    data["sdt"] = $("#sdt").val()
-                    data["ngayDaiTiec"] = $("#ngayDaiTiec").val()
-                    data["ca"] = $("#dsCa").val()
-                    data["sanh"] = $("#dsSanh").val()
-                    data["soLuongBan"] = $("#soLuongBan").val()
-                    data["soLuongBanDuTru"] = $("#soLuongBanDuTru").val()
-                    data["tienDatCoc"] = $("#tienDatCoc").val()
-                    //alert(JSON.stringify(data))
-                    //alert( $("#ngayDaiTiec").val())
-                    break;
-                case "#chon-mon-an":
-                    $("#thong-tin-co-ban").css({"display": "none", "visibility" : "hidden"});
-                    $("#chon-mon-an").css({"display": "none", "visibility" : "hidden"});
-                    $("#chon-dich-vu").css({"display": "block", "visibility" : "visible"});
-                    $("#btn-quay-lai").css({"display": "inline", "visibility" : "visible"})   
-                    current = "#chon-dich-vu"
-                    dsMonAn = []
-
-                    $( "#dsMonAn input:checked" ).each(function() {
-                        var monAn = {
-                            maMonAn : $(this ).val(),
-                            ghiChu : $("#ghichu-" + $(this ).val()).val()
-                        }
-                        dsMonAn.push(monAn)
-                        
-                    })  
-                    data["monAn"] = dsMonAn
-                    break;
-                case "#chon-dich-vu":
-                    //alert("Dat tiec!!");
-                    dsDichVu = []
-                    $( "#dsDichVu input:checked" ).each(function() { 
-                        
-                        var dichVu = {
-                            maDichVu : $(this ).val(),
-                            soLuong : $("#soluong-" + $(this ).val()).val()
-                        }                      
-                        dsDichVu.push(dichVu)                       
-                    })
-                    data["dichVu"] = dsDichVu
-                    alert(JSON.stringify(data))
-                    $.ajax({
-                        type: "POST",
-                        contentType: "application/json",
-                        url: "http://localhost:8080/api/dat-tiec",
-                        data: JSON.stringify(data),
-                        dataType: 'json',
-                        success: function(e){
-                            alert("Đặt tiệc cưới thành công")
-                            // alert("Create success")
-                            // location.reload();
-                        },
-                        error: function(XMLHttpRequest, textStatus, errorThrown) {
-                            alert("Đặt tiệc cưới không thành công")
-                            // alert(JSON.stringify(XMLHttpRequest["responseJSON"]["errorMessageList"]));
-                            // $.each(Object.keys(XMLHttpRequest["responseJSON"]["errorMessageList"][0]), function(index, d){
-                            // //alert(d);
-                            // $("#msg_" + d).html(XMLHttpRequest["responseJSON"]["errorMessageList"][0][d])
-                            // $("#msg_" + d).addClass("alert alert-danger")
-                            // })
-                        }
-                    }
-                    )
-            }
-        })
-
-        $("#btn-quay-lai").click(function(e){
-            e.preventDefault();
-            
-            switch(current) {
-                case "#chon-dich-vu":
-                    $("#thong-tin-co-ban").css({"display": "none", "visibility" : "hidden"});
-                    $("#chon-mon-an").css({"display": "block", "visibility" : "visible"});
-                    $("#chon-dich-vu").css({"display": "none", "visibility" : "hidden"});
-                    $("#btn-quay-lai").css({"display": "inline", "visibility" : "visible"})
-                    current = "#chon-mon-an"
-                    break;
-                case "#chon-mon-an":
-                    $("#thong-tin-co-ban").css({"display": "block", "visibility" : "visible"});
-                    $("#chon-mon-an").css({"display": "none", "visibility" : "hidden"});
-                    $("#chon-dich-vu").css({"display": "none", "visibility" : "hidden"});
-                    $("#btn-quay-lai").css({"display": "none", "visibility" : "hidden"})   
-                    current = "#thong-tin-co-ban"
-                    break;
-                case "#thong-tin-co-ban":
-                    
-            }
-
-        })
         
         var table_ma = $('#table_ma').DataTable({
                 paging: true,
@@ -336,7 +237,7 @@
                       "targets": 4, 
                       "render": function( data, type){
                         return '<textarea ' 
-                            + 'id="ghichu-"' + data + " "                         
+                            + 'id="ghichu-' + data + '" '                         
                             + 'style="border-style: none;width: 100%;" '                            
                             + '</textarea> ' 
                            ;
@@ -353,7 +254,7 @@
                         
                       }
                     }              
-                ],
+                ],                
                 
             })            
 
@@ -415,7 +316,7 @@
         } );
         } ).draw(); 
         
-        
+        dsBanToiDa = {}
         $.get( "http://localhost:8080/api/ds-sanh", function( data ) {
             //alert(JSON.stringify(data));
             $("#dsSanh").empty()
@@ -429,8 +330,10 @@
                     value: d.maSanh,
                     text : d.tenSanh
                 }))
+                dsBanToiDa[d.maSanh] = d
             })
         });
+        
        
         $.get( "http://localhost:8080/api/ds-ca", function( data ) {
             //alert(JSON.stringify(data));
@@ -447,7 +350,128 @@
                 }))
             })
         });
-    
+        
+        $("form").submit(function(e){
+            e.preventDefault();
+            
+            switch(current) {
+                case "#thong-tin-co-ban":
+                    // alert(JSON.stringify(dsBanToiDa))
+                    tongLuongBanDaDat = Number($("#soLuongBan").val()) + Number($("#soLuongBanDuTru").val()) 
+                    soLuongBanCoTheDat =  Number(dsBanToiDa[$("#dsSanh").val()].soLuongBanToiDa)
+                    // alert(dsBanToiDa[$("#dsSanh").val()])
+                    // alert(tongLuongBanDaDat > soLuongBanCoTheDat)
+                    if (tongLuongBanDaDat > soLuongBanCoTheDat){
+                        alert(dsBanToiDa[$("#dsSanh").val()].tenSanh + " chỉ có thể đặt " + dsBanToiDa[$("#dsSanh").val()].soLuongBanToiDa + " bàn")     
+                        break;                   
+                    }
+                    
+
+                    $("#thong-tin-co-ban").css({"display": "none", "visibility" : "hidden"});
+                    $("#chon-mon-an").css({"display": "block", "visibility" : "visible"});
+                    $("#chon-dich-vu").css({"display": "none", "visibility" : "hidden"});
+                    $("#btn-quay-lai").css({"display": "inline", "visibility" : "visible"})
+                    current = "#chon-mon-an"
+                    data["tenChuRe"] = $("#tenChuRe").val()
+                    data["tenCoDau"] = $("#tenCoDau").val()
+                    data["sdt"] = $("#sdt").val()
+                    data["ngayDaiTiec"] = $("#ngayDaiTiec").val()
+                    data["ca"] = $("#dsCa").val()
+                    data["sanh"] = $("#dsSanh").val()
+                    data["soLuongBan"] = $("#soLuongBan").val()
+                    data["soLuongBanDuTru"] = $("#soLuongBanDuTru").val()
+                    data["tienDatCoc"] = $("#tienDatCoc").val()
+                    //alert(JSON.stringify(data))
+                    //alert( $("#ngayDaiTiec").val())
+                    
+                    break;
+                case "#chon-mon-an":
+                    $("#thong-tin-co-ban").css({"display": "none", "visibility" : "hidden"});
+                    $("#chon-mon-an").css({"display": "none", "visibility" : "hidden"});
+                    $("#chon-dich-vu").css({"display": "block", "visibility" : "visible"});
+                    $("#btn-quay-lai").css({"display": "inline", "visibility" : "visible"})   
+                    current = "#chon-dich-vu"
+                    dsMonAn = []
+                    table_ma.$('input[type="checkbox"]:checked').each(function(){
+                        var data = table_ma.row( $(this).parents('tr') ).data();
+                        // alert(table_ma.$("#ghichu-" + data.maMonAn ).val())
+                        var monAn = {
+                            maMonAn :  data.maMonAn,
+                            ghiChu : table_ma.$("#ghichu-" + data.maMonAn ).val()
+                        }
+                        
+                        dsMonAn.push(monAn)
+                    });
+                    
+                    alert(JSON.stringify(dsMonAn))                                     
+                    data["monAn"] = dsMonAn
+                    break;
+                case "#chon-dich-vu":
+                    //alert("Dat tiec!!");
+                    dsDichVu = []
+                    table_dv.$('input[type="checkbox"]:checked').each(function(){
+                        var data = table_dv.row( $(this).parents('tr') ).data();
+                        alert(data.maDichVu)
+                        var dichVu = {
+                            maDichVu :  data.maDichVu,
+                            soLuong :   table_dv.$("#soluong-"  + data.maDichVu).val()
+                        }
+                        
+                        dsDichVu.push(dichVu)
+                    });
+                                                            
+                    data["dichVu"] = dsDichVu
+                    alert(JSON.stringify(dsDichVu))    
+                    alert(JSON.stringify(data))
+                    $.ajax({
+                        type: "POST",
+                        contentType: "application/json",
+                        url: "http://localhost:8080/api/dat-tiec",
+                        data: JSON.stringify(data),
+                        dataType: 'json',
+                        success: function(e){
+                            alert("Đặt tiệc cưới thành công")
+                            // alert("Create success")
+                            // location.reload();
+                        },
+                        error: function(XMLHttpRequest, textStatus, errorThrown) {
+                            alert("Đặt tiệc cưới không thành công")
+                            // alert(JSON.stringify(XMLHttpRequest["responseJSON"]["errorMessageList"]));
+                            // $.each(Object.keys(XMLHttpRequest["responseJSON"]["errorMessageList"][0]), function(index, d){
+                            // //alert(d);
+                            // $("#msg_" + d).html(XMLHttpRequest["responseJSON"]["errorMessageList"][0][d])
+                            // $("#msg_" + d).addClass("alert alert-danger")
+                            // })
+                        }
+                    }
+                    )
+            }
+        })
+
+        $("#btn-quay-lai").click(function(e){
+            e.preventDefault();
+            
+            switch(current) {
+                case "#chon-dich-vu":
+                    $("#thong-tin-co-ban").css({"display": "none", "visibility" : "hidden"});
+                    $("#chon-mon-an").css({"display": "block", "visibility" : "visible"});
+                    $("#chon-dich-vu").css({"display": "none", "visibility" : "hidden"});
+                    $("#btn-quay-lai").css({"display": "inline", "visibility" : "visible"})
+                    current = "#chon-mon-an"
+                    break;
+                case "#chon-mon-an":
+                    $("#thong-tin-co-ban").css({"display": "block", "visibility" : "visible"});
+                    $("#chon-mon-an").css({"display": "none", "visibility" : "hidden"});
+                    $("#chon-dich-vu").css({"display": "none", "visibility" : "hidden"});
+                    $("#btn-quay-lai").css({"display": "none", "visibility" : "hidden"})   
+                    current = "#thong-tin-co-ban"
+                    break;
+                case "#thong-tin-co-ban":
+                    
+            }
+
+        })
+        
     </script>
 </body>
 

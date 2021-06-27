@@ -60,6 +60,12 @@
                     <div class="col">
                         <h4 style="color:black">Số ngày trễ hạn : <span id="soNgayTreHan"></span></h4>                
                     </div>
+                    <div class="col">
+                      <h4 style="color:black">Số lượng bàn dự trữ : <span id="soLuongBanDuTru"></span></h4>                
+                    </div>
+                    <div class="col">
+                      <h4 style="color:black">Ngày đãi tiệc : <span id="ngayDaiTiec"></span></h4>                
+                    </div>
                   </div>
                 </div>
               </div>
@@ -150,7 +156,12 @@
                           <div class="col">
                               <h4 style="color:black">Còn lại : <span  id="conLai"></span> </h4>
                           </div>
-                      </div>                                                                 
+                      </div>        
+                      <div class="row">
+                        <div class="col">
+                            <h4 style="color:black;">Trạng thái: <span><b id="trangThai"></b></span> </h4>
+                        </div>
+                      </div>                                                           
                     </div>
                   </div>
                 </div>
@@ -217,7 +228,9 @@
         } else{
 
         }
-        
+
+        $("#soLuongBanDuTru").text(data["soLuongBanDuTru"])
+        $("#ngayDaiTiec").text(data["ngayDaiTiec"])
         $("#soLuongBan").text(data["soLuongBan"])
         $("#soNgayTreHan").text(data["ngayTreHan"])
         $("#donGiaBan").text(data["donGiaBan"])
@@ -228,6 +241,11 @@
         $("#tienDatCoc").text(data["tienDatCoc"])
         $("#conLai").text(data["conLai"])
 
+        if (data["daThanhToan"] == true){
+          $("#trangThai").text("Đã thanh toán")
+        } else{
+          $("#trangThai").text("Chưa thanh toán")
+        }
         $("#dsMonAn").empty()
         $("#dsDichVu").empty()
 

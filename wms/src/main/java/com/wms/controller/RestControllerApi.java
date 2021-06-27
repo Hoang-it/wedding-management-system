@@ -19,6 +19,8 @@ import com.wms.dto.SanhDTO;
 import com.wms.dto.TiecDTO;
 import com.wms.dto.UserDTO;
 import com.wms.entities.ThamSo;
+import com.wms.entities.TiecCuoi;
+import com.wms.repositories.TiecCuoiRepository;
 import com.wms.service.DaoService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +43,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class RestControllerApi {
     @Autowired
     DaoService daoService;
+
+    @Autowired
+    TiecCuoiRepository tiecCuoiRepository;
 
     @GetMapping(value = {"/tong-doanh-thu"})
     public BigDecimal layDoanhThuThang(@RequestParam("thang") String thang, @RequestParam("nam") String nam){        
@@ -90,6 +95,23 @@ public class RestControllerApi {
     @GetMapping(value = {"/tiec-cuoi"})
     public List<TiecDTO> layTiecCuoi(@RequestParam("maTiecCuoi") String maTiecCuoi){
         return daoService.layTiecCuoi(maTiecCuoi);
+    }
+
+    @GetMapping(value = {"/kiem-tra-tiec-cuoi"})
+    public boolean kiemTRaTiecCuoi(@RequestParam("ngayDatTiec") String ngayDatTiec,
+                                        @RequestParam("maCa") String maCa,
+                                        @RequestParam("maSanh") String maSanh ){
+        
+       for (TiecCuoi tiec : tiecCuoiRepository.findAll()) {
+            if (ngayDatTiec.equals(tiec.getNgayDaiTiec().toString())){
+                if (maCa.equals(tiec.getMaSanh().getMaSanh())){
+                    if (maSanh.equals(tiec.getMaSanh().getMaSanh())){
+                        return false;
+                    }
+                }
+            }
+       }
+        return true;
     }
 
     @DeleteMapping(value = {"/tiec-cuoi/xoa"})

@@ -49,8 +49,7 @@ public class TiecDTO {
     @Positive
     @NotNull
     private Long soLuongBan;
-
-    @Positive
+    
     @NotNull
     private Long soLuongBanDuTru;
 

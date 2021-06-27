@@ -729,10 +729,9 @@ public class DaoService {
         }else {
             data.setNgayThanhToan(LocalDate.now());
             data.setDaThanhToan(false);
+            
         }
-        
-
-        ngayTreHan = ChronoUnit.DAYS.between(tiecCuoi.getNgayDaiTiec(), data.getNgayThanhToan());
+        ngayTreHan = ChronoUnit.DAYS.between(tiecCuoi.getNgayDaiTiec(), data.getNgayThanhToan());    
         data.setNgayTreHan(ngayTreHan);
         
         System.out.println("Phần trăm phạt : " + mucPhat.doubleValue());
