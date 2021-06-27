@@ -208,10 +208,16 @@
       dichVu = []
       $.get("http://localhost:8080/api/thong-tin-hoa-don?maTiecCuoi=" + $("#maTiec").text(), function(data){
         //alert("GEt Success")
-        //alert(JSON.stringify(data))
+        
         $("#tenChuRe").text(data["tenChuRe"])
         $("#tenCoDau").text(data["tenCoDau"])
-        $("#ngayThanhToan").text(data["ngayThanhToan"])
+        if (data["daThanhToan"] == true){
+          // alert(JSON.stringify(data["ngayThanhToan"]))
+          $("#ngayThanhToan").text(data["ngayThanhToan"])  
+        } else{
+
+        }
+        
         $("#soLuongBan").text(data["soLuongBan"])
         $("#soNgayTreHan").text(data["ngayTreHan"])
         $("#donGiaBan").text(data["donGiaBan"])

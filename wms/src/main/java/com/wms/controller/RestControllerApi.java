@@ -138,6 +138,13 @@ public class RestControllerApi {
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
+    @PostMapping(value = {"/cap-nhat-sanh"})
+    public ResponseEntity<ValidationResponse> capNhatSanh(@RequestBody SanhDTO sanh) {
+        ValidationResponse res = new ValidationResponse();
+        daoService.capNhatSanh(sanh);
+        return new ResponseEntity<>(res, HttpStatus.OK);
+    }
+
     @PostMapping(value = {"/cap-nhat-nhom-tai-khoan"})
     public ResponseEntity<ValidationResponse> capNhatNhomTaiKhoan(@RequestBody NhomNguoiDungDTO nhom) {
         daoService.capNhatNhomTaiKhoan(nhom);
@@ -177,6 +184,12 @@ public class RestControllerApi {
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
+    @PostMapping(value = {"/them-dich-vu"})
+    public ResponseEntity<ValidationResponse> themThongTinDichVu(@RequestBody DichVuDTO dichVu) {
+        daoService.themThongDichVu(dichVu);
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+
     @GetMapping(value = {"/thong-tin-mon-an"})
     public MonAnDTO lapThongTinMonAn(@RequestParam("maid") String monAn) {
         return daoService.layThongTinMonAn(monAn);
@@ -185,6 +198,12 @@ public class RestControllerApi {
     @PostMapping(value = {"/cap-nhat-mon-an"})
     public ResponseEntity<ValidationResponse> capNhatThongTinMonAn(@RequestBody MonAnDTO monAn) {
         daoService.capNhatThongTinMonAn(monAn);
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+
+    @PostMapping(value = {"/them-mon-an"})
+    public ResponseEntity<ValidationResponse> themThongTinMonAn(@RequestBody MonAnDTO monAn) {
+        daoService.themThongMonAn(monAn);
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
@@ -230,6 +249,8 @@ public class RestControllerApi {
         
     }
 
+
+
     @DeleteMapping(value = {"/xoa-sanh"})
     public ResponseEntity<ValidationResponse> xoaThongTinSanh(@RequestParam("sid") String maSanh) {
         daoService.xoaThongTinSanh(maSanh);
@@ -268,6 +289,12 @@ public class RestControllerApi {
     @PostMapping(value = {"/cap-nhat-ca"})
     public ResponseEntity<ValidationResponse> capNhatThongTinCa(@RequestBody CaDTO ca) {
         daoService.capNhatThongTinCa(ca);
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+
+    @PostMapping(value = {"/them-ca"})
+    public ResponseEntity<ValidationResponse> themThongTinCa(@RequestBody CaDTO ca) {
+        daoService.themThongTinCa(ca);
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 

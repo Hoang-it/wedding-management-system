@@ -21,6 +21,7 @@
         <!-- Modal content-->
         <div class="modal-content">
           <div class="modal-header">
+            <p style="display: none; visibility: hidden;" id="mType">update</p>
             <h4 class="modal-title" id="mTitle">THÔNG TIN MÓN ĂN</h4>
             <button type="button" class="close" data-dismiss="modal">&times;</button>
           </div>
@@ -50,7 +51,7 @@
               </th:block>
               <th:block th:case="'bql'">
                 <button type="button" id="capNhat" class="btn btn-success"  data-dismiss="modal">Cập nhât</button>
-                <button type="button" id="xoa" class="btn btn-success"  data-dismiss="modal">Xóa</button>
+                
               </th:block>
               <th:block th:case="'nhanvien'">
                 
@@ -79,7 +80,21 @@
             <div class="title_right">
               <div class="col-md-3 col-sm-6 col-xs-12 form-group pull-right">
                 <div class="input-group">
-                  <button class="btn btn-success">Thêm món ăn</button>
+                  <th:block th:switch="${role}">
+                    <th:block th:case="''" >
+                      
+                    </th:block>
+                    <th:block th:case="'admin'">
+                      
+                    </th:block>
+                    <th:block th:case="'bql'">
+                      <button class="btn btn-success" data-toggle='modal' data-target='#myModal' id="themThongTinSanh">Thêm món ăn</button>
+                    </th:block>
+                    <th:block th:case="'nhanvien'">
+                      
+                    </th:block>
+                  </th:block>   
+                  
                 </div>
               </div>
             </div>
@@ -298,7 +313,46 @@
 
     
         break;
+      
       case 'nhanvien':
+        $("#myModal input").removeClass("form-control")
+        $("#myModal input").addClass("form-control-plaintext")
+        $("#myModal input").prop('readonly', true);
+        var table = $('#table_id').DataTable({
+                paging: true,
+                select: true,               
+                lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                ajax: {
+                    url: '/api/ds-mon-an',
+                    dataSrc: ''
+                    
+                },
+                columns: [     
+                    {
+                      "data": "tenMonAn",
+                      "targets": 0 
+                    },               
+                    { 
+                      "data": "tenMonAn",
+                      "targets": 1 
+                    },
+                    { 
+                      "data": "donGia",
+                      "targets": 2
+                    },                                                   
+                ],
+                language: {
+                  url: "/json/language.json"
+                },
+                buttons: [
+                    
+                ],
+            });
+
+    
+        break;
+      
+      case 'admin':
         $("#myModal input").removeClass("form-control")
         $("#myModal input").addClass("form-control-plaintext")
         $("#myModal input").prop('readonly', true);
@@ -308,9 +362,12 @@
     }
     $('#table_id tbody').on( 'click', 'button', function () {
         var data = table.row( $(this).parents('tr') ).data();
+        alert(JSON.stringify(data))
         if ($(this).attr("id") == "cap-nhat-mon-an"){
           $.get("http://localhost:8080/api/thong-tin-mon-an?maid=" + data.maMonAn, function(data){
           // alert(JSON.stringify(data))
+            $("#mType").html("update")
+            $("#capNhat").html("Cập nhật")
             $("#maMonAn").val(data["maMonAn"])
             $("#tenMonAn").val(data["tenMonAn"])
             $("#donGia").val(data["donGia"])
@@ -335,9 +392,10 @@
     table.on( 'order.dt search.dt', function () {
       table.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
           cell.innerHTML = i + 1;
-          table.cell(cell).invalidate('dom'); 
+          // table.cell(cell).invalidate('dom'); 
       } );
     } ).draw();
+    
     $("#capNhat").click(function(){
       //alert("Cap nhat")
       data = {}
@@ -345,7 +403,8 @@
       data["tenMonAn"] = $("#tenMonAn").val()
       data["donGia"] = $("#donGia").val()
       
-      $.ajax({
+      if ($("#mType").html() === "update"){
+        $.ajax({
           type: "POST",
           contentType: "application/json",
           url: "http://localhost:8080/api/cap-nhat-mon-an",
@@ -366,6 +425,38 @@
           }
         })
         //location.reload();
+      }
+      if ($("#mType").html() === "add"){
+        $.ajax({
+          type: "POST",
+          contentType: "application/json",
+          url: "http://localhost:8080/api/them-mon-an",
+          data: JSON.stringify(data),
+          dataType: "json",
+          success: function(){
+            alert("Cap nhat thanh cong")
+            location.reload();
+          },
+          error: function(XMLHttpRequest, textStatus, errorThrown) {
+            //alert(JSON.stringify(XMLHttpRequest["responseJSON"]["errorMessageList"]));
+            location.reload();
+            // $.each(Object.keys(XMLHttpRequest["responseJSON"]["errorMessageList"][0]), function(index, d){
+            //   //alert(d);
+            //   $("#msg_" + d).html(XMLHttpRequest["responseJSON"]["errorMessageList"][0][d])
+            //   $("#msg_" + d).addClass("alert alert-danger")
+            // })
+          }
+        })
+        //location.reload();
+      }
+      
+    })
+
+    $("#themThongTinSanh").click(function(){      
+      $("#capNhat").html("Thêm")
+      $("#mType").html("add")
+
+      $("#mTitle").html("THÊM MÓN ĂN")
     })
   </script>
 </body>

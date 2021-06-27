@@ -18,8 +18,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class LoaiSanhDTO {
 
-    @NotBlank
-    @Size(min = 4, max = 4)
+   
     private String maLoaiSanh;
 
     @NotBlank

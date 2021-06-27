@@ -349,6 +349,7 @@
                             break;
                           case 'nhanvien':
                             return '<a ' 
+                              + 'id="lap-hoa-don" '
                               + 'class="fa btn btn-primary" '
                               + 'href=http://localhost:8080/lap-hoa-don-thanh-toan?maTiecCuoi=' + data + ' '
                               + '>'
@@ -397,7 +398,20 @@
       } ).draw();
       
     
-      
+      $('#table_id tbody').on( 'click', 'a', function (e) {
+        var data = table.row( $(this).parents('tr') ).data();
+        // alert(JSON.stringify(data))
+        if ($(this).attr("id") == "lap-hoa-don"){
+          if (data["ngayThanhToan"] != null){
+            e.preventDefault()
+            alert("Hóa đơn này đã được lập")
+          } else{
+
+          }
+         
+        }      
+        
+    } );
     </script>
 </body>
 </html>

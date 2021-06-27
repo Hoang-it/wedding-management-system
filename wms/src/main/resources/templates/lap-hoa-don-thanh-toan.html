@@ -48,24 +48,24 @@
                             <h4 style="color:black">Số lượng bàn : <span id="soLuongBan"></span></h4>                
                         </div>
                         <div class="col">
-                            <h4 style="color:black">Đơn giá bàn: <span id="donGiaBan"></span></h4>                
-                        </div>
-                        <div class="col">
                           <h4 style="color:black">Số lượng bàn dự trữ : <span id="soLuongBanDuTru"></span></h4>           
                         </div> 
+                        <div class="col">
+                          <h4 style="color:black">Ngày đãi tiệc : <span id="ngayDaiTiec"></span></h4>                
+                        </div>                         
                       </div>
                     </div>
                   </div>
                   <div class="row">
                     <div class="col">
                         <h4 style="color:black">Số ngày trễ hạn : <span id="soNgayTreHan"></span></h4>                
-                    </div>
+                    </div>                    
+                    <div class="col">
+                      <h4 style="color:black">Đơn giá bàn: <span id="donGiaBan"></span></h4>                
+                    </div> 
                     <div class="col">
                       <h4 style="color:black">Tổng tiền bàn : <span id="tongTienBan"></span></h4>               
-                    </div>
-                    <div class="col">
-                                    
-                    </div>
+                    </div>                    
                   </div>
                 </div>
               </div>
@@ -242,7 +242,9 @@
         //alert(JSON.stringify(data))
         $("#tenChuRe").text(data["tenChuRe"])
         $("#tenCoDau").text(data["tenCoDau"])
+       
         $("#ngayThanhToan").text(data["ngayThanhToan"])
+        $("#ngayDaiTiec").text(data["ngayDaiTiec"])
         $("#soLuongBan").text(data["soLuongBan"])
         $("#soLuongBanDuTru").text(data["soLuongBanDuTru"])
         $("#soNgayTreHan").text(data["ngayTreHan"])

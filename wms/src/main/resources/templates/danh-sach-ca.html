@@ -20,7 +20,8 @@
         <!-- Modal content-->
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title" id="">CẬP NHẬT CA</h4>
+            <p style="display: none; visibility: hidden;" id="mType">update</p>
+            <h4 class="modal-title" id="mTitle">CẬP NHẬT CA</h4>
             <button type="button" class="close" data-dismiss="modal">&times;</button>
           </div>
           <div class="modal-body">
@@ -82,7 +83,21 @@
             <div class="title_right">
               <div class="col-md-3 col-sm-6 col-xs-12 form-group pull-right">
                 <div class="input-group">
-                  <button class="btn btn-success">Thêm ca</button>
+                  <th:block th:switch="${role}">
+                    <th:block th:case="''" >
+                      
+                    </th:block>
+                    <th:block th:case="'admin'">
+                      
+                    </th:block>
+                    <th:block th:case="'bql'">
+                      <button class="btn btn-success" data-toggle='modal' data-target='#myModal' id="themThongTinSanh">Thêm ca</button>
+                    </th:block>
+                    <th:block th:case="'nhanvien'">
+                      
+                    </th:block>
+                  </th:block> 
+                  
                 </div>
               </div>
             </div>
@@ -323,6 +338,8 @@
         if ($(this).attr("id") == "cap-nhat-ca"){
           $.get("http://localhost:8080/api/thong-tin-ca?caid=" + data.maCa, function(data){
             // alert(JSON.stringify(data))
+            $("#mType").html("update")
+            $("#capNhat").html("Cập nhật")
             $("#tenCa").val(data["tenCa"])
             $("#gioBatDau").val(data["gioBatDau"])
             $("#gioKetThuc").val(data["gioKetThuc"])
@@ -357,7 +374,9 @@
       data["gioKetThuc"] = $("#gioKetThuc").val()
       data["maCa"] = $("#maCa").val()
       alert(JSON.stringify(data))
-      $.ajax({
+      if ($("#mType").html() === "update"){
+        alert("Cập nhật ca")
+        $.ajax({
           type: "POST",
           contentType: "application/json",
           url: "http://localhost:8080/api/cap-nhat-ca",
@@ -378,7 +397,43 @@
           }
         })
         //location.reload();
+      }
+      
+      if ($("#mType").html() === "add"){
+        alert("THêm ca")
+        $.ajax({
+          type: "POST",
+          contentType: "application/json",
+          url: "http://localhost:8080/api/them-ca",
+          data: JSON.stringify(data),
+          dataType: "json",
+          success: function(){
+            alert("Thêm thanh cong")
+            location.reload();
+          },
+          error: function(XMLHttpRequest, textStatus, errorThrown) {
+            //alert(JSON.stringify(XMLHttpRequest["responseJSON"]["errorMessageList"]));
+            location.reload();
+            // $.each(Object.keys(XMLHttpRequest["responseJSON"]["errorMessageList"][0]), function(index, d){
+            //   //alert(d);
+            //   $("#msg_" + d).html(XMLHttpRequest["responseJSON"]["errorMessageList"][0][d])
+            //   $("#msg_" + d).addClass("alert alert-danger")
+            // })
+          }
+        })
+        //location.reload();
+      }
+      
+
     })
+
+    $("#themThongTinSanh").click(function(){      
+      $("#capNhat").html("Thêm")
+      $("#mType").html("add")
+
+      $("#mTitle").html("THÊM THÔNG TIN CA")
+    })
+
   </script>
 </body>
 </html>

@@ -19,6 +19,7 @@
         <!-- Modal content-->
         <div class="modal-content">
           <div class="modal-header">
+            <p style="display: none; visibility: hidden;" id="mType">update</p>
             <h4 class="modal-title" id="mTitle">THÔNG TIN DỊCH VỤ</h4>
             <button type="button" class="close" data-dismiss="modal">&times;</button>
           </div>
@@ -75,7 +76,20 @@
             <div class="title_right">
               <div class="col-md-3 col-sm-6 col-xs-12 form-group pull-right">
                 <div class="input-group">
-                  <button class="btn btn-success">Thêm dịch vụ</button>
+                  <th:block th:switch="${role}">
+                    <th:block th:case="''" >
+                      
+                    </th:block>
+                    <th:block th:case="'admin'">
+                      
+                    </th:block>
+                    <th:block th:case="'bql'">
+                      <button class="btn btn-success" data-toggle='modal' data-target='#myModal' id="themThongTinSanh">Thêm dịch vụ</button>
+                    </th:block>
+                    <th:block th:case="'nhanvien'">
+                      
+                    </th:block>
+                  </th:block>  
                 </div>
               </div>
             </div>
@@ -297,6 +311,40 @@
         $("#myModal input").removeClass("form-control")
         $("#myModal input").addClass("form-control-plaintext")
         $("#myModal input").prop('readonly', true);
+        var table = $('#table_id').DataTable({
+                paging: true,
+                select: true,
+                
+                order: [ [ 1, 'asc' ] ],                
+                lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                ajax: {
+                    url: '/api/ds-dich-vu',
+                    dataSrc: ''
+                    
+                },
+                columns: [     
+                    {
+                      "data": "tenDichVu",
+                      
+                    },               
+                    { 
+                      "data": "tenDichVu",
+                      "targets": 1 
+                    },
+                    { 
+                      "data": "donGia",
+                      "targets": 2
+                    },
+                                
+                ],               
+                language: {
+                  url: "/json/language.json"
+                },
+                buttons: [                                                       
+                ],
+                
+            });
+        //alert($("#mTitle").html())
         break;
       default:
         // code block
@@ -305,9 +353,12 @@
 
       $('#table_id tbody').on( 'click', 'button', function () {
           var data = table.row( $(this).parents('tr') ).data();
+          alert(JSON.stringify(data))
           if ($(this).attr("id") == "cap-nhat-dich-vu"){
             $.get("http://localhost:8080/api/thong-tin-dich-vu?dvid=" + data.maDichVu, function(data){
               // alert(JSON.stringify(data))
+              $("#mType").html("update")
+              $("#capNhat").html("Cập nhật")
               $("#maDichVu").val(data["maDichVu"])
               $("#tenDichVu").val(data["tenDichVu"])
               $("#donGia").val(data["donGia"])                  
@@ -339,30 +390,63 @@
       data["maDichVu"] = $("#maDichVu").val()
       data["tenDichVu"] = $("#tenDichVu").val()
       data["donGia"] = $("#donGia").val()
-
-      $.ajax({
-      type: "POST",
-      contentType: "application/json",
-      url: "http://localhost:8080/api/cap-nhat-dich-vu",
-      data: JSON.stringify(data),
-      dataType: "json",
-      success: function(){
-        alert("Cap nhat thanh cong")
-        location.reload();
-      },
-      error: function(XMLHttpRequest, textStatus, errorThrown) {
-        //alert(JSON.stringify(XMLHttpRequest["responseJSON"]["errorMessageList"]));
-        location.reload();
-        // $.each(Object.keys(XMLHttpRequest["responseJSON"]["errorMessageList"][0]), function(index, d){
-        //   //alert(d);
-        //   $("#msg_" + d).html(XMLHttpRequest["responseJSON"]["errorMessageList"][0][d])
-        //   $("#msg_" + d).addClass("alert alert-danger")
-        // })
+      if ($("#mType").html() === "update"){
+        $.ajax({ 
+          type: "POST",
+          contentType: "application/json",
+          url: "http://localhost:8080/api/cap-nhat-dich-vu",
+          data: JSON.stringify(data),
+          dataType: "json",
+          success: function(){
+            alert("Cap nhat thanh cong")
+            location.reload();
+          },
+          error: function(XMLHttpRequest, textStatus, errorThrown) {
+            //alert(JSON.stringify(XMLHttpRequest["responseJSON"]["errorMessageList"]));
+            location.reload();
+            // $.each(Object.keys(XMLHttpRequest["responseJSON"]["errorMessageList"][0]), function(index, d){
+            //   //alert(d);
+            //   $("#msg_" + d).html(XMLHttpRequest["responseJSON"]["errorMessageList"][0][d])
+            //   $("#msg_" + d).addClass("alert alert-danger")
+            // })
+          }
+        })
+    
       }
-    })
-  
+
+      if ($("#mType").html() === "add"){
+        $.ajax({ 
+          type: "POST",
+          contentType: "application/json",
+          url: "http://localhost:8080/api/them-dich-vu",
+          data: JSON.stringify(data),
+          dataType: "json",
+          success: function(){
+            alert("Cap nhat thanh cong")
+            location.reload();
+          },
+          error: function(XMLHttpRequest, textStatus, errorThrown) {
+            //alert(JSON.stringify(XMLHttpRequest["responseJSON"]["errorMessageList"]));
+            location.reload();
+            // $.each(Object.keys(XMLHttpRequest["responseJSON"]["errorMessageList"][0]), function(index, d){
+            //   //alert(d);
+            //   $("#msg_" + d).html(XMLHttpRequest["responseJSON"]["errorMessageList"][0][d])
+            //   $("#msg_" + d).addClass("alert alert-danger")
+            // })
+          }
+        })
+      
+      }
+     
+   
     })
     
+    $("#themThongTinSanh").click(function(){      
+      $("#capNhat").html("Thêm")
+      $("#mType").html("add")
+
+      $("#mTitle").html("THÊM DỊCH VỤ")
+    })
   </script>
 </body>
 </html>

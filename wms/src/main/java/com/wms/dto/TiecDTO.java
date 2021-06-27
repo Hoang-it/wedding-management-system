@@ -1,13 +1,11 @@
 package com.wms.dto;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
@@ -59,6 +57,8 @@ public class TiecDTO {
     @Positive
     @NotNull
     private BigDecimal tienDatCoc;  
+
+    private boolean daThanhToan;
 
     private List<MonAnDTO> monAn;
     private List<DichVuDTO> dichVu;

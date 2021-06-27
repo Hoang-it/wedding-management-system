@@ -270,11 +270,13 @@
                         data: JSON.stringify(data),
                         dataType: 'json',
                         success: function(e){
+                            alert("Đặt tiệc cưới thành công")
                             // alert("Create success")
                             // location.reload();
                         },
                         error: function(XMLHttpRequest, textStatus, errorThrown) {
-                            alert(JSON.stringify(XMLHttpRequest["responseJSON"]["errorMessageList"]));
+                            alert("Đặt tiệc cưới không thành công")
+                            // alert(JSON.stringify(XMLHttpRequest["responseJSON"]["errorMessageList"]));
                             // $.each(Object.keys(XMLHttpRequest["responseJSON"]["errorMessageList"][0]), function(index, d){
                             // //alert(d);
                             // $("#msg_" + d).html(XMLHttpRequest["responseJSON"]["errorMessageList"][0][d])
@@ -412,6 +414,7 @@
             cell.innerHTML = i+1;
         } );
         } ).draw(); 
+        
         
         $.get( "http://localhost:8080/api/ds-sanh", function( data ) {
             //alert(JSON.stringify(data));

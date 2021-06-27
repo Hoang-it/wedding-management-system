@@ -36,6 +36,7 @@ public class HoaDonDTO {
     private BigDecimal tongTienMonAn;
     private BigDecimal tienDatCoc;
     private BigDecimal conLai;
+    private boolean daThanhToan;
     private List<MonAnDTO> monAn;
     private List<DichVuDTO> dichVu;
 }

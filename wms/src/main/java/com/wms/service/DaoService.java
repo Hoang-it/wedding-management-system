@@ -126,14 +126,19 @@ public class DaoService {
 
     public void datSanhCuoi(SanhDTO sanhMoi){
         Sanh record = new Sanh();
-        Long row = danhSachSanhRepository.count() + 1;
-        String index = row < 10 ? "0" + row.toString() : row.toString();
+        ThamSo soLuongMaDaCap = thamSoRepository.findById("maSanhDaCap").get();
+        Long soLuong = Long.parseLong(soLuongMaDaCap.getGiaTri()) + 1;
+
+        String index = soLuong < 10 ? "0" + soLuong.toString() : soLuong.toString();
         record.setMaSanh("SA" + index);
        
         record.setMaLoaiSanh(loaiSanhRepository.findById(sanhMoi.getLoaiSanh()).get());
         record.setTenSanh(sanhMoi.getTenSanh());
         record.setGhiChu(sanhMoi.getGhiChu());
         record.setSoLuongBanToiDa(sanhMoi.getSoLuongBanToiDa());
+        soLuongMaDaCap.setGiaTri(soLuong.toString());
+
+        thamSoRepository.save(soLuongMaDaCap);
         danhSachSanhRepository.save(record);
         
     }
@@ -241,11 +246,13 @@ public class DaoService {
     public boolean datTiecCuoi(TiecDTO tiecCuoi, ValidationResponse res){
         TiecCuoi record = new TiecCuoi();
         HoaDon hoaDon = new HoaDon();  
-        Long rowHD = hoaDonThanhToanRepository.count() + 1;       
+        ThamSo soLuongMaTiecCuoiDaCap = thamSoRepository.findById("maHoaDonDaCap").get();
+        ThamSo soLuongHoaDonCuoiDaCap = thamSoRepository.findById("maTiecCuoiDaCap").get();
+        Long rowHD = Long.parseLong(soLuongHoaDonCuoiDaCap.getGiaTri()) + 1;       
         String indexHD = rowHD < 10 ? "0" + rowHD.toString() : rowHD.toString();
         Set<ChiTietMonAn> thucDon = new HashSet<>();
         Set<ChiTietDichVu> dsDichVu = new HashSet<>();
-        Long rowTC = tiecCuoiRepository.count() + 1;
+        Long rowTC = Long.parseLong(soLuongMaTiecCuoiDaCap.getGiaTri()) + 1; 
         String indexTC = rowTC < 10 ? "0" + rowTC.toString() : rowTC.toString();
         boolean choPhepDatTiec = true;
         HashMap<String, String> errorFields = new HashMap<>();
@@ -301,6 +308,11 @@ public class DaoService {
             hoaDon.setMaHoaDon("HD" + indexHD);
             hoaDon.setMaTiecCuoi(record);
 
+            soLuongHoaDonCuoiDaCap.setGiaTri(indexHD);
+            soLuongMaTiecCuoiDaCap.setGiaTri(indexTC);
+
+            thamSoRepository.save(soLuongHoaDonCuoiDaCap);
+            thamSoRepository.save(soLuongMaTiecCuoiDaCap);
             tiecCuoiRepository.save(record);      
             hoaDonThanhToanRepository.save(hoaDon); 
             return choPhepDatTiec;
@@ -438,6 +450,16 @@ public class DaoService {
         
     }
 
+    public void capNhatSanh(SanhDTO sanh){
+        Sanh record = sanhRepository.findById(sanh.getMaSanh()).get();
+        System.out.println("CẬP NHẬT SẢNH");
+        record.setTenSanh(sanh.getTenSanh());
+        record.setMaLoaiSanh(loaiSanhRepository.findById(sanh.getLoaiSanh()).get());
+        record.setSoLuongBanToiDa(sanh.getSoLuongBanToiDa());
+        
+        sanhRepository.save(record);
+    }
+
     public void capNhatNhomTaiKhoan(NhomNguoiDungDTO model){
         NhomNguoiDung nhom = nhomNguoiDungRepository.findByMaNhom(model.getMaNhom());
         nhom.setTenNhom(model.getTenNhom());
@@ -563,12 +585,16 @@ public class DaoService {
 
     public void themLoaiSanh(LoaiSanhDTO sanh){
         LoaiSanh record = new LoaiSanh();
-        Long row = loaiSanhRepository.count();
-        String index = row < 10 ? "0" + row.toString() : row.toString();
+        ThamSo soLuongMaDaCap = thamSoRepository.findById("maLoaiSanhDaCap").get();
+        Long soLuong = Long.parseLong(soLuongMaDaCap.getGiaTri()) + 1;
+        String index = soLuong < 10 ? "0" + soLuong.toString() : soLuong.toString();
 
-        record.setMaLoaiSanh("LS" + row);
+        record.setMaLoaiSanh("LS" + soLuong);
         record.setTenLoaiSanh(sanh.getTenLoaiSanh());
-        record.setDonGiaBanToiThieu(sanh.getDonGiaBanToiThieu());        
+        record.setDonGiaBanToiThieu(sanh.getDonGiaBanToiThieu());    
+        soLuongMaDaCap.setGiaTri(soLuong.toString());
+        
+        thamSoRepository.save(soLuongMaDaCap);
         loaiSanhRepository.save(record);
     }
 
@@ -599,6 +625,82 @@ public class DaoService {
         record.setGioKetThuc(ca.getGioKetThuc());
         caRepository.save(record);
     }
+
+    public void themThongTinCa(CaDTO ca){
+        Ca record = new Ca();
+        ThamSo soLuongMaDaCap = thamSoRepository.findById("maCaDaCap").get();
+        Long soLuong = Long.parseLong(soLuongMaDaCap.getGiaTri()) + 1;
+        String index = null;
+
+        if (soLuong < 10){
+            index = "0" + soLuong;
+        } else{
+            index = "" + soLuong;
+        }
+        String maCa = "CA" + index;
+        System.out.println("Ma CA" + maCa);
+        record.setMaCa(maCa);
+        record.setTenCa(ca.getTenCa());
+        record.setGioBatDau(ca.getGioBatDau());
+        record.setGioKetThuc(ca.getGioKetThuc());
+
+        soLuongMaDaCap.setGiaTri(soLuong.toString());
+
+        thamSoRepository.save(soLuongMaDaCap);
+        caRepository.save(record);
+    }
+
+    public void themThongDichVu(DichVuDTO dv){
+        DichVu record = new DichVu();
+        ThamSo soLuongMaDaCap = thamSoRepository.findById("maDichVuDaCap").get();
+        Long soLuong = Long.parseLong(soLuongMaDaCap.getGiaTri()) + 1;
+        String index = null;
+
+        if (soLuong < 10){
+            index = "0" + soLuong;
+        } else{
+            index = "" + soLuong;
+        }
+        String maDV = "DV" + index;
+        System.out.println("Ma DV" + maDV);
+        record.setMaDichVu(maDV);
+        record.setTenDichVu(dv.getTenDichVu());
+        record.setDonGia(dv.getDonGia());
+
+        soLuongMaDaCap.setGiaTri(soLuong.toString());
+        
+        dichVuRepository.save(record);
+        thamSoRepository.save(soLuongMaDaCap);
+    }
+
+    public void themThongMonAn(MonAnDTO monAn){
+        MonAn record = new MonAn();
+        ThamSo soLuongMaDaCap = thamSoRepository.findById("maMonAnDaCap").get();
+        Long soLuong = Long.parseLong(soLuongMaDaCap.getGiaTri()) + 1;
+        String index = null;
+
+        if (soLuong < 10){
+            index = "00" + soLuong;
+        } else{
+            if (soLuong < 100){
+                index = "0" + soLuong;
+            } else{
+                index = "" + soLuong;
+            }
+            
+        }
+        String maMonAn = "M" + index;
+        System.out.println("Ma MonAn" + maMonAn);
+        record.setMaMonAn(maMonAn);
+        record.setTenMonAn(monAn.getTenMonAn());
+        record.setDonGia(monAn.getDonGia());
+        
+        soLuongMaDaCap.setGiaTri(soLuong.toString());
+        
+        monAnRepository.save(record);
+        thamSoRepository.save(soLuongMaDaCap);
+    }
+
     public HoaDonDTO layThongTinHoaDon(String maTiecCuoi){
         TiecCuoi tiecCuoi = tiecCuoiRepository.findById(maTiecCuoi).get();
 
@@ -618,10 +720,17 @@ public class DaoService {
         data.setTenCoDau(tiecCuoi.getTenCoDau());
         data.setTenChuRe(tiecCuoi.getTenChuRe());
         data.setSoLuongBan(tiecCuoi.getSoLuongBan());
-        data.setNgayThanhToan(tiecCuoi.getNgayDaiTiec());
+        data.setNgayDaiTiec(tiecCuoi.getNgayDaiTiec());
         data.setSoLuongBanDuTru(tiecCuoi.getSoLuongBanDuTru());
         data.setTienDatCoc(tiecCuoi.getTienDatCoc());
-        data.setNgayThanhToan(LocalDate.now());
+        if (tiecCuoi.getHoaDonThanhToan().getNgayThanhToan() != null){
+            data.setNgayThanhToan(tiecCuoi.getHoaDonThanhToan().getNgayThanhToan().getNgayThanhToan());
+            data.setDaThanhToan(true);
+        }else {
+            data.setNgayThanhToan(LocalDate.now());
+            data.setDaThanhToan(false);
+        }
+        
 
         ngayTreHan = ChronoUnit.DAYS.between(tiecCuoi.getNgayDaiTiec(), data.getNgayThanhToan());
         data.setNgayTreHan(ngayTreHan);

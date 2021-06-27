@@ -180,14 +180,19 @@
               } );
             } ).draw();  
           
-
-            $.get("http://localhost:8080/api/tong-doanh-thu?thang=" + $("#thang").val() + "&nam=" + $("#nam").val(), function(data){
-              $("#tongDoanhThu").text(new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(data))
-            })
+            $.ajax("http://localhost:8080/api/tong-doanh-thu?thang=" + $("#thang").val() + "&nam=" + $("#nam").val())
+              .done(function(data){
+                $("#tongDoanhThu").text(new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(data))
+              })
+              .fail(function(data){
+                alert("fail load")
+                $("#tongDoanhThu").text("")
+              })
           })
           .fail(function(){
             alert("Error")
             table.clear().draw()
+            $("#tongDoanhThu").text("")
           })
       })
       $("#xem").click()

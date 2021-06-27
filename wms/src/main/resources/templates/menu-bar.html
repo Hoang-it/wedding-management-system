@@ -176,6 +176,16 @@
                                 <ul class="nav side-menu">
         
                                     <th:block th:insert="~{menu-bar :: menu-bar-trang-chu}"></th:block>
+
+                                    <li>
+                                        <a> Danh sách <span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">                                            
+                                
+                                            <th:block th:insert="~{menu-bar :: menu-bar-ds-mon-an}"></th:block>
+                                
+                                            <th:block th:insert="~{menu-bar :: menu-bar-ds-dich-vu}"></th:block>
+                                        </ul>                                     
+                                    </li>
                         
                                     <th:block th:insert="~{menu-bar :: menu-bar-dat-tiec-cuoi}"></th:block>
                         
