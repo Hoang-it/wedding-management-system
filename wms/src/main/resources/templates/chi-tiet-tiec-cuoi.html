@@ -254,15 +254,8 @@
           paging: true,
           select: true,
           order: [ [ 1, 'asc' ] ],
-          "oLanguage": {  
-                  "sSearch": "Tìm : _INPUT_",                
-                  "sLengthMenu": "Hiện thị  _MENU_ dữ liệu",
-                  "sInfo": "Nhận _TOTAL_ dữ liệu, hiện thị (_START_ tới _END_)",
-                  "oPaginate": {
-                    "sNext": "Sau",
-                    "sPrevious": "Trước"
-                  }
-
+          language: {
+                  url: "/json/language.json"
                 },
           lengthMenu: [ [3, 25, 50, -1], [3, 25, 50, "All"] ],
           data: data["monAn"],
@@ -286,15 +279,8 @@
           paging: true,
           select: true,
           order: [ [ 1, 'asc' ] ],
-          "oLanguage": {  
-                  "sSearch": "Tìm : _INPUT_",                
-                  "sLengthMenu": "Hiện thị  _MENU_ dữ liệu",
-                  "sInfo": "Nhận _TOTAL_ dữ liệu, hiện thị (_START_ tới _END_)",
-                  "oPaginate": {
-                    "sNext": "Sau",
-                    "sPrevious": "Trước"
-                  }
-
+          language: {
+                  url: "/json/language.json"
                 },
           lengthMenu: [ [3, 25, 50, -1], [3, 25, 50, "All"] ],
           data: data["dichVu"],
@@ -345,17 +331,21 @@
       
       $("#xoa").click(function(e){
         // alert($("#maTiec").text())
-        $.ajax({
+        if (confirm('Bạn có chắc muốn xóa tiệc cưới này?')){
+          $.ajax({
             url: '/api/tiec-cuoi/xoa?maTiecCuoi=' + $("#maTiec").text(),
             type: 'DELETE',
             success: function(result) {
                alert("Xóa thành công")
+               window.location.href = "/tra-cuu-tiec-cuoi";
             },
             error: function(){
               alert("Xóa thất bại")
             }
 
         });
+        }
+       
       })
       $("#xacNhan").click(function(e){
         e.preventDefault()

@@ -164,7 +164,8 @@ public class DaoService {
             data = new SanhDTO();
             data.setMaSanh(sanh.getMaSanh());
             data.setTenSanh(sanh.getTenSanh());
-            data.setLoaiSanh(sanh.getMaLoaiSanh().getTenLoaiSanh());
+            data.setLoaiSanh(sanh.getMaLoaiSanh().getMaLoaiSanh());
+            data.setTenLoaiSanh(sanh.getMaLoaiSanh().getTenLoaiSanh());
             data.setDonGiaBanToiThieu(sanh.getMaLoaiSanh().getDonGiaBanToiThieu());
             data.setSoLuongBanToiDa(sanh.getSoLuongBanToiDa());
             dsSanh.add(data);
@@ -179,7 +180,8 @@ public class DaoService {
         data = new SanhDTO();
         data.setMaSanh(sanh.getMaSanh());
         data.setTenSanh(sanh.getTenSanh());
-        data.setLoaiSanh(sanh.getMaLoaiSanh().getTenLoaiSanh());
+        data.setLoaiSanh(sanh.getMaLoaiSanh().getMaLoaiSanh());
+        data.setTenLoaiSanh(sanh.getMaLoaiSanh().getTenLoaiSanh());
         data.setDonGiaBanToiThieu(sanh.getMaLoaiSanh().getDonGiaBanToiThieu());
         data.setSoLuongBanToiDa(sanh.getSoLuongBanToiDa());
         dsSanh.add(data);

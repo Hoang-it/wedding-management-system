@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
@@ -23,9 +24,9 @@ public class LoaiSanhDTO {
 
     @NotBlank
     @Size(min = 1, max = 50)
-    @Pattern(regexp="^\\d*[a-zA-Z][a-zA-Z\\d]*$", message="tên loại sảnh chỉ có thể chứ số hoặc ký tự")
+    //@Pattern(regexp="^[a-zA-Z0-9]{4,10}$", message="tên loại sảnh chỉ có thể chứ số hoặc ký tự")
     private String tenLoaiSanh;
 
-    @Positive
+    @PositiveOrZero
     private BigDecimal donGiaBanToiThieu;
 }

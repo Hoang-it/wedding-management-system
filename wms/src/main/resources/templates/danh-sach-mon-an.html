@@ -287,24 +287,24 @@
                 
                 buttons: [
                     'pageLength',                    
-                    {
-                        extend: 'print',
-                        exportOptions: {
-                            columns: '.can-print'
-                        },
-                        title: '',
-                        customize: function ( win ) {
-                          // $(win.document.body).empty()
+                    // {
+                    //     extend: 'print',
+                    //     exportOptions: {
+                    //         columns: '.can-print'
+                    //     },
+                    //     title: '',
+                    //     customize: function ( win ) {
+                    //       // $(win.document.body).empty()
                           
-                          $(win.document.body).prepend($("<h1>", {
-                            text: "Báo cáo tháng " + $("#thang").val()
-                          })); //before the table             
+                    //       $(win.document.body).prepend($("<h1>", {
+                    //         text: "Báo cáo tháng " + $("#thang").val()
+                    //       })); //before the table             
 
-                          $(win.document.body).append('<h3>Người lập Hoàng</h3>'); //after the table
+                    //       $(win.document.body).append('<h3>Người lập Hoàng</h3>'); //after the table
                           
                           
-                        }
-                    }
+                    //     }
+                    // }
                 ],
                 language: {
                   url: "/json/language.json"
@@ -362,8 +362,9 @@
     }
     $('#table_id tbody').on( 'click', 'button', function () {
         var data = table.row( $(this).parents('tr') ).data();
-        alert(JSON.stringify(data))
+        console.log(JSON.stringify(data))
         if ($(this).attr("id") == "cap-nhat-mon-an"){
+          $("#mTitle").html("CẬP NHẬT MÓN ĂN")
           $.get("http://localhost:8080/api/thong-tin-mon-an?maid=" + data.maMonAn, function(data){
           // alert(JSON.stringify(data))
             $("#mType").html("update")
@@ -374,17 +375,22 @@
           })
         }
         if ($(this).attr("id") == "xoa-mon-an"){
+          if (confirm('Bạn có chắc muốn xóa dữ liệu này?')){
             $.ajax({
                 url: '/api/xoa-mon-an?maMonAn=' + data.maMonAn,
                 type: 'DELETE',
                 success: function(result) {
                   alert("Xóa thành công")
+                  table.ajax.reload()
                 },
                 error: function(){
                   alert("Xóa thất bại")
                 }
 
             });
+        
+          }
+         
           }
         
     } );
@@ -411,12 +417,13 @@
           data: JSON.stringify(data),
           dataType: "json",
           success: function(){
-            alert("Cap nhat thanh cong")
-            location.reload();
+            alert("Cập nhật thành công")
+            table.ajax.reload()
           },
           error: function(XMLHttpRequest, textStatus, errorThrown) {
             //alert(JSON.stringify(XMLHttpRequest["responseJSON"]["errorMessageList"]));
-            location.reload();
+            alert("Cập nhật thất bại")
+            // location.reload();
             // $.each(Object.keys(XMLHttpRequest["responseJSON"]["errorMessageList"][0]), function(index, d){
             //   //alert(d);
             //   $("#msg_" + d).html(XMLHttpRequest["responseJSON"]["errorMessageList"][0][d])
@@ -434,12 +441,13 @@
           data: JSON.stringify(data),
           dataType: "json",
           success: function(){
-            alert("Cap nhat thanh cong")
-            location.reload();
+            alert("Thêm thành công")
+            table.ajax.reload()
           },
           error: function(XMLHttpRequest, textStatus, errorThrown) {
+            alert("Thêm thất bại")
             //alert(JSON.stringify(XMLHttpRequest["responseJSON"]["errorMessageList"]));
-            location.reload();
+            // location.reload();
             // $.each(Object.keys(XMLHttpRequest["responseJSON"]["errorMessageList"][0]), function(index, d){
             //   //alert(d);
             //   $("#msg_" + d).html(XMLHttpRequest["responseJSON"]["errorMessageList"][0][d])
@@ -457,6 +465,8 @@
       $("#mType").html("add")
 
       $("#mTitle").html("THÊM MÓN ĂN")
+      $("#tenMonAn").val("")
+      $("#donGia").val("")
     })
   </script>
 </body>

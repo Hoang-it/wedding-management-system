@@ -272,24 +272,24 @@
                 ],
                 buttons: [
                     'pageLength',                    
-                    {
-                        extend: 'print',
-                        exportOptions: {
-                            columns: '.can-print'
-                        },
-                        title: '',
-                        customize: function ( win ) {
-                          // $(win.document.body).empty()
+                    // {
+                    //     extend: 'print',
+                    //     exportOptions: {
+                    //         columns: '.can-print'
+                    //     },
+                    //     title: '',
+                    //     customize: function ( win ) {
+                    //       // $(win.document.body).empty()
                           
-                          $(win.document.body).prepend($("<h1>", {
-                            text: "Báo cáo tháng " + $("#thang").val()
-                          })); //before the table             
+                    //       $(win.document.body).prepend($("<h1>", {
+                    //         text: "Báo cáo tháng " + $("#thang").val()
+                    //       })); //before the table             
 
-                          $(win.document.body).append('<h3>Người lập Hoàng</h3>'); //after the table
+                    //       $(win.document.body).append('<h3>Người lập Hoàng</h3>'); //after the table
                           
                           
-                        }
-                    }
+                    //     }
+                    // }
                 ],
             });
 
@@ -303,7 +303,8 @@
           var data = table.row( $(this).parents('tr') ).data();
           if ($(this).attr("id") == "chi-tiet-loai-sanh"){
             $.get("http://localhost:8080/api/thong-tin-loai-sanh?lsid=" + data.maLoaiSanh, function(data){
-              $("#capNhat").html("Cạp nhật")
+              $("#capNhat").html("Cập nhật")
+              $("#mTitle").html("CẬP NHẬT LOẠI SẢNH")
               $("#tenLoaiSanh").val(data["tenLoaiSanh"])
               $("#donGiaBanToiThieu").val(data["donGiaBanToiThieu"])
               $("#maLoaiSanh").val(data["maLoaiSanh"])
@@ -311,17 +312,21 @@
             })
           }
           if ($(this).attr("id") == "xoa-loai-sanh"){
-            $.ajax({
+            if (confirm('Bạn có chắc muốn xóa dữ liệu này?')){
+              $.ajax({
                 url: '/api/xoa-loai-sanh?lsid=' + data.maLoaiSanh,
                 type: 'DELETE',
                 success: function(result) {
                   alert("Xóa thành công")
+                  table.ajax.reload();
                 },
                 error: function(){
                   alert("Xóa thất bại")
                 }
 
             });
+            }
+
           }
       } );
 
@@ -373,7 +378,7 @@
         data["tenLoaiSanh"] = $("#tenLoaiSanh").val()
         data["donGiaBanToiThieu"] = $("#donGiaBanToiThieu").val()
         
-        alert(JSON.stringify(data))
+        console.log(JSON.stringify(data))
         $.ajax({
             type: "POST",
             contentType: "application/json",
@@ -381,13 +386,25 @@
             data: JSON.stringify(data),
             dataType: "json",
             success: function(e){
-              alert("Cap nhat thanh cong")
-              //location.reload();
+              if ($("#mType").html() == "update"){
+                alert("Cập nhật thành công")
+              }
+              if ($("#mType").html() == "add"){
+                alert("Thêm thành công")
+              }
+              
+              table.ajax.reload();
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
-              alert("Fail");
-              alert(JSON.stringify(XMLHttpRequest));
-              alert(JSON.stringify(XMLHttpRequest["responseJSON"]["errorMessageList"]));
+              if ($("#mType").html() == "update"){
+                alert("Cập nhật thất bại")
+              }
+              if ($("#mType").html() == "add"){
+                alert("Thêm thất bại")
+              }
+              
+              // alert(JSON.stringify(XMLHttpRequest));
+              // alert(JSON.stringify(XMLHttpRequest["responseJSON"]["errorMessageList"]));
               //location.reload();
               // $.each(Object.keys(XMLHttpRequest["responseJSON"]["errorMessageList"][0]), function(index, d){
               //   //alert(d);
@@ -404,6 +421,8 @@
         $("#mType").html("add")
         
         $("#mTitle").html("THÊM THÔNG LOẠI SẢNH")
+        $("#tenLoaiSanh").val("")
+        $("#donGiaBanToiThieu").val("")
       })
      
     

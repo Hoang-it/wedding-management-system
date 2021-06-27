@@ -188,15 +188,8 @@
                 paging: true,
                 select: true,
                 order: [ [ 1, 'asc' ] ],                
-                "oLanguage": {  
-                  "sSearch": "Tìm kiếm : _INPUT_",                
-                  "sLengthMenu": "Hiện thị  _MENU_ dữ liệu",
-                  "sInfo": "Nhận _TOTAL_ dữ liệu, hiện thị (_START_ tới _END_)",
-                  "oPaginate": {
-                    "sNext": "Sau",
-                    "sPrevious": "Trước"
-                  }
-
+                language: {
+                  url: "/json/language.json"
                 },
                 lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
                 ajax: {
@@ -299,24 +292,24 @@
                 ],
                 buttons: [
                     'pageLength',                    
-                    {
-                        extend: 'print',
-                        exportOptions: {
-                            columns: '.can-print'
-                        },
-                        title: '',
-                        customize: function ( win ) {
-                          // $(win.document.body).empty()
+                    // {
+                    //     extend: 'print',
+                    //     exportOptions: {
+                    //         columns: '.can-print'
+                    //     },
+                    //     title: '',
+                    //     customize: function ( win ) {
+                    //       // $(win.document.body).empty()
                           
-                          $(win.document.body).prepend($("<h1>", {
-                            text: "Báo cáo tháng " + $("#thang").val()
-                          })); //before the table             
+                    //       $(win.document.body).prepend($("<h1>", {
+                    //         text: "Báo cáo tháng " + $("#thang").val()
+                    //       })); //before the table             
 
-                          $(win.document.body).append('<h3>Người lập Hoàng</h3>'); //after the table
+                    //       $(win.document.body).append('<h3>Người lập Hoàng</h3>'); //after the table
                           
                           
-                        }
-                    }
+                    //     }
+                    // }
                 ],
                 language: {
                   url: "/json/language.json"
@@ -347,17 +340,22 @@
           })
         }
         if ($(this).attr("id") == "xoa-ca"){
+          if (confirm('Bạn có chắc muốn xóa dữ liệu này?')){
             $.ajax({
                 url: '/api/xoa-ca?maCa=' + data.maCa,
                 type: 'DELETE',
                 success: function(result) {
                   alert("Xóa thành công")
+                  table.ajax.reload();
                 },
                 error: function(){
                   alert("Xóa thất bại")
                 }
 
             });
+          
+          } 
+          
           }
     } );
 
@@ -373,9 +371,9 @@
       data["gioBatDau"] = $("#gioBatDau").val()
       data["gioKetThuc"] = $("#gioKetThuc").val()
       data["maCa"] = $("#maCa").val()
-      alert(JSON.stringify(data))
+      // alert(JSON.stringify(data))
       if ($("#mType").html() === "update"){
-        alert("Cập nhật ca")
+        // alert("Cập nhật ca")
         $.ajax({
           type: "POST",
           contentType: "application/json",
@@ -383,12 +381,14 @@
           data: JSON.stringify(data),
           dataType: "json",
           success: function(){
-            alert("Cap nhat thanh cong")
-            location.reload();
+            setTimeout('', 5000);
+            alert("Cập nhật thành công")
+            table.ajax.reload();
           },
           error: function(XMLHttpRequest, textStatus, errorThrown) {
+            alert("Cập nhật thất bại")
             //alert(JSON.stringify(XMLHttpRequest["responseJSON"]["errorMessageList"]));
-            location.reload();
+            // location.reload();
             // $.each(Object.keys(XMLHttpRequest["responseJSON"]["errorMessageList"][0]), function(index, d){
             //   //alert(d);
             //   $("#msg_" + d).html(XMLHttpRequest["responseJSON"]["errorMessageList"][0][d])
@@ -400,7 +400,7 @@
       }
       
       if ($("#mType").html() === "add"){
-        alert("THêm ca")
+        console.log("Thêm ca")
         $.ajax({
           type: "POST",
           contentType: "application/json",
@@ -408,12 +408,13 @@
           data: JSON.stringify(data),
           dataType: "json",
           success: function(){
-            alert("Thêm thanh cong")
-            location.reload();
+            alert("Thêm thành công")
+            table.ajax.reload();
           },
           error: function(XMLHttpRequest, textStatus, errorThrown) {
+            alert("Thêm thất bại")
             //alert(JSON.stringify(XMLHttpRequest["responseJSON"]["errorMessageList"]));
-            location.reload();
+            // location.reload();
             // $.each(Object.keys(XMLHttpRequest["responseJSON"]["errorMessageList"][0]), function(index, d){
             //   //alert(d);
             //   $("#msg_" + d).html(XMLHttpRequest["responseJSON"]["errorMessageList"][0][d])

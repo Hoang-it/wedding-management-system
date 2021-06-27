@@ -561,15 +561,8 @@
         paging: true,
                 select: true,
                 order: [ [ 1, 'asc' ] ],
-                "oLanguage": {  
-                  "sSearch": "Tìm kiếm : _INPUT_",                
-                  "sLengthMenu": "Hiện thị  _MENU_ dữ liệu",
-                  "sInfo": "Nhận _TOTAL_ dữ liệu, hiện thị (_START_ tới _END_)",
-                  "oPaginate": {
-                    "sNext": "Sau",
-                    "sPrevious": "Trước"
-                  }
-
+                language: {
+                  url: "/json/language.json"
                 },
                 lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
       })

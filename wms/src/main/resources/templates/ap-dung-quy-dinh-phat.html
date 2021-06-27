@@ -102,7 +102,7 @@
             data = {}
             data["tenThamSo"] = "KiemTraNgayThanhToan"
             data["giaTri"] = $(this).prop('checked')
-            alert(JSON.stringify(data))
+            // alert(JSON.stringify(data))
             $.ajax({
               type: "POST",
               contentType: "application/json",
@@ -110,10 +110,11 @@
               data: JSON.stringify(data),
               dataType: "json",
               success: function(){
-                alert("Cap nhat thanh cong")
-                location.reload();
+                // alert("Cập nhật thành công")
+                // location.reload();
               },
               error: function(XMLHttpRequest, textStatus, errorThrown) {
+                // alert("Cập nhật thất bại")
                 //alert(JSON.stringify(XMLHttpRequest["responseJSON"]["errorMessageList"]));
                 location.reload();
                 // $.each(Object.keys(XMLHttpRequest["responseJSON"]["errorMessageList"][0]), function(index, d){

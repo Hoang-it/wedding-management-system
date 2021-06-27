@@ -89,6 +89,8 @@
                         <tbody style="color:black" id="dsDoanhThuNgay">                       
                         </tbody>  
                       </table>
+                      
+                      <div sec:authentication="name" id="userName" style="display: none; visibility: hidden;"></div>
                     </div>
                     </div>
                   </div>
@@ -142,12 +144,34 @@
                         title: '',
                         customize: function ( win ) {
                           // $(win.document.body).empty()
-                          
-                          $(win.document.body).prepend($("<h1>", {
-                            text: "Báo cáo tháng " + $("#thang").val()
-                          })); //before the table                                                    
+                          var today = new Date();
+                          var dd = String(today.getDate()).padStart(2, '0');
+                          var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+                          var yyyy = today.getFullYear();
 
-                          $(win.document.body).append('<h3>Người lập Hoàng</h3>'); //after the table
+                          today = dd + "/" + mm + '/' + '/' + yyyy;
+                                                                             
+                          $(win.document.body).prepend($("<div>", {                            
+                            "style": "height: 50px"
+                          })); 
+
+                          $(win.document.body).prepend($("<h4>", {
+                            text: "Ngày lập báo cáo : " + today,
+                            
+                          })); //before the table
+
+                          $(win.document.body).prepend($("<h1>", {
+                            text: "Báo cáo tháng " + $("#thang").val(),
+                            "style": "margin-left: auto; margin-right: auto;"
+                          })); //before the table
+
+                          $(win.document.body).append($("<div>", {                            
+                            "style": "height: 50px"
+                          })); 
+                          $(win.document.body).append($("<h5>", {
+                            text: "Người lập : " + $("#userName").text(),
+                            
+                          })); //after the table
                           
                           
                         }
@@ -162,6 +186,7 @@
         //alert("http://localhost:8080/api/ds-doanh-thu-ngay?thang=" + $("#thang").val() + "&nam=" + $("#nam").val())
         $.ajax("http://localhost:8080/api/ds-doanh-thu-ngay?thang=" + $("#thang").val() + "&nam=" + $("#nam").val())
           .done(function(data){
+            // alert("Lập báo cáo vào tháng " + $("#thang").val() + " năm " + $("#nam").val() + " thành công")
             table.clear()
             $.each(data, function(index, d){
                 //alert(JSON.stringify(d))
@@ -185,12 +210,12 @@
                 $("#tongDoanhThu").text(new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(data))
               })
               .fail(function(data){
-                alert("fail load")
+                
                 $("#tongDoanhThu").text("")
               })
           })
           .fail(function(){
-            alert("Error")
+            alert("Không thể lập báo cáo vào tháng " + $("#thang").val() + " năm " + $("#nam").val())
             table.clear().draw()
             $("#tongDoanhThu").text("")
           })

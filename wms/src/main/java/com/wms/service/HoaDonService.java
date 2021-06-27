@@ -35,21 +35,21 @@ public class HoaDonService {
 
     public BigDecimal tinhTongTienDichVu(Set<ChiTietDichVu> dsDichVu, Long ngayTre){
         BigDecimal tongTienDichVu = new BigDecimal("0.0");
-        BigDecimal tienPhat = new BigDecimal("1.0");
+        // BigDecimal tienPhat = new BigDecimal("1.0");
         
-        ThamSo apDungQuyDinh = thamSoRepository.findById("KiemTraNgayThanhToan").get();
-        BigDecimal mucPhat = new BigDecimal(thamSoRepository.findById("TiLePhanTramPhat").get().getGiaTri());
+        // ThamSo apDungQuyDinh = thamSoRepository.findById("KiemTraNgayThanhToan").get();
+        // BigDecimal mucPhat = new BigDecimal(thamSoRepository.findById("TiLePhanTramPhat").get().getGiaTri());
 
         for (ChiTietDichVu chiTietDichVu : dsDichVu) {
             tongTienDichVu = tongTienDichVu.add(chiTietDichVu.getThanhTien());
         }
-        if ("true".equals(apDungQuyDinh.getGiaTri())){
-            BigDecimal phanTramPhat = mucPhat.multiply(new BigDecimal(ngayTre));
-            System.out.println("PHẦN TRĂM PHẠT : " + phanTramPhat.doubleValue());
-            tienPhat = phanTramPhat.multiply(tongTienDichVu);
-            System.out.println("TIỀN PHẠT : " + tienPhat.doubleValue());
-            tongTienDichVu = tongTienDichVu.add(tienPhat);
-        }
+        // if ("true".equals(apDungQuyDinh.getGiaTri())){
+        //     BigDecimal phanTramPhat = mucPhat.multiply(new BigDecimal(ngayTre));
+        //     System.out.println("PHẦN TRĂM PHẠT : " + phanTramPhat.doubleValue());
+        //     tienPhat = phanTramPhat.multiply(tongTienDichVu);
+        //     System.out.println("TIỀN PHẠT : " + tienPhat.doubleValue());
+        //     tongTienDichVu = tongTienDichVu.add(tienPhat);
+        // }
         
         System.out.println("TONG TIEN DICH VU : " + tongTienDichVu.doubleValue());
         return tongTienDichVu;

@@ -35,19 +35,16 @@
               </div>
             </div>
             <div class="form-group row">
-              <label for="donGiaBanToiThieu" class="col-3 col-form-label">Đơn giá bàn tối thiểu</label>
+              <label for="donGiaBanToiThieu" class="col-3 col-form-label">Loại sảnh</label>
               <div class="col-9">
-                <input class="form-control" type="number" value="" id="donGiaToiThieu">
+                <select class="form-select form-control" id="loaiSanh" required>                 
+                </select> 
               </div>
             </div>
             <div class="form-group row">
-              <label for="donGiaBanToiThieu" class="col-3 col-form-label">Loại sảnh</label>
+              <label for="donGiaBanToiThieu" class="col-3 col-form-label">Đơn giá bàn tối thiểu</label>
               <div class="col-9">
-                <select class="form-select form-control" id="loaiSanh" required>
-                  <option value="1">One</option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option>
-                </select> 
+                <input class="form-control" type="number" value="" id="donGiaToiThieu">
               </div>
             </div>
             <div class="form-group row">
@@ -55,7 +52,8 @@
               <div class="col-9">
                 <input class="form-control" type="number" value="" id="soLuongBanToiDa">
               </div>
-            </div>
+            </div>            
+           
           <!-- FOOTER -->
           </div>
           <div class="modal-footer">
@@ -252,7 +250,7 @@
                       "data": "tenSanh",                       
                     },
                     { 
-                      "data": "loaiSanh",                      
+                      "data": "tenLoaiSanh",                      
                     },
                     {
                       "data": "donGiaBanToiThieu",                      
@@ -291,7 +289,7 @@
                       "data": "tenSanh",                       
                     },
                     { 
-                      "data": "loaiSanh",                      
+                      "data": "tenLoaiSanh",                      
                     },
                     {
                       "data": "donGiaBanToiThieu",                      
@@ -368,23 +366,27 @@
                 $("#tenSanh").val(d.tenSanh)                
                 $("#maSanh").val(d.maSanh)
                 $("#soLuongBanToiDa").val(d.soLuongBanToiDa)
-                  
+                $("#loaiSanh").val( d.loaiSanh).change()
               })
               
             })
           }
           if ($(this).attr("id") == "xoa-sanh"){
-            $.ajax({
+            if (confirm('Bạn có chắc muốn xóa dữ liệu này?')){
+              $.ajax({
                 url: '/api/xoa-sanh?sid=' + data.maSanh,
                 type: 'DELETE',
                 success: function(result) {
                   alert("Xóa thành công")
+                  table.ajax.reload()
                 },
                 error: function(){
                   alert("Xóa thất bại")
                 }
 
             });
+            }
+           
           }
           
       } );
@@ -458,7 +460,7 @@
       data["loaiSanh"] = $("#loaiSanh").val()
       data["soLuongBanToiDa"] = $("#soLuongBanToiDa").val()
       
-      alert(JSON.stringify(data))
+      // alert(JSON.stringify(data))
       $.ajax({
           type: "POST",
           contentType: "application/json",
@@ -466,13 +468,15 @@
           data: JSON.stringify(data),
           dataType: "json",
           success: function(e){
-            alert("Cap nhat thanh cong")
+            alert("Cập nhật thành công")
+            table.ajax.reload()
             //location.reload();
           },
           error: function(XMLHttpRequest, textStatus, errorThrown) {
-            alert("Fail");
-            alert(JSON.stringify(XMLHttpRequest));
-            alert(JSON.stringify(XMLHttpRequest["responseJSON"]["errorMessageList"]));
+            alert("Cập nhật thất bại")
+            // alert("Fail");
+            // alert(JSON.stringify(XMLHttpRequest));
+            // alert(JSON.stringify(XMLHttpRequest["responseJSON"]["errorMessageList"]));
             //location.reload();
             // $.each(Object.keys(XMLHttpRequest["responseJSON"]["errorMessageList"][0]), function(index, d){
             //   //alert(d);

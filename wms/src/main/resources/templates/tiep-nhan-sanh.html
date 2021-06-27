@@ -139,12 +139,12 @@
       
       $("#formTiepNhanSanh").submit(function(e){
         e.preventDefault()
-        alert("submit")
+        // alert("submit")
         data["tenSanh"] = $("#tenSanh").val()
         data["loaiSanh"] = $("#loaiSanh").val()
         data["soLuongBanToiDa"] = $("#soLuongBanToiDa").val()
         data["ghiChu"] = $("#ghiChu").val()
-        alert(JSON.stringify(data))
+        // alert(JSON.stringify(data))
         $.ajax({
           type: "POST",
           contentType: "application/json",
@@ -152,16 +152,16 @@
           data: JSON.stringify(data),
           dataType: "json",
           success: function(e){
-            alert("Create success")
+            alert("Tạo sảnh mới thành công")
             location.reload();
           },
           error: function(XMLHttpRequest, textStatus, errorThrown) {
-            //alert(JSON.stringify(XMLHttpRequest["responseJSON"]["errorMessageList"]));
-            $.each(Object.keys(XMLHttpRequest["responseJSON"]["errorMessageList"][0]), function(index, d){
-              //alert(d);
-              $("#msg_" + d).html(XMLHttpRequest["responseJSON"]["errorMessageList"][0][d])
-              $("#msg_" + d).addClass("alert alert-danger")
-            })
+            alert("Tạo sảnh thất bại")
+            // $.each(Object.keys(XMLHttpRequest["responseJSON"]["errorMessageList"][0]), function(index, d){
+            //   //alert(d);
+            //   $("#msg_" + d).html(XMLHttpRequest["responseJSON"]["errorMessageList"][0][d])
+            //   $("#msg_" + d).addClass("alert alert-danger")
+            // })
           }
         })
       })

@@ -110,6 +110,8 @@
                                   <div class="x_panel">
                                     <div class="x_title" style="text-align: center;">
                                         <h4>DANH SÁCH MÓN ĂN</h4>
+                                        <p>Giá bàn tối thiểu : <b id="giaBanToiThieu"></b></p>
+                                        
                                     </div>
                                     <div class="x_content">
                                       <div class="row">
@@ -218,6 +220,9 @@
                 select: true,
                 order: [ [ 1, 'asc' ] ],
                 lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                language: {
+                  url: "/json/language.json"
+                },
                 ajax: {
                     url: '/api/ds-mon-an',
                     dataSrc: ''
@@ -264,11 +269,15 @@
             } );
         } ).draw(); 
 
+        
         var table_dv = $('#table_dv').DataTable({
                 paging: true,
                 select: true,
                 order: [ [ 1, 'asc' ] ],
                 lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                language: {
+                  url: "/json/language.json"
+                },
                 ajax: {
                     url: '/api/ds-dich-vu',
                     dataSrc: ''
@@ -366,35 +375,49 @@
                         break;                   
                     }
                     
-
-                    $("#thong-tin-co-ban").css({"display": "none", "visibility" : "hidden"});
-                    $("#chon-mon-an").css({"display": "block", "visibility" : "visible"});
-                    $("#chon-dich-vu").css({"display": "none", "visibility" : "hidden"});
-                    $("#btn-quay-lai").css({"display": "inline", "visibility" : "visible"})
-                    current = "#chon-mon-an"
-                    data["tenChuRe"] = $("#tenChuRe").val()
-                    data["tenCoDau"] = $("#tenCoDau").val()
-                    data["sdt"] = $("#sdt").val()
-                    data["ngayDaiTiec"] = $("#ngayDaiTiec").val()
-                    data["ca"] = $("#dsCa").val()
-                    data["sanh"] = $("#dsSanh").val()
-                    data["soLuongBan"] = $("#soLuongBan").val()
-                    data["soLuongBanDuTru"] = $("#soLuongBanDuTru").val()
-                    data["tienDatCoc"] = $("#tienDatCoc").val()
-                    //alert(JSON.stringify(data))
-                    //alert( $("#ngayDaiTiec").val())
-                    
+                    var tiepTuc = true
+                    $.get("/api/kiem-tra-tiec-cuoi?"
+                                + "ngayDatTiec=" + $("#ngayDaiTiec").val()
+                                + "&maCa=" + $("#dsCa").val()
+                                + "&maSanh=" + $("#dsSanh").val()
+                                , function(d){
+                        if (d){
+                            
+                            $("#thong-tin-co-ban").css({"display": "none", "visibility" : "hidden"});
+                            $("#chon-mon-an").css({"display": "block", "visibility" : "visible"});
+                            $("#chon-dich-vu").css({"display": "none", "visibility" : "hidden"});
+                            $("#btn-quay-lai").css({"display": "inline", "visibility" : "visible"})
+                            current = "#chon-mon-an"
+                            data["tenChuRe"] = $("#tenChuRe").val()
+                            data["tenCoDau"] = $("#tenCoDau").val()
+                            data["sdt"] = $("#sdt").val()
+                            data["ngayDaiTiec"] = $("#ngayDaiTiec").val()
+                            data["ca"] = $("#dsCa").val()
+                            data["sanh"] = $("#dsSanh").val()
+                            data["soLuongBan"] = $("#soLuongBan").val()
+                            data["soLuongBanDuTru"] = $("#soLuongBanDuTru").val()
+                            data["tienDatCoc"] = $("#tienDatCoc").val()
+                            // alert(JSON.stringify(data))
+                            //alert( $("#ngayDaiTiec").val())
+                            
+                            // alert()
+                            $("#giaBanToiThieu").text(dsBanToiDa[data["sanh"]].donGiaBanToiThieu)
+                        }
+                        else{
+                            alert("Không thể đặt vào ngày " + $("#ngayDaiTiec").val() 
+                            + " ca " + $("#dsCa option[value='" + $("#dsCa").val() + "']").text()
+                            + " tại sảnh " + $("#dsSanh option[value='" + $("#dsSanh").val() + "']").text())
+                        }
+                    })
+                   
                     break;
-                case "#chon-mon-an":
-                    $("#thong-tin-co-ban").css({"display": "none", "visibility" : "hidden"});
-                    $("#chon-mon-an").css({"display": "none", "visibility" : "hidden"});
-                    $("#chon-dich-vu").css({"display": "block", "visibility" : "visible"});
-                    $("#btn-quay-lai").css({"display": "inline", "visibility" : "visible"})   
-                    current = "#chon-dich-vu"
+                case "#chon-mon-an":                                                            
                     dsMonAn = []
+                    tongTienMonAn = 0
                     table_ma.$('input[type="checkbox"]:checked').each(function(){
                         var data = table_ma.row( $(this).parents('tr') ).data();
-                        // alert(table_ma.$("#ghichu-" + data.maMonAn ).val())
+                        // alert(JSON.stringify(data))
+                        tongTienMonAn += Number(data.donGia)
                         var monAn = {
                             maMonAn :  data.maMonAn,
                             ghiChu : table_ma.$("#ghichu-" + data.maMonAn ).val()
@@ -402,16 +425,26 @@
                         
                         dsMonAn.push(monAn)
                     });
-                    
-                    alert(JSON.stringify(dsMonAn))                                     
+                    if (tongTienMonAn < Number($("#giaBanToiThieu").text())){
+                        alert("Bạn phải đặt nhiều hơn hoặc bằng : " + Number($("#giaBanToiThieu").text())
+                                + "\nSố tiền món ăn bạn đã đăt là : " + tongTienMonAn)
+                        break
+                    }
+
+                    $("#thong-tin-co-ban").css({"display": "none", "visibility" : "hidden"});
+                    $("#chon-mon-an").css({"display": "none", "visibility" : "hidden"});
+                    $("#chon-dich-vu").css({"display": "block", "visibility" : "visible"});
+                    $("#btn-quay-lai").css({"display": "inline", "visibility" : "visible"}) 
+                    // alert(JSON.stringify(dsMonAn))                                     
                     data["monAn"] = dsMonAn
+                    current = "#chon-dich-vu"
                     break;
                 case "#chon-dich-vu":
                     //alert("Dat tiec!!");
                     dsDichVu = []
                     table_dv.$('input[type="checkbox"]:checked').each(function(){
                         var data = table_dv.row( $(this).parents('tr') ).data();
-                        alert(data.maDichVu)
+                        // alert(data.maDichVu)
                         var dichVu = {
                             maDichVu :  data.maDichVu,
                             soLuong :   table_dv.$("#soluong-"  + data.maDichVu).val()
@@ -421,8 +454,8 @@
                     });
                                                             
                     data["dichVu"] = dsDichVu
-                    alert(JSON.stringify(dsDichVu))    
-                    alert(JSON.stringify(data))
+                    // alert(JSON.stringify(dsDichVu))    
+                    // alert(JSON.stringify(data))
                     $.ajax({
                         type: "POST",
                         contentType: "application/json",
@@ -431,6 +464,7 @@
                         dataType: 'json',
                         success: function(e){
                             alert("Đặt tiệc cưới thành công")
+                            window.location.href = "/tra-cuu-tiec-cuoi";
                             // alert("Create success")
                             // location.reload();
                         },

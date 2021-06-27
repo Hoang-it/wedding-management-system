@@ -61,12 +61,12 @@
                   Nhân viên
                 </label>
               </div>
-              <div class="form-check">
+              <!-- <div class="form-check">
                 <input class="form-check-input" type="radio" name="role" id="Khac" value="Khac">
                 <label class="form-check-label" for="Khac">
                   Khác
                 </label>
-              </div>
+              </div> -->
             </div>
             <div class="modal-footer">
               <button type="button" id="capNhat" class="btn btn-default"  data-dismiss="modal">Cập nhật</button>
@@ -236,15 +236,8 @@
                 paging: true,
                 select: true,
                 order: [ [ 1, 'asc' ] ],
-                "oLanguage": {  
-                  "sSearch": "Tìm kiếm : _INPUT_",                
-                  "sLengthMenu": "Hiện thị  _MENU_ dữ liệu",
-                  "sInfo": "Nhận _TOTAL_ dữ liệu, hiện thị (_START_ tới _END_)",
-                  "oPaginate": {
-                    "sNext": "Sau",
-                    "sPrevious": "Trước"
-                  }
-
+                language: {
+                  url: "/json/language.json"
                 },
                 lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
                 ajax: {
@@ -312,15 +305,8 @@
         paging: true,
                 select: true,
                 order: [ [ 1, 'asc' ] ],
-                "oLanguage": {  
-                  "sSearch": "Tìm kiếm : _INPUT_",                
-                  "sLengthMenu": "Hiện thị  _MENU_ dữ liệu",
-                  "sInfo": "Nhận _TOTAL_ dữ liệu, hiện thị (_START_ tới _END_)",
-                  "oPaginate": {
-                    "sNext": "Sau",
-                    "sPrevious": "Trước"
-                  }
-
+                language: {
+                  url: "/json/language.json"
                 },
                 lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
       })      
@@ -359,13 +345,13 @@
       
     $("#capNhat").click(function(){
       // alert($('input[name=role]:checked').val())
-      alert($("#maNhom").val())
+      // alert($("#maNhom").val())
       data = {}
       
       data["maNhom"] = $("#maNhom").val();
       data["tenNhom"] = $("#tenNhom").val();
       data["quyen"] = $('input[name=role]:checked').val()
-      alert(JSON.stringify(data))
+      // alert(JSON.stringify(data))
       $.ajax({
           type: "POST",
           contentType: "application/json",
@@ -373,19 +359,13 @@
           data: JSON.stringify(data),
           dataType: "json",
           success: function(){
-            alert("Cap nhat thanh cong")
-            setTimeout(function(){
-                alert('This is an alert');
-                location.reload()
-            }, 5000);
+            alert("Cập nhật thành công")
+            table.ajax.reload()
 
           },
           error: function(XMLHttpRequest, textStatus, errorThrown) {
             //alert(JSON.stringify(XMLHttpRequest["responseJSON"]["errorMessageList"]));
-            setTimeout(function(){
-                alert('This is an alert');
-                location.reload()
-            }, 5000);
+            alert("Cập nhật thất bại")           
 
             // $.each(Object.keys(XMLHttpRequest["responseJSON"]["errorMessageList"][0]), function(index, d){
             //   //alert(d);
@@ -394,7 +374,7 @@
             // })
           }
         })
-        location.reload();
+        
     })
     </script>
 

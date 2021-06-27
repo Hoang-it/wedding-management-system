@@ -21,12 +21,13 @@ public class SanhDTO {
     private String maSanh;
 
     @NotBlank
-    @Size(min = 3, max = 50)
     private String tenSanh;
 
     @NotBlank
     private String loaiSanh;
     
+    private String tenLoaiSanh;
+
     @Min(0)
     private Long soLuongBanToiDa;
 

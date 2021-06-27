@@ -1,6 +1,7 @@
 package com.wms.controller;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -103,8 +104,10 @@ public class RestControllerApi {
                                         @RequestParam("maSanh") String maSanh ){
         
        for (TiecCuoi tiec : tiecCuoiRepository.findAll()) {
+            System.out.println(tiec.getNgayDaiTiec().toString() + " " + ngayDatTiec);
             if (ngayDatTiec.equals(tiec.getNgayDaiTiec().toString())){
-                if (maCa.equals(tiec.getMaSanh().getMaSanh())){
+                // System.out.println(maCa + " " + tiec.getMa);
+                if (maCa.equals(tiec.getMaCa().getMaCa())){
                     if (maSanh.equals(tiec.getMaSanh().getMaSanh())){
                         return false;
                     }
@@ -161,7 +164,7 @@ public class RestControllerApi {
     }
 
     @PostMapping(value = {"/cap-nhat-sanh"})
-    public ResponseEntity<ValidationResponse> capNhatSanh(@RequestBody SanhDTO sanh) {
+    public ResponseEntity<ValidationResponse> capNhatSanh(@RequestBody @Valid SanhDTO sanh) {
         ValidationResponse res = new ValidationResponse();
         daoService.capNhatSanh(sanh);
         return new ResponseEntity<>(res, HttpStatus.OK);
@@ -169,8 +172,9 @@ public class RestControllerApi {
 
     @PostMapping(value = {"/cap-nhat-nhom-tai-khoan"})
     public ResponseEntity<ValidationResponse> capNhatNhomTaiKhoan(@RequestBody NhomNguoiDungDTO nhom) {
+        ValidationResponse res = new ValidationResponse();
         daoService.capNhatNhomTaiKhoan(nhom);
-        return new ResponseEntity<>(null, HttpStatus.OK);
+        return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
 
@@ -191,8 +195,9 @@ public class RestControllerApi {
 
     @PostMapping(value = {"/cap-nhat-quy-dinh"})
     public ResponseEntity<ValidationResponse> capNhatQuyDinh(@RequestBody ThamSo thamSo) {
+        ValidationResponse res = new ValidationResponse();
         daoService.capNhatQuyDinh(thamSo);
-        return new ResponseEntity<>(null, HttpStatus.OK);
+        return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
     @GetMapping(value = {"/thong-tin-dich-vu"})
@@ -201,15 +206,17 @@ public class RestControllerApi {
     }
 
     @PostMapping(value = {"/cap-nhat-dich-vu"})
-    public ResponseEntity<ValidationResponse> capNhatThongTinDichVu(@RequestBody DichVuDTO dichVu) {
+    public ResponseEntity<ValidationResponse> capNhatThongTinDichVu(@RequestBody @Valid DichVuDTO dichVu) {
+        ValidationResponse res = new ValidationResponse();
         daoService.capNhatThongTinDichVu(dichVu);
-        return new ResponseEntity<>(null, HttpStatus.OK);
+        return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
     @PostMapping(value = {"/them-dich-vu"})
-    public ResponseEntity<ValidationResponse> themThongTinDichVu(@RequestBody DichVuDTO dichVu) {
+    public ResponseEntity<ValidationResponse> themThongTinDichVu(@RequestBody @Valid DichVuDTO dichVu) {
+        ValidationResponse res = new ValidationResponse();
         daoService.themThongDichVu(dichVu);
-        return new ResponseEntity<>(null, HttpStatus.OK);
+        return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
     @GetMapping(value = {"/thong-tin-mon-an"})
@@ -218,15 +225,17 @@ public class RestControllerApi {
     }
 
     @PostMapping(value = {"/cap-nhat-mon-an"})
-    public ResponseEntity<ValidationResponse> capNhatThongTinMonAn(@RequestBody MonAnDTO monAn) {
+    public ResponseEntity<ValidationResponse> capNhatThongTinMonAn(@RequestBody @Valid MonAnDTO monAn) {
+        ValidationResponse res = new ValidationResponse();
         daoService.capNhatThongTinMonAn(monAn);
-        return new ResponseEntity<>(null, HttpStatus.OK);
+        return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
     @PostMapping(value = {"/them-mon-an"})
-    public ResponseEntity<ValidationResponse> themThongTinMonAn(@RequestBody MonAnDTO monAn) {
+    public ResponseEntity<ValidationResponse> themThongTinMonAn(@RequestBody @Valid MonAnDTO monAn) {
+        ValidationResponse res = new ValidationResponse();
         daoService.themThongMonAn(monAn);
-        return new ResponseEntity<>(null, HttpStatus.OK);
+        return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
     @GetMapping(value = {"/thong-tin-loai-sanh"})
@@ -309,15 +318,17 @@ public class RestControllerApi {
     }
 
     @PostMapping(value = {"/cap-nhat-ca"})
-    public ResponseEntity<ValidationResponse> capNhatThongTinCa(@RequestBody CaDTO ca) {
+    public ResponseEntity<ValidationResponse> capNhatThongTinCa(@RequestBody @Valid CaDTO ca) {
+        ValidationResponse res = new ValidationResponse();
         daoService.capNhatThongTinCa(ca);
-        return new ResponseEntity<>(null, HttpStatus.OK);
+        return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
     @PostMapping(value = {"/them-ca"})
-    public ResponseEntity<ValidationResponse> themThongTinCa(@RequestBody CaDTO ca) {
+    public ResponseEntity<ValidationResponse> themThongTinCa(@RequestBody @Valid CaDTO ca) {
+        ValidationResponse res = new ValidationResponse();
         daoService.themThongTinCa(ca);
-        return new ResponseEntity<>(null, HttpStatus.OK);
+        return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
     @GetMapping(value = {"/thong-tin-hoa-don"})
