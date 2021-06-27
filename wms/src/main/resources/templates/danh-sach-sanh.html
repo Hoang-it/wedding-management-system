@@ -28,7 +28,7 @@
           <!-- BODY -->
           <div class="modal-body">
             <div class="form-group row">
-              <label for="tenLoaiSanh" class="col-3 col-form-label">Tên loại sảnh</label>
+              <label for="tenLoaiSanh" class="col-3 col-form-label">Tên sảnh</label>
               <div class="col-9">
                 <input class="form-control" type="hidden" value="" id="maSanh">
                 <input class="form-control" type="text" value="" id="tenSanh">
@@ -37,7 +37,23 @@
             <div class="form-group row">
               <label for="donGiaBanToiThieu" class="col-3 col-form-label">Đơn giá bàn tối thiểu</label>
               <div class="col-9">
-                <input class="form-control" type="number" value="" id="donGiaBanToiThieu">
+                <input class="form-control" type="number" value="" id="donGiaToiThieu">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="donGiaBanToiThieu" class="col-3 col-form-label">Loại sảnh</label>
+              <div class="col-9">
+                <select class="form-select form-control" id="loaiSanh" required>
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                </select> 
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="donGiaBanToiThieu" class="col-3 col-form-label">Số lượng bàn tối đa</label>
+              <div class="col-9">
+                <input class="form-control" type="number" value="" id="soLuongBanToiDa">
               </div>
             </div>
           <!-- FOOTER -->
@@ -81,7 +97,21 @@
             <div class="title_right">
               <div class="col-md-3 col-sm-6 col-xs-12 form-group pull-right">
                 <div class="input-group">
-                  <button class="btn btn-success">Thêm sảnh</button>
+                  <th:block th:switch="${role}">
+                    <th:block th:case="''" >
+                      
+                    </th:block>
+                    <th:block th:case="'admin'">
+                      
+                    </th:block>
+                    <th:block th:case="'bql'">
+                      <a class="btn btn-success" href="/tiep-nhan-sanh">Thêm sảnh</a>
+                    </th:block>
+                    <th:block th:case="'nhanvien'">
+                      
+                    </th:block>
+                  </th:block> 
+                  
                 </div>
               </div>
             </div>
@@ -166,6 +196,37 @@
   <!-- Custom Theme Scripts -->
   <script src="../build/js/custom.min.js"></script>
   <script>
+    data = {}
+    dsLoaiSanhData = {}
+    $.get("http://localhost:8080/api/ds-loai-sanh", function(data){
+        $("#loaiSanh").empty()
+        $("#loaiSanh").append($("<option>", {
+          "class" : "selected disabled", 
+          text : "Chọn loại sảnh",
+          value : ""
+        }));
+        $.each(data, function(index, d){           
+            $("#loaiSanh").append($('<option>', { 
+                value: d.maLoaiSanh,
+                text : d.tenLoaiSanh
+            }))
+            dsLoaiSanhData[d.maLoaiSanh] = d
+        })
+        firstKey = Object.keys(dsLoaiSanhData)[0];
+        $("#donGiaToiThieu").val (0)
+       // alert(JSON.stringify(dsLoaiSanhData))
+        $("#loaiSanh").change(function(){
+          //alert(dsLoaiSanhData[$(this).val()].soLuongBanToiDa)
+          if ($(this).val() == ""){
+            $("#donGiaToiThieu").val(0);
+            
+          }else{
+            $("#donGiaToiThieu").val (dsLoaiSanhData[$(this).val()].donGiaBanToiThieu)
+        
+          }
+          })
+
+      })
     switch ($("#roleUser").html()){
         case '':
           var table = $('#table_id').DataTable({
@@ -302,11 +363,12 @@
           var data = table.row( $(this).parents('tr') ).data();
           if ($(this).attr("id") == "chi-tiet-sanh"){
             $.get("http://localhost:8080/api/sanh?maSanh=" + data.maSanh, function(data){
-              //alert(JSON.stringify(data))
+              // alert(JSON.stringify(data))
               $.each(data, function(index, d){
-                $("#tenSanh").val(d.tenSanh)
-                $("#donGiaBanToiThieu").val(d.donGiaBanToiThieu)
-                $("#maSanh").val(d.maLoaiSanh)
+                $("#tenSanh").val(d.tenSanh)                
+                $("#maSanh").val(d.maSanh)
+                $("#soLuongBanToiDa").val(d.soLuongBanToiDa)
+                  
               })
               
             })
@@ -391,16 +453,16 @@
       
       data = {}
 
-     
-      data["maLoaiSanh"] = $("#maLoaiSanh").val()
-      data["tenLoaiSanh"] = $("#tenLoaiSanh").val()
-      data["donGiaBanToiThieu"] = $("#donGiaBanToiThieu").val()
+      data["maSanh"] = $("#maSanh").val()
+      data["tenSanh"] = $("#tenSanh").val()
+      data["loaiSanh"] = $("#loaiSanh").val()
+      data["soLuongBanToiDa"] = $("#soLuongBanToiDa").val()
       
-      //alert(JSON.stringify(data))
+      alert(JSON.stringify(data))
       $.ajax({
           type: "POST",
           contentType: "application/json",
-          url: "http://localhost:8080/api/cap-nhat-sanh?type=" + $("#mType").html(),
+          url: "http://localhost:8080/api/cap-nhat-sanh",
           data: JSON.stringify(data),
           dataType: "json",
           success: function(e){
